@@ -1,0 +1,25 @@
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Java Maven
+/target/
+/.idea/
+/.vscode/
+/.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Local data
+/data/
+
+# Build artifacts
+*.class
+*.jar
+*.war
+
+# Env
+.env
+.env.*
