@@ -1,8 +1,56 @@
+spring:
+  application:
+    name: nexus-lite
+  datasource:
+    url: jdbc:h2:file:./data/nexus_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.H2Dialect
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=3600s
+app:
+  scan:
+    root-dirs: /root/lite-webviewer/docs
+    cron: 60
+  preview:
+    max-file-size: 20
+    pdf:
+      max-pages-per-request: 20
+  cache:
+    toon-ttl: 3600
+    preview-ttl: 600
+  data:
+    dir: ./data
 server:
   port: 8080
-spring:
-  mvc:
-    static-path-pattern: /**
-  web:
-    resources:
-      static-locations: classpath:/static/
+  servlet:
+    context-path: /
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    root: INFO
+    com.documentpreview: DEBUG
+    org.springframework: INFO
+    org.hibernate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ./logs/nexus-lite.log
