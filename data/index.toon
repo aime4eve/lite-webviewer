@@ -1,0 +1,14 @@
+files[12]{path,type,name}:
+docs/,directory,docs
+Web预览系统产品设计.md,file,Web预览系统产品设计.md
+售前资料/,directory,售前资料
+售前资料/壮壮作息时间安排.xlsx,file,壮壮作息时间安排.xlsx
+售前资料/test.md,file,test.md
+项目申报管理.html,file,项目申报管理.html
+技术案例/,directory,技术案例
+技术案例/华为研发IPD流程介绍.docx,file,华为研发IPD流程介绍.docx
+nexus-lite-vibe-coding-final.md,file,nexus-lite-vibe-coding-final.md
+专业前景分析.html,file,专业前景分析.html
+sample.csv,file,sample.csv
+Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf,file,Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
+metadata{total,last_updated,root}: 12,2025-11-28T00:57:28+08:00,/root/lite-webviewer/docs

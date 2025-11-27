@@ -1,0 +1,53 @@
+{
+  "items" : [ {
+    "path" : "docs/",
+    "type" : "directory",
+    "name" : "docs"
+  }, {
+    "path" : "Web预览系统产品设计.md",
+    "type" : "file",
+    "name" : "Web预览系统产品设计.md"
+  }, {
+    "path" : "售前资料/",
+    "type" : "directory",
+    "name" : "售前资料"
+  }, {
+    "path" : "售前资料/壮壮作息时间安排.xlsx",
+    "type" : "file",
+    "name" : "壮壮作息时间安排.xlsx"
+  }, {
+    "path" : "售前资料/test.md",
+    "type" : "file",
+    "name" : "test.md"
+  }, {
+    "path" : "项目申报管理.html",
+    "type" : "file",
+    "name" : "项目申报管理.html"
+  }, {
+    "path" : "技术案例/",
+    "type" : "directory",
+    "name" : "技术案例"
+  }, {
+    "path" : "技术案例/华为研发IPD流程介绍.docx",
+    "type" : "file",
+    "name" : "华为研发IPD流程介绍.docx"
+  }, {
+    "path" : "nexus-lite-vibe-coding-final.md",
+    "type" : "file",
+    "name" : "nexus-lite-vibe-coding-final.md"
+  }, {
+    "path" : "专业前景分析.html",
+    "type" : "file",
+    "name" : "专业前景分析.html"
+  }, {
+    "path" : "sample.csv",
+    "type" : "file",
+    "name" : "sample.csv"
+  }, {
+    "path" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf",
+    "type" : "file",
+    "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
+  } ],
+  "rootDir" : "/root/lite-webviewer/docs",
+  "lastUpdated" : 1764262648168
+}

@@ -1,0 +1,2339 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>六大本科专业学习前景深度研究报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e74c3c;
+            --neutral: #95a5a6;
+            --base-100: #ffffff;
+            --base-200: #f8f9fa;
+            --base-300: #e9ecef;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--primary);
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+        
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 280px;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .content-with-toc {
+            margin-left: 320px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .citation-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--accent);
+        }
+        
+        .citation-link:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .bento-main {
+            grid-row: 1 / 3;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .bento-side-top {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .bento-side-bottom {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            margin: 4rem 0;
+        }
+        
+        /* Mermaid chart styling */
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: var(--base-100);
+            border: 2px solid var(--base-300);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+        
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+        
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+        
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Override mermaid default styles for better contrast and consistency */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node ellipse,
+        .mermaid .node polygon {
+            fill: var(--base-100) !important;
+            stroke: var(--primary) !important;
+            stroke-width: 2px !important;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+        }
+        
+        /* Different node colors with good contrast */
+        .mermaid .node:nth-child(4n+1) rect,
+        .mermaid .node:nth-child(4n+1) circle,
+        .mermaid .node:nth-child(4n+1) ellipse,
+        .mermaid .node:nth-child(4n+1) polygon {
+            fill: #ffffff !important;
+            stroke: #2c3e50 !important;
+        }
+        
+        .mermaid .node:nth-child(4n+2) rect,
+        .mermaid .node:nth-child(4n+2) circle,
+        .mermaid .node:nth-child(4n+2) ellipse,
+        .mermaid .node:nth-child(4n+2) polygon {
+            fill: #f8f9fa !important;
+            stroke: #34495e !important;
+        }
+        
+        .mermaid .node:nth-child(4n+3) rect,
+        .mermaid .node:nth-child(4n+3) circle,
+        .mermaid .node:nth-child(4n+3) ellipse,
+        .mermaid .node:nth-child(4n+3) polygon {
+            fill: #e3f2fd !important;
+            stroke: #1976d2 !important;
+        }
+        
+        .mermaid .node:nth-child(4n+4) rect,
+        .mermaid .node:nth-child(4n+4) circle,
+        .mermaid .node:nth-child(4n+4) ellipse,
+        .mermaid .node:nth-child(4n+4) polygon {
+            fill: #fff3e0 !important;
+            stroke: #f57c00 !important;
+        }
+        
+        .mermaid .node .label {
+            color: var(--primary) !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            font-family: 'Inter', sans-serif !important;
+            text-shadow: none !important;
+        }
+        
+        .mermaid .edgePath .path {
+            stroke: var(--neutral) !important;
+            stroke-width: 2px !important;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+        }
+        
+        .mermaid .edgeLabel {
+            background-color: var(--base-100) !important;
+            color: var(--primary) !important;
+            font-weight: 500 !important;
+            font-family: 'Inter', sans-serif !important;
+            border: 1px solid var(--base-300) !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        
+        .mermaid .marker {
+            fill: var(--neutral) !important;
+            stroke: var(--neutral) !important;
+        }
+        
+        /* Timeline specific styling */
+        .mermaid .section0, .mermaid .section1, .mermaid .section2, .mermaid .section3 {
+            fill: #f8f9fa !important;
+            stroke: #2c3e50 !important;
+        }
+        
+    .mermaid .cScale0, .mermaid .cScale1, .mermaid .cScale2 {
+        fill: #2c3e50 !important;
+    }
+
+    /* Responsive styles for small screens */
+    @media (max-width: 768px) {
+        .toc-fixed {
+            display: none;
+        }
+        
+        .content-with-toc {
+            margin-left: 0;
+        }
+        
+        .bento-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+        }
+        
+        .bento-main {
+            grid-row: 1;
+        }
+        
+        .px-8 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .hero-gradient h1 {
+            font-size: 2rem;
+        }
+        
+        .mermaid-container {
+            padding: 15px;
+            max-height: 400px;
+        }
+    }
+</style>
+  <base target="_blank">
+</head>
+
+  <body class="bg-gray-50">
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed glass-effect rounded-xl shadow-lg p-6">
+      <h3 class="serif-font text-lg font-bold text-gray-800 mb-4">目录导航</h3>
+      <ul class="space-y-2 text-sm">
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#overview">专业概览</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#information-management">信息管理与信息系统</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#business-administration">工商管理</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#human-resources">人力资源管理</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#digital-economy">数字经济</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#intellectual-property">知识产权</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#chinese-education">汉语国际教育</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#comparative-analysis">对比分析</a>
+        </li>
+        <li>
+          <a class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors" href="#recommendations">选择建议</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-with-toc">
+      <!-- Hero Section with Bento Layout -->
+      <section class="hero-gradient text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="container mx-auto px-8 py-16 relative z-10">
+          <div class="bento-grid">
+            <!-- Main Content Area -->
+            <div class="bento-main flex flex-col justify-center">
+              <div class="space-y-6">
+                <h1 class="serif-font text-5xl font-bold leading-tight text-shadow italic">
+                  <span class="block text-4xl">六大本科专业</span>
+                  <span class="block text-6xl">学习前景深度研究报告</span>
+                </h1>
+                <p class="text-xl leading-relaxed max-w-2xl text-shadow opacity-90">
+                  数字化浪潮下的专业选择指南：从技术驱动到文化传承的全景分析
+                </p>
+                <div class="flex items-center space-x-6 text-sm">
+                  <span class="flex items-center space-x-2">
+                    <i class="fas fa-chart-line"></i>
+                    <span>数据驱动分析</span>
+                  </span>
+                  <span class="flex items-center space-x-2">
+                    <i class="fas fa-globe"></i>
+                    <span>国际化视野</span>
+                  </span>
+                  <span class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>前瞻性洞察</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Side Stats -->
+            <div class="bento-side-top glass-effect rounded-xl p-6 text-gray-800">
+              <h3 class="serif-font text-xl font-bold mb-4">核心发现</h3>
+              <div class="space-y-3 text-sm">
+                <div class="flex justify-between items-center">
+                  <span>数字人才缺口</span>
+                  <span class="font-bold text-blue-600">3000万</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>全球汉语教师需求</span>
+                  <span class="font-bold text-green-600">500万+</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>知识产权就业率</span>
+                  <span class="font-bold text-purple-600">90%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="bento-side-bottom glass-effect rounded-xl p-6 text-gray-800">
+              <h3 class="serif-font text-xl font-bold mb-4">热门趋势</h3>
+              <div class="space-y-2 text-sm">
+                <div class="flex items-center space-x-2">
+                  <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <span>人工智能与大数据</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>数字化转型服务</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>知识产权保护</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Professional Overview -->
+      <section class="py-16 bg-white" id="overview">
+        <div class="container mx-auto px-8">
+          <div class="max-w-4xl mx-auto">
+            <h2 class="serif-font text-4xl font-bold text-center mb-12">专业概览与核心洞察</h2>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-xl leading-relaxed text-gray-700 mb-8">
+                对这七个专业的学习前景进行综合分析，可以得出以下结论：<strong>信息管理与信息系统</strong>和<strong>数字经济</strong>是顺应数字化浪潮的新兴热门专业，就业前景广阔，薪资水平高，但对技术能力要求较高；<strong>工商管理</strong>和<strong>人力资源管理</strong>是经典的管理类专业，就业面广，但竞争激烈，对个人综合素质和实践经验要求高，职业发展路径清晰，长期潜力巨大；<strong>知识产权</strong>专业与国家创新战略紧密相连，专业性强，人才需求稳定增长，是法律与技术的交叉领域；<strong>汉语国际教育</strong>专业则具有鲜明的国际化特色，全球汉语教师需求大，但就业受国际形势影响较大，适合热爱语言和跨文化交流的学生。
+              </p>
+
+              <div class="bg-blue-50 border-l-4 border-blue-500 p-6 my-8">
+                <h3 class="serif-font text-xl font-bold text-blue-800 mb-3">选择建议</h3>
+                <p class="text-blue-700">
+                  选择哪个专业，最终取决于个人的兴趣、能力特长和职业规划。建议学生在选择时，不仅要考虑专业的&#34;热度&#34;和&#34;钱景&#34;，更要结合自身的优势和热情，选择最适合自己的发展道路。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Information Management &amp; Information Systems -->
+      <section class="py-16 bg-gray-50" id="information-management">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">信息管理与信息系统专业前景分析</h2>
+              <p class="text-xl text-gray-600">大数据时代的&#34;新商科&#34;与&#34;万金油&#34;专业</p>
+            </div>
+
+            <!-- Professional Overview -->
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-code text-blue-600 text-xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold ml-4">学科归属</h3>
+                </div>
+                <p class="text-gray-700">管理学门类下的管理科学与工程类，融合信息技术与管理理论的交叉学科。</p>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-target text-green-600 text-xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold ml-4">培养目标</h3>
+                </div>
+                <p class="text-gray-700">培养&#34;技术+管理&#34;复合型人才，成为技术与业务部门之间的桥梁。</p>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-star text-purple-600 text-xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold ml-4">专业特色</h3>
+                </div>
+                <p class="text-gray-700">被誉为大数据时代的&#34;新商科&#34;和&#34;万金油&#34;专业，知识覆盖面广。</p>
+              </div>
+            </div>
+
+            <!-- Employment Directions -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">就业方向与机会</h3>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-blue-600">主要就业领域</h4>
+                  <div class="space-y-3">
+                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                      <span>IT软件</span>
+                      <span class="font-bold text-blue-600">12.26%</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                      <span>互联网/电子商务</span>
+                      <span class="font-bold text-blue-600">9.33%</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                      <span>制造业</span>
+                      <span class="font-bold text-blue-600">5.97%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-green-600">核心就业岗位</h4>
+                  <div class="space-y-3">
+                    <div class="p-3 bg-green-50 rounded-lg">
+                      <div class="font-medium">数据分析师/数据科学家</div>
+                      <div class="text-sm text-gray-600">利用数据挖掘、机器学习等技术支持企业决策</div>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg">
+                      <div class="font-medium">信息系统工程师</div>
+                      <div class="text-sm text-gray-600">负责企业信息系统的分析、设计、开发和维护</div>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg">
+                      <div class="font-medium">IT项目经理/产品经理</div>
+                      <div class="text-sm text-gray-600">规划、组织和控制IT项目实施</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Salary Analysis -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">薪资水平分析</h3>
+
+              <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                  <thead>
+                    <tr class="bg-gray-50">
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">维度</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">分类</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">平均起薪范围（元/月）</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">备注</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-medium" rowspan="4">行业</td>
+                      <td class="border border-gray-200 px-4 py-3">互联网/科技（头部企业）</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-blue-600">15,000 - 20,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">竞争激烈，对学历和实习经历要求高 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3">互联网/科技（中小型企业）</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-blue-600">10,000 - 14,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">晋升灵活，适合积累实战经验 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3">金融行业</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-blue-600">12,000 - 16,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">要求具备数据分析或系统开发能力 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3">传统制造业</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-blue-600">9,000 - 11,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">数字化转型需求推动薪资上涨 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-medium" rowspan="3">地区</td>
+                      <td class="border border-gray-200 px-4 py-3">一线城市（北上广深）</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-green-600">12,000 - 18,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">生活成本高，但发展机会多 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3">新一线城市（杭蓉汉等）</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-green-600">9,000 - 13,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">政策扶持，性价比高 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3">二线及以下城市</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-green-600">6,500 - 9,000</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">生活成本低，但岗位选择相对较少 <a class="citation-link" href="https://www.ihr360.com/hrnews/202502273837.html">[972]</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Career Development Path -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">职业发展路径</h3>
+
+              <div class="mermaid-container">
+                <div class="mermaid-controls">
+                  <button class="mermaid-control-btn zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button class="mermaid-control-btn zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button class="mermaid-control-btn reset-zoom" title="重置">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </button>
+                  <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+                <div class="mermaid">
+                  graph TD
+                  A[&#34;应届毕业生&#34;] --&gt; B[&#34;技术专家路径&#34;]
+                  A --&gt; C[&#34;管理晋升路径&#34;]
+                  A --&gt; D[&#34;复合发展路径&#34;]
+
+                  B --&gt; B1[&#34;初级程序员/系统分析员&#34;]
+                  B1 --&gt; B2[&#34;高级软件工程师/数据科学家&#34;]
+                  B2 --&gt; B3[&#34;系统架构师/技术专家&#34;]
+
+                  C --&gt; C1[&#34;项目经理&#34;]
+                  C1 --&gt; C2[&#34;技术经理/产品总监&#34;]
+                  C2 --&gt; C3[&#34;IT总监/CIO&#34;]
+
+                  D --&gt; D1[&#34;IT咨询顾问&#34;]
+                  D1 --&gt; D2[&#34;数字化转型专家&#34;]
+                  D2 --&gt; D3[&#34;首席信息官&#34;]
+                </div>
+              </div>
+            </div>
+
+            <!-- Long-term Salary Potential -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8">
+              <h3 class="serif-font text-2xl font-bold mb-6 text-blue-800">长期薪资潜力</h3>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="text-3xl font-bold text-blue-600 mb-2">¥4,000</div>
+                  <div class="text-sm text-gray-600 mb-3">应届生起薪</div>
+                  <div class="text-xs text-gray-500">基础岗位入门水平</div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="text-3xl font-bold text-green-600 mb-2">¥7,972</div>
+                  <div class="text-sm text-gray-600 mb-3">毕业两年后</div>
+                  <div class="text-xs text-gray-500">经验积累带来显著增长 <a class="citation-link" href="http://www.gaosan.com/gaokao/1118959.html">[971]</a>
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                  <div class="text-3xl font-bold text-purple-600 mb-2">¥10,784</div>
+                  <div class="text-sm text-gray-600 mb-3">毕业五年后</div>
+                  <div class="text-xs text-gray-500">技能深化带来高回报 <a class="citation-link" href="http://www.gaosan.com/gaokao/1118959.html">[971]</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Business Administration -->
+      <section class="py-16 bg-white" id="business-administration">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">工商管理专业前景分析</h2>
+              <p class="text-xl text-gray-600">培养具备综合管理能力的企业领导者</p>
+            </div>
+
+            <!-- Professional Overview -->
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+              <div class="bg-blue-50 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-building text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold ml-4">学科归属</h3>
+                </div>
+                <p class="text-gray-700">管理学门类下的核心专业，研究如何运用现代管理方法进行有效的企业管理和经营决策。</p>
+              </div>
+
+              <div class="bg-green-50 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chess-king text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold ml-4">培养目标</h3>
+                </div>
+                <p class="text-gray-700">培养具备综合管理能力、能够引领企业发展的未来领导者，形成全局性的战略思维。</p>
+              </div>
+
+              <div class="bg-purple-50 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-cogs text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold ml-4">专业特色</h3>
+                </div>
+                <p class="text-gray-700">覆盖面广，应用性强，注重理论与实践的紧密结合，通过案例分析、商业模拟等方式培养实践能力。</p>
+              </div>
+            </div>
+
+            <!-- Employment Areas -->
+            <div class="bg-gray-50 rounded-xl p-8 mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">主要就业领域</h3>
+
+              <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-industry text-blue-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">各类企业</h4>
+                  <p class="text-sm text-gray-600">大型跨国公司、国内知名企业、中小型企业等</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-university text-green-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">金融机构</h4>
+                  <p class="text-sm text-gray-600">银行、证券、保险、基金等金融行业</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-comments text-purple-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">咨询公司</h4>
+                  <p class="text-sm text-gray-600">麦肯锡、波士顿、德勤等顶尖咨询公司</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-landmark text-orange-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">政府部门</h4>
+                  <p class="text-sm text-gray-600">各级政府的工商管理部门、经济管理部门</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Career Development Path -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">典型职业发展路径</h3>
+
+              <div class="mermaid-container">
+                <div class="mermaid-controls">
+                  <button class="mermaid-control-btn zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button class="mermaid-control-btn zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button class="mermaid-control-btn reset-zoom" title="重置">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </button>
+                  <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+                <div class="mermaid">
+                  timeline
+                  title 工商管理职业发展路径
+
+                  section 入门级
+                  &#34;专员/助理&#34; : &#34;市场专员&#34;
+                  : &#34;人事助理&#34;
+                  : &#34;财务分析师&#34;
+
+                  section 中级
+                  &#34;主管级别&#34; : &#34;带领小团队&#34;
+                  : &#34;负责具体业务模块&#34;
+                  : &#34;2-3年经验&#34;
+
+                  section 高级
+                  &#34;部门经理&#34; : &#34;全面负责职能部门&#34;
+                  : &#34;3-5年经验&#34;
+                  : &#34;跨部门协调&#34;
+
+                  section 专家级
+                  &#34;总监级别&#34; : &#34;战略规划能力&#34;
+                  : &#34;跨部门协调&#34;
+                  : &#34;8-10年经验&#34;
+
+                  section 高管级
+                  &#34;C级别&#34; : &#34;副总经理&#34;
+                  : &#34;总经理(CEO)&#34;
+                  : &#34;15年以上经验&#34;
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Positions -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="serif-font text-xl font-bold mb-4 text-blue-600">核心就业岗位</h3>
+                <div class="space-y-4">
+                  <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold">管理培训生 (MT)</h4>
+                    <p class="text-sm text-gray-600">大型企业培养未来管理者的&#34;快车道&#34;，在不同部门轮岗</p>
+                  </div>
+                  <div class="border-l-4 border-green-500 pl-4">
+                    <h4 class="font-bold">市场营销专员/经理</h4>
+                    <p class="text-sm text-gray-600">负责市场调研、品牌推广、营销策划等工作</p>
+                  </div>
+                  <div class="border-l-4 border-purple-500 pl-4">
+                    <h4 class="font-bold">人力资源专员/经理</h4>
+                    <p class="text-sm text-gray-600">负责招聘、培训、薪酬福利、绩效管理等</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="serif-font text-xl font-bold mb-4 text-green-600">市场需求特点</h3>
+                <div class="space-y-4">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-chart-line text-green-600"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">就业面广</div>
+                      <div class="text-sm text-gray-600">几乎所有行业都需要管理人才</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-users text-red-600"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">竞争激烈</div>
+                      <div class="text-sm text-gray-600">开设院校多，毕业生数量庞大</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-star text-blue-600"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium">综合素质要求高</div>
+                      <div class="text-sm text-gray-600">看重实习经历、领导力和沟通能力</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Human Resource Management -->
+      <section class="py-16 bg-gray-50" id="human-resources">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">人力资源管理专业前景分析</h2>
+              <p class="text-xl text-gray-600">从传统事务性工作向战略性人力资源管理转型</p>
+            </div>
+
+            <!-- Professional Overview -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h3 class="serif-font text-2xl font-bold mb-6">学科定位与特色</h3>
+                <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span class="text-white text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                      <div class="font-bold">学科归属</div>
+                      <div class="text-gray-600">管理学门类下的工商管理类二级专业 <a class="citation-link" href="https://gaokao.chsi.com.cn/zyk/zybk/wap/detail/73385292">[741]</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span class="text-white text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                      <div class="font-bold">培养目标</div>
+                      <div class="text-gray-600">培养专业的组织与人才发展管理者</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span class="text-white text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                      <div class="font-bold">专业特色</div>
+                      <div class="text-gray-600">从传统事务性工作向战略性人力资源管理转型</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h3 class="serif-font text-2xl font-bold mb-6">六大核心模块</h3>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-blue-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-users text-blue-600 mb-2"></i>
+                    <div class="font-medium text-sm">人力资源规划</div>
+                  </div>
+                  <div class="bg-green-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-search text-green-600 mb-2"></i>
+                    <div class="font-medium text-sm">招聘与配置</div>
+                  </div>
+                  <div class="bg-purple-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-graduation-cap text-purple-600 mb-2"></i>
+                    <div class="font-medium text-sm">培训与开发</div>
+                  </div>
+                  <div class="bg-orange-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-chart-line text-orange-600 mb-2"></i>
+                    <div class="font-medium text-sm">绩效管理</div>
+                  </div>
+                  <div class="bg-pink-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-money-bill-wave text-pink-600 mb-2"></i>
+                    <div class="font-medium text-sm">薪酬福利</div>
+                  </div>
+                  <div class="bg-indigo-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-handshake text-indigo-600 mb-2"></i>
+                    <div class="font-medium text-sm">劳动关系</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Employment Opportunities -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">就业机会与职业发展</h3>
+
+              <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-blue-600">主要就业领域</h4>
+                  <div class="space-y-3">
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                      <div class="font-medium">企业内部人力资源部门</div>
+                      <div class="text-sm text-gray-600">最主要的就业去向</div>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                      <div class="font-medium">人力资源服务机构</div>
+                      <div class="text-sm text-gray-600">猎头公司、外包服务商等 <a class="citation-link" href="https://www.hqwx.com/rlzygls-kaoshi/news/17496252547915.html">[964]</a>
+                      </div>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                      <div class="font-medium">管理咨询公司</div>
+                      <div class="text-sm text-gray-600">人力资源咨询业务</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-green-600">核心就业岗位</h4>
+                  <div class="space-y-3">
+                    <div class="p-3 bg-green-50 rounded-lg">
+                      <div class="font-medium">基础职能岗</div>
+                      <div class="text-sm text-gray-600">招聘专员、培训专员、薪酬绩效专员</div>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg">
+                      <div class="font-medium">战略性/业务伙伴岗</div>
+                      <div class="text-sm text-gray-600">HRBP（人力资源业务伙伴）</div>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg">
+                      <div class="font-medium">专家岗/高级岗</div>
+                      <div class="text-sm text-gray-600">组织发展(OD)经理、人才发展(TD)经理</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-purple-600">薪资发展</h4>
+                  <div class="space-y-3">
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                      <div class="font-medium">应届生起薪</div>
+                      <div class="text-sm text-gray-600">6,000-12,000元/月 <a class="citation-link" href="https://www.hqwx.com/rlzygls-kaoshi/news/17496252547915.html">[964]</a>
+                      </div>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                      <div class="font-medium">人力资源总监</div>
+                      <div class="text-sm text-gray-600">数十万至上百万年薪</div>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                      <div class="font-medium">首席人力资源官</div>
+                      <div class="text-sm text-gray-600">参与公司战略决策</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Market Demand -->
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8">
+              <h3 class="serif-font text-2xl font-bold mb-6">市场需求分析</h3>
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-green-600">积极因素</h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span class="text-gray-700">企业对&#34;人才是第一资源&#34;理念认同加深 <a class="citation-link" href="https://mjineng.hqqt.com/rlzygls-kaoshi/news/17495388187860.html">[966]</a></span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span class="text-gray-700">新兴行业（互联网、新能源、生物医药）需求旺盛</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span class="text-gray-700">劳动法律法规完善，专业HR人才需求增加</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-bold text-lg mb-4 text-orange-600">挑战因素</h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                      <span class="text-gray-700">传统事务性HR被自动化和AI取代</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                      <span class="text-gray-700">市场对复合型、战略型HR人才要求提高</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                      <span class="text-gray-700">数字化HR技能（HRIS）成为新门槛 <a class="citation-link" href="https://mjineng.hqqt.com/rlzygls-kaoshi/news/17495388187860.html">[966]</a></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Digital Economy -->
+      <section class="py-16 bg-white" id="digital-economy">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">数字经济专业前景分析</h2>
+              <p class="text-xl text-gray-600">紧跟国家战略，聚焦前沿技术与产业应用</p>
+            </div>
+
+            <!-- Professional Overview -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl p-8 mb-12">
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-network-wired text-2xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-2">交叉学科</h3>
+                  <p class="text-sm opacity-90">融合经济学、管理学与计算机科学的新兴学科</p>
+                </div>
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-rocket text-2xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-2">前沿技术</h3>
+                  <p class="text-sm opacity-90">大数据、AI、区块链、数字营销等前沿技术</p>
+                </div>
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-flag text-2xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-2">国家战略</h3>
+                  <p class="text-sm opacity-90">响应&#34;数字中国&#34;战略和产业升级需求</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Talent Demand -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">人才需求分析</h3>
+
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-red-50 rounded-lg p-6 text-center">
+                  <div class="text-4xl font-bold text-red-600 mb-2">3000万</div>
+                  <div class="text-lg font-medium text-red-700 mb-2">2025年人才缺口</div>
+                  <div class="text-sm text-gray-600">中国数字经济人才缺口预测 <a class="citation-link" href="https://www.163.com/dy/article/K9757EVM0556FQKD.html">[546]</a>
+                  </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-6 text-center">
+                  <div class="text-4xl font-bold text-blue-600 mb-2">36.82%</div>
+                  <div class="text-lg font-medium text-blue-700 mb-2">AI技术岗位需求增长</div>
+                  <div class="text-sm text-gray-600">猎聘网2025年上半年数据 <a class="citation-link" href="https://news.sohu.com/a/921591999_122451519">[545]</a>
+                  </div>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-6 text-center">
+                  <div class="text-4xl font-bold text-green-600 mb-2">45.12%</div>
+                  <div class="text-lg font-medium text-green-700 mb-2">大湾区需求增速</div>
+                  <div class="text-sm text-gray-600">粤港澳大湾区数字经济人才需求 <a class="citation-link" href="https://news.sohu.com/a/921591999_122451519">[545]</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- High-paying Positions -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">高薪岗位分析</h3>
+
+              <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                  <thead>
+                    <tr class="bg-gray-50">
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">岗位名称</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">起薪范围（元/月）</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">核心技能要求</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">备注</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-medium">数字产品经理</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-blue-600">15-25K</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">技术理解力、市场洞察力、用户体验设计</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600"> <a class="citation-link" href="https://news.sohu.com/a/921591999_122451519">[545]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-medium">区块链经济分析师</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-green-600">18-30K</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">区块链技术、经济分析、金融知识</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">技术含量高 <a class="citation-link" href="https://news.sohu.com/a/921591999_122451519">[545]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-medium">大模型算法工程师</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-purple-600">68K</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">深度学习、算法优化、模型训练</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">平均月薪 <a class="citation-link" href="https://www.163.com/dy/article/K9757EVM0556FQKD.html">[546]</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-medium">AI算法工程师</td>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-orange-600">25-50万年薪</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600">机器学习、数据分析、编程能力</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-600"> <a class="citation-link" href="https://www.163.com/dy/article/K9757EVM0556FQKD.html">[546]</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Skills and Development -->
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="bg-blue-50 rounded-xl p-8">
+                <h3 class="serif-font text-2xl font-bold mb-6 text-blue-800">核心技能培养</h3>
+                <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-chart-bar text-blue-600 text-xl mt-1"></i>
+                    <div>
+                      <div class="font-bold">数据分析与编程能力</div>
+                      <div class="text-sm text-gray-600">熟练掌握Python、SQL等工具</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-microchip text-green-600 text-xl mt-1"></i>
+                    <div>
+                      <div class="font-bold">数字技术应用能力</div>
+                      <div class="text-sm text-gray-600">了解并能应用大数据、AI、区块链等核心技术</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-lightbulb text-yellow-600 text-xl mt-1"></i>
+                    <div>
+                      <div class="font-bold">商业理解与创新能力</div>
+                      <div class="text-sm text-gray-600">能够将技术与商业场景结合，进行商业模式创新</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-green-50 rounded-xl p-8">
+                <h3 class="serif-font text-2xl font-bold mb-6 text-green-800">长期发展潜力</h3>
+                <div class="space-y-4">
+                  <div class="bg-white rounded-lg p-4 shadow-md">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="font-bold">3-5年后薪资涨幅</span>
+                      <span class="text-2xl font-bold text-green-600">150%</span>
+                    </div>
+                    <div class="text-sm text-gray-600">远超传统专业 <a class="citation-link" href="https://www.163.com/dy/article/K9757EVM0556FQKD.html">[546]</a>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg p-4 shadow-md">
+                    <div class="font-bold mb-2">金融科技领域</div>
+                    <div class="text-sm text-gray-600">优秀量化分析师5年内年薪突破百万</div>
+                  </div>
+                  <div class="bg-white rounded-lg p-4 shadow-md">
+                    <div class="font-bold mb-2">专业认证价值</div>
+                    <div class="text-sm text-gray-600">CDA认证持证者面试邀约率提升2.3倍 <a class="citation-link" href="https://news.sohu.com/a/921591999_122451519">[545]</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Intellectual Property -->
+      <section class="py-16 bg-gray-50" id="intellectual-property">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">知识产权专业前景分析</h2>
+              <p class="text-xl text-gray-600">聚焦&#34;卡脖子&#34;技术保护，服务国家创新战略</p>
+            </div>
+
+            <!-- Professional Overview -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                  <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-balance-scale text-purple-600 text-3xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-3">学科归属</h3>
+                  <p class="text-gray-700">法学与管理的交叉学科，&#34;法学+知识产权管理&#34;的结合 <a class="citation-link" href="https://www.xgkguide.com/jiuyeqianjing/1503.html">[687]</a>
+                  </p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-bullseye text-blue-600 text-3xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-3">培养目标</h3>
+                  <p class="text-gray-700">培养知识产权法律与管理的专门人才，从事创造、运用、保护和管理工作</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-flag text-green-600 text-3xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-3">专业特色</h3>
+                  <p class="text-gray-700">与国家创新战略紧密绑定，保护&#34;卡脖子&#34;技术的自主知识产权</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Employment Areas -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">主要就业领域与岗位</h3>
+
+              <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-blue-50 rounded-lg p-6 text-center">
+                  <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-gavel text-white text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">法律服务机构</h4>
+                  <p class="text-sm text-gray-600">律师事务所、专利代理事务所、商标代理公司</p>
+                  <div class="mt-3 text-xs text-blue-600">需求量大 <a class="citation-link" href="https://www.daxuejiayou.com/4078067807.html">[657]</a>
+                  </div>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-6 text-center">
+                  <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-building text-white text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">企业知识产权部门</h4>
+                  <p class="text-sm text-gray-600">华为、腾讯等高科技企业的IP部门</p>
+                  <div class="mt-3 text-xs text-green-600"> <a class="citation-link" href="https://www.daxuejiayou.com/4078067807.html">[657]</a>
+                  </div>
+                </div>
+
+                <div class="bg-purple-50 rounded-lg p-6 text-center">
+                  <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-landmark text-white text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">政府部门与司法机关</h4>
+                  <p class="text-sm text-gray-600">知识产权局、版权局、法院知识产权审判庭</p>
+                  <div class="mt-3 text-xs text-purple-600"> <a class="citation-link" href="https://www.xgkguide.com/jiuyeqianjing/1503.html">[687]</a>
+                  </div>
+                </div>
+
+                <div class="bg-orange-50 rounded-lg p-6 text-center">
+                  <div class="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-university text-white text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">研究与教育机构</h4>
+                  <p class="text-sm text-gray-600">高校、科研院所的知识产权教学和研究</p>
+                  <div class="mt-3 text-xs text-orange-600">稳定需求</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Core Positions -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="serif-font text-xl font-bold mb-4 text-blue-600">核心就业岗位</h3>
+                <div class="space-y-4">
+                  <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold">专利代理人/专利工程师</h4>
+                    <p class="text-sm text-gray-600">撰写专利申请文件、答复审查意见，技术含量最高的岗位之一</p>
+                  </div>
+                  <div class="border-l-4 border-green-500 pl-4">
+                    <h4 class="font-bold">知识产权律师</h4>
+                    <p class="text-sm text-gray-600">处理各类知识产权诉讼和非诉业务 <a class="citation-link" href="https://www.daxuejiayou.com/4078067807.html">[657]</a>
+                    </p>
+                  </div>
+                  <div class="border-l-4 border-purple-500 pl-4">
+                    <h4 class="font-bold">企业知识产权经理（IPR）</h4>
+                    <p class="text-sm text-gray-600">制定企业知识产权战略，管理知识产权资产</p>
+                  </div>
+                  <div class="border-l-4 border-orange-500 pl-4">
+                    <h4 class="font-bold">知识产权审查员</h4>
+                    <p class="text-sm text-gray-600">在政府部门对专利申请进行实质审查</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h3 class="serif-font text-xl font-bold mb-4 text-green-600">职业发展路径</h3>
+                <div class="mermaid-container">
+                  <div class="mermaid-controls">
+                    <button class="mermaid-control-btn zoom-in" title="放大">
+                      <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="mermaid-control-btn zoom-out" title="缩小">
+                      <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button class="mermaid-control-btn reset-zoom" title="重置">
+                      <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                    <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                      <i class="fas fa-expand"></i>
+                    </button>
+                  </div>
+                  <div class="mermaid">
+                    graph LR
+                    A[&#34;应届毕业生&#34;] --&gt; B[&#34;专业化路径&#34;]
+                    A --&gt; C[&#34;管理化路径&#34;]
+
+                    B --&gt; B1[&#34;专利代理人&#34;]
+                    B1 --&gt; B2[&#34;资深代理人&#34;]
+                    B2 --&gt; B3[&#34;合伙人/专家&#34;]
+
+                    C --&gt; C1[&#34;企业IP专员&#34;]
+                    C1 --&gt; C2[&#34;知识产权经理&#34;]
+                    C2 --&gt; C3[&#34;知识产权总监&#34;]
+
+                    style A fill:#e3f2fd
+                    style B fill:#fff3e0
+                    style C fill:#f3e5f5
+                    style B1 fill:#ffffff
+                    style B2 fill:#ffffff
+                    style B3 fill:#ffffff
+                    style C1 fill:#ffffff
+                    style C2 fill:#ffffff
+                    style C3 fill:#ffffff
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Salary Analysis -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">薪资水平分析</h3>
+
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-red-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-red-600">一线城市</h4>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold text-red-600 mb-2">8-10K</div>
+                    <div class="text-sm text-gray-600">应届生起薪（元/月）</div>
+                    <div class="text-xs text-gray-500 mt-2">北京、上海等地 <a class="citation-link" href="https://www.xgkguide.com/jiuyeqianjing/1503.html">[687]</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-blue-600">新一线城市</h4>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">6-8K</div>
+                    <div class="text-sm text-gray-600">应届生起薪（元/月）</div>
+                    <div class="text-xs text-gray-500 mt-2">杭州、成都等地 <a class="citation-link" href="https://www.xgkguide.com/jiuyeqianjing/1503.html">[687]</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-green-600">二线城市</h4>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">5-7K</div>
+                    <div class="text-sm text-gray-600">应届生起薪（元/月）</div>
+                    <div class="text-xs text-gray-500 mt-2">其他二线城市 <a class="citation-link" href="https://www.xgkguide.com/jiuyeqianjing/1503.html">[687]</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-8 bg-yellow-50 border-l-4 border-yellow-500 p-6">
+                <h4 class="font-bold text-lg mb-2 text-yellow-800">学历对薪资的影响</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <div class="font-medium">本科毕业生</div>
+                    <div class="text-sm text-gray-600">40%的岗位集中在8-15K/月 <a class="citation-link" href="https://m.jobui.com/salary/quanguo-zhishichanquan/">[651]</a>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="font-medium">硕士毕业生</div>
+                    <div class="text-sm text-gray-600">46.2%的岗位能拿到20-50K/月 <a class="citation-link" href="https://m.jobui.com/salary/quanguo-zhishichanquan/">[651]</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Chinese International Education -->
+      <section class="py-16 bg-white" id="chinese-education">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">汉语国际教育专业前景分析</h2>
+              <p class="text-xl text-gray-600">连接中国与世界的重要桥梁</p>
+            </div>
+
+            <!-- Professional Overview -->
+            <div class="bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-xl p-8 mb-12">
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                  <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-language text-3xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-2">学科归属</h3>
+                  <p class="text-sm opacity-90">文学门类下的中国语言文学类，具有鲜明国际化特色</p>
+                </div>
+                <div class="text-center">
+                  <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-globe-asia text-3xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-2">培养目标</h3>
+                  <p class="text-sm opacity-90">培养从事国际中文教学与文化传播的专门人才</p>
+                </div>
+                <div class="text-center">
+                  <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-handshake text-3xl"></i>
+                  </div>
+                  <h3 class="serif-font text-xl font-bold mb-2">专业特色</h3>
+                  <p class="text-sm opacity-90">国际化视野，跨文化交际能力培养</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Global Demand -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">全球汉语教师需求</h3>
+
+              <div class="bg-green-50 rounded-lg p-8 text-center">
+                <div class="text-5xl font-bold text-green-600 mb-4">500万+</div>
+                <div class="text-xl font-medium text-green-700 mb-2">全球汉语教师需求量</div>
+                <div class="text-gray-600">现有教师数量远不能满足需求，存在巨大市场缺口</div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-blue-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-blue-600">机遇因素</h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span class="text-gray-700">中国经济发展和国际影响力提升</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span class="text-gray-700">&#34;一带一路&#34;倡议深入推进</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span class="text-gray-700">中华文化&#34;走出去&#34;战略实施</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="bg-orange-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-orange-600">挑战因素</h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                      <span class="text-gray-700">就业受国际关系和政策影响较大</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                      <span class="text-gray-700">不同国家签证政策限制</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                      <span class="text-gray-700">需要强大的适应和应变能力</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Employment Areas -->
+            <div class="bg-gray-50 rounded-xl p-8 mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">主要就业领域</h3>
+
+              <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-school text-red-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">海外孔子学院</h4>
+                  <p class="text-sm text-gray-600">最主要的就业去向之一，遍布全球的中文推广机构</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-university text-blue-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">国内外学校</h4>
+                  <p class="text-sm text-gray-600">国内高校国际交流学院、海外中小学、大学等</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-globe text-green-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">国际学校</h4>
+                  <p class="text-sm text-gray-600">为外籍人员子女设立的国际学校</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
+                  <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chalkboard-teacher text-purple-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">语言培训机构</h4>
+                  <p class="text-sm text-gray-600">线上和线下的各类语言培训公司</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Career Development -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">职业发展路径</h3>
+
+              <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-graduate text-blue-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">教学专家</h4>
+                  <p class="text-sm text-gray-600">在一线教学岗位积累经验，成为资深教师或教学名师</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-users-cog text-green-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">管理晋升</h4>
+                  <p class="text-sm text-gray-600">从教师晋升为教研组长、教学主管、教务主任</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-pencil-ruler text-purple-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">课程研发</h4>
+                  <p class="text-sm text-gray-600">转型从事教材编写、课程设计、教学软件开发</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-microscope text-orange-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">学术研究</h4>
+                  <p class="text-sm text-gray-600">继续攻读硕博，从事汉语语言学、第二语言习得研究</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Salary Analysis -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">薪资水平分析</h3>
+
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-green-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-green-600">海外教师</h4>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">20-40万</div>
+                    <div class="text-sm text-gray-600">年薪（人民币）</div>
+                    <div class="text-xs text-gray-500 mt-2">发达国家孔子学院教师，含福利补贴</div>
+                  </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-blue-600">国内高校/国际学校</h4>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">6-10K</div>
+                    <div class="text-sm text-gray-600">月薪（元）</div>
+                    <div class="text-xs text-gray-500 mt-2">相对稳定的工作环境</div>
+                  </div>
+                </div>
+
+                <div class="bg-purple-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-purple-600">语言培训机构</h4>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">浮动</div>
+                    <div class="text-sm text-gray-600">与课时量挂钩</div>
+                    <div class="text-xs text-gray-500 mt-2">收入波动较大，多劳多得</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New Trends -->
+            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-8">
+              <h3 class="serif-font text-2xl font-bold mb-6">新兴发展趋势</h3>
+              <div class="bg-white rounded-lg p-6 shadow-md">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                    <i class="fas fa-plus text-orange-600 text-xl"></i>
+                  </div>
+                  <h4 class="font-bold text-lg">&#34;中文+职业技能&#34;新模式</h4>
+                </div>
+                <p class="text-gray-700 mb-4">
+                  单纯的语言教学已不能完全满足学习者需求，&#34;中文+职业技能&#34;的复合型教学模式正在成为新的发展方向。
+                </p>
+                <div class="grid md:grid-cols-3 gap-4">
+                  <div class="bg-blue-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-plane text-blue-600 mb-2"></i>
+                    <div class="font-medium text-sm">中文+旅游</div>
+                  </div>
+                  <div class="bg-green-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-chart-line text-green-600 mb-2"></i>
+                    <div class="font-medium text-sm">中文+商务</div>
+                  </div>
+                  <div class="bg-purple-50 rounded-lg p-3 text-center">
+                    <i class="fas fa-cogs text-purple-600 mb-2"></i>
+                    <div class="font-medium text-sm">中文+工程</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Comparative Analysis -->
+      <section class="py-16 bg-gray-50" id="comparative-analysis">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">六大专业对比分析</h2>
+              <p class="text-xl text-gray-600">数字化时代的专业选择全景图</p>
+            </div>
+
+            <!-- Professional Comparison Table -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">专业特征对比</h3>
+
+              <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                  <thead>
+                    <tr class="bg-gray-50">
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">专业名称</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">学科定位</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">核心特色</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">市场需求</th>
+                      <th class="border border-gray-200 px-4 py-3 text-left font-bold">薪资水平</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-blue-600">信息管理与信息系统</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">管理学-管理科学与工程</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">&#34;技术+管理&#34;复合型，大数据时代&#34;新商科&#34;</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">人才缺口大，数字化转型需求旺盛</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">一线城市12-18K/月</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-green-600">工商管理</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">管理学-工商管理</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">覆盖面广，培养企业领导者</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">就业面广，但竞争激烈</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">长期潜力巨大，高管薪资可观</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-purple-600">人力资源管理</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">管理学-工商管理</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">从传统事务性向战略性HR转型</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">新兴行业需求旺盛，数字化HR成新门槛</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">HRD年薪可达数十万至上百万</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-orange-600">数字经济</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">经济学/管理学交叉</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">紧跟国家战略，聚焦前沿技术</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">人才缺口近3000万，需求爆发式增长</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">AI算法工程师25-50万年薪</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-red-600">知识产权</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">法学与管理交叉</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">服务国家创新战略，保护&#34;卡脖子&#34;技术</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">就业率近90%，高于法学大类平均</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">资深代理人年收入可达数十万至上百万</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-3 font-bold text-pink-600">汉语国际教育</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">文学-中国语言文学</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">国际化视野，跨文化交际能力培养</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">全球汉语教师需求500万+，但受政策影响</td>
+                      <td class="border border-gray-200 px-4 py-3 text-gray-700">海外教师年薪20-40万，国内中等</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Career Development Paths -->
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">职业发展路径对比</h3>
+
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-blue-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-blue-600">技术专家路径</h4>
+                  <div class="space-y-3">
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-laptop-code text-blue-500"></i>
+                      <span class="text-sm">信息管理与信息系统</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-robot text-blue-500"></i>
+                      <span class="text-sm">数字经济（算法工程师）</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-search text-blue-500"></i>
+                      <span class="text-sm">知识产权（专利分析）</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-green-600">管理晋升路径</h4>
+                  <div class="space-y-3">
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-chart-line text-green-500"></i>
+                      <span class="text-sm">工商管理（CEO发展路径）</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-users text-green-500"></i>
+                      <span class="text-sm">人力资源管理（CHO）</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-project-diagram text-green-500"></i>
+                      <span class="text-sm">信息管理与信息系统（CIO）</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-purple-50 rounded-lg p-6">
+                  <h4 class="font-bold text-lg mb-4 text-purple-600">专业深化路径</h4>
+                  <div class="space-y-3">
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-balance-scale text-purple-500"></i>
+                      <span class="text-sm">知识产权（资深代理人）</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-globe text-purple-500"></i>
+                      <span class="text-sm">汉语国际教育（教学名师）</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <i class="fas fa-microscope text-purple-500"></i>
+                      <span class="text-sm">数字经济（技术专家）</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Recommendations -->
+      <section class="py-16 bg-white" id="recommendations">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto">
+            <div class="mb-12">
+              <h2 class="serif-font text-4xl font-bold mb-4">专业选择建议</h2>
+              <p class="text-xl text-gray-600">如何找到最适合自己的发展道路</p>
+            </div>
+
+            <!-- Selection Criteria -->
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 mb-12">
+              <h3 class="serif-font text-2xl font-bold mb-6">选择专业的核心考量因素</h3>
+
+              <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-heart text-blue-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">个人兴趣</h4>
+                  <p class="text-sm text-gray-600">选择自己真正热爱的领域，才能保持长期的学习动力</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-star text-green-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">能力特长</h4>
+                  <p class="text-sm text-gray-600">发挥自己的天赋优势，在适合的领域更容易取得成功</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">职业前景</h4>
+                  <p class="text-sm text-gray-600">考虑行业发展趋势和长期就业机会</p>
+                </div>
+
+                <div class="text-center">
+                  <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-compass text-orange-600 text-2xl"></i>
+                  </div>
+                  <h4 class="font-bold mb-2">个人价值观</h4>
+                  <p class="text-sm text-gray-600">选择与个人价值观和生活方式相匹配的职业</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Personalized Recommendations -->
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+              <div class="bg-blue-50 rounded-xl p-6">
+                <h3 class="serif-font text-xl font-bold mb-4 text-blue-600">如果你对技术感兴趣</h3>
+                <div class="space-y-3">
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-microchip text-blue-500 mt-1"></i>
+                    <div>
+                      <div class="font-medium">信息管理与信息系统</div>
+                      <div class="text-sm text-gray-600">适合喜欢数据分析和系统开发的学生</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-robot text-blue-500 mt-1"></i>
+                    <div>
+                      <div class="font-medium">数字经济</div>
+                      <div class="text-sm text-gray-600">适合对AI、大数据等前沿技术有热情的学生</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-green-50 rounded-xl p-6">
+                <h3 class="serif-font text-xl font-bold mb-4 text-green-600">如果你善于与人沟通</h3>
+                <div class="space-y-3">
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-users text-green-500 mt-1"></i>
+                    <div>
+                      <div class="font-medium">工商管理</div>
+                      <div class="text-sm text-gray-600">适合有领导潜质和全局思维的学生</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-handshake text-green-500 mt-1"></i>
+                    <div>
+                      <div class="font-medium">人力资源管理</div>
+                      <div class="text-sm text-gray-600">适合善于理解和帮助他人的学生</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-purple-50 rounded-xl p-6">
+                <h3 class="serif-font text-xl font-bold mb-4 text-purple-600">如果你有特殊兴趣</h3>
+                <div class="space-y-3">
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-balance-scale text-purple-500 mt-1"></i>
+                    <div>
+                      <div class="font-medium">知识产权</div>
+                      <div class="text-sm text-gray-600">适合对法律和技术交叉领域感兴趣的学生</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <i class="fas fa-globe text-purple-500 mt-1"></i>
+                    <div>
+                      <div class="font-medium">汉语国际教育</div>
+                      <div class="text-sm text-gray-600">适合热爱语言和跨文化交流的学生</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Final Advice -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl p-8">
+              <h3 class="serif-font text-2xl font-bold mb-6 text-center">最终建议</h3>
+              <div class="max-w-4xl mx-auto">
+                <blockquote class="text-xl italic text-center mb-6">
+                  &#34;选择专业的过程，不仅是选择一个未来的职业，更是选择一种生活方式和人生轨迹。&#34;
+                </blockquote>
+
+                <div class="grid md:grid-cols-3 gap-6 mt-8">
+                  <div class="text-center">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-search text-xl"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">深入了解</h4>
+                    <p class="text-sm opacity-90">通过实习、访谈、课程体验等方式深入了解各个专业</p>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-balance-scale text-xl"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">理性权衡</h4>
+                    <p class="text-sm opacity-90">综合考虑兴趣、能力、前景和价值观，做出理性选择</p>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-route text-xl"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">保持开放</h4>
+                    <p class="text-sm opacity-90">大学专业不是终点，而是人生旅程的一个起点</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-8">
+          <div class="max-w-6xl mx-auto text-center">
+            <div class="mb-8">
+              <h3 class="serif-font text-2xl font-bold mb-4">感谢您的阅读</h3>
+              <p class="text-gray-300 max-w-2xl mx-auto">
+                本报告基于公开数据和行业研究，旨在为专业选择提供客观参考。每个人的情况都是独特的，建议结合自身实际做出最适合自己的选择。
+              </p>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8">
+              <p class="text-gray-400 text-sm">
+                2025 六大本科专业学习前景深度研究报告 | 数据来源于公开资料整理
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+        // Initialize Mermaid with custom configuration
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#2c3e50',
+                primaryBorderColor: '#2c3e50',
+                lineColor: '#95a5a6',
+                secondaryColor: '#f8f9fa',
+                tertiaryColor: '#e9ecef',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f8f9fa',
+                tertiaryBkg: '#e9ecef',
+                nodeBkg: '#ffffff',
+                nodeBorder: '#2c3e50',
+                clusterBkg: '#f8f9fa',
+                clusterBorder: '#95a5a6',
+                defaultLinkColor: '#95a5a6',
+                titleColor: '#2c3e50',
+                edgeLabelBackground: '#ffffff',
+                nodeTextColor: '#2c3e50',
+                // Ensure good contrast for different node types
+                cScale0: '#ffffff',
+                cScale1: '#f8f9fa',
+                cScale2: '#e3f2fd',
+                cScale3: '#fff3e0',
+                // Timeline colors
+                cScale0: '#ffffff',
+                cScale1: '#f8f9fa',
+                cScale2: '#e3f2fd',
+                // Section colors
+                sectionBkgColor: '#ffffff',
+                altSectionBkgColor: '#f8f9fa',
+                gridColor: '#e9ecef',
+                // Text colors for better contrast
+                taskTextColor: '#2c3e50',
+                taskTextOutsideColor: '#2c3e50',
+                taskTextLightColor: '#2c3e50',
+                activeTaskTextColor: '#2c3e50'
+            },
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20
+            },
+            timeline: {
+                useMaxWidth: false,
+                padding: 20
+            },
+            gantt: {
+                useMaxWidth: false,
+                padding: 20
+            },
+            sequence: {
+                useMaxWidth: false,
+                padding: 20
+            }
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        // Initialize mermaid controls after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMermaidControls();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in TOC
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.toc-fixed a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('bg-blue-100', 'text-blue-700');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('bg-blue-100', 'text-blue-700');
+                }
+            });
+        });
+
+        // Add fade-in animation to sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+
+  
+
+</body></html>
