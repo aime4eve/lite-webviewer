@@ -261,3 +261,12 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 2025-11-30 00:29:18 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: 高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md, startPage: null, endPage: null
 2025-11-30 00:29:18 [http-nio-8080-exec-6] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md
 2025-11-30 00:29:18 [http-nio-8080-exec-6] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md
+2025-11-30 00:53:33 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:53:33 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:53:33 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:53:33 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:53:33 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:53:33 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:58:04 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-30 00:58:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-30 00:58:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
