@@ -30,7 +30,7 @@ Nexus-Lite 是一个轻量级的知识预览系统，旨在为用户提供高效
 - XLSX文件：转换为HTML表格预览
 
 ### 3. 文档结构化
-- 生成TOON（Tree of Organizational Nodes/面向词元的对象表示法）结构
+- 生成TOON（面向词元的对象表示法）结构
 - 支持文档内部导航
 - 提供文档元数据信息
 
