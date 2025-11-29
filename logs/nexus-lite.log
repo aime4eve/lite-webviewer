@@ -1,1055 +1,263 @@
-2025-11-28 00:02:14 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:15 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:15 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:15 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:15 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:15 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:24 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:24 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:24 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:24 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:24 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:24 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:30 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:30 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:30 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:30 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:30 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:30 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:36 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:36 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:36 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:02:36 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:02:36 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:02:36 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:03:19 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:03:19 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:03:19 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:03:19 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:03:19 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:03:19 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:05:20 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:05:20 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:05:20 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:05:20 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:05:20 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:05:20 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:05:28 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:05:28 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:05:28 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:05:28 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:05:28 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:05:28 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:05:42 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:05:42 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:05:42 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:05:42 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:05:42 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:05:42 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:14 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:14 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:14 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:14 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:14 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:14 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:16 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:16 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:16 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:16 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:16 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:16 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:24 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:24 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:24 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:24 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:24 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:24 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:38 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:38 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:38 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:07:38 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:07:38 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:07:38 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:12:34 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:12:34 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:12:34 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:12:34 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:12:34 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:12:34 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:12:34 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:12:34 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:12:34 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:12:34 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:12:34 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:12:34 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:13:53 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:13:53 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:13:53 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:13:53 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:13:53 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:13:53 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:13:53 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: nexus-lite-vibe-coding-final.md, startPage: null, endPage: null
-2025-11-28 00:13:53 [http-nio-8080-exec-2] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
-2025-11-28 00:13:53 [http-nio-8080-exec-2] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
-2025-11-28 00:13:53 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: nexus-lite-vibe-coding-final.md, startPage: null, endPage: null
-2025-11-28 00:13:53 [http-nio-8080-exec-7] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
-2025-11-28 00:13:53 [http-nio-8080-exec-7] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
-2025-11-28 00:13:54 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:13:54 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:13:54 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:13:54 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:13:54 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:13:54 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:13:57 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: nexus-lite-vibe-coding-final.md, startPage: null, endPage: null
-2025-11-28 00:14:36 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:14:36 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:14:36 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:14:37 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:14:37 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:14:37 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:14:56 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:14:56 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:14:56 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:14:56 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:14:56 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:14:56 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:15:38 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:15:38 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:15:38 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:15:38 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:15:38 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:15:38 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:15:46 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:15:46 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:15:46 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:15:46 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:15:46 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:15:46 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:15:57 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:15:57 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:15:57 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:15:57 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:15:57 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:15:57 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:16:11 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:16:11 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:16:11 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:16:11 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:16:11 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:16:11 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:17:50 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:17:50 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:17:50 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:17:50 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:17:50 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:17:50 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:31 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:31 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:31 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=30}
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311364}
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311364}
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311364}
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311364}
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:18:31 [http-nio-8080-exec-4] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311364}
-2025-11-28 00:18:31 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:31 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:31 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:31 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:31 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:31 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311730}
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311730}
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311730}
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311730}
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:18:31 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260311730}
-2025-11-28 00:18:31 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:31 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:31 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:44 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:44 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:44 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:44 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:44 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:44 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=4}
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260324692}
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260324692}
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260324692}
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260324692}
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:18:44 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260324692}
-2025-11-28 00:18:44 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:18:44 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:18:44 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:09 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:09 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:09 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:09 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:09 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:09 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=5}
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260349881}
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260349881}
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260349881}
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260349881}
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:19:09 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260349881}
-2025-11-28 00:19:10 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:10 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:10 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260354301}
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260354301}
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260354301}
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260354301}
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:19:14 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260354301}
-2025-11-28 00:19:14 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:14 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:14 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:32 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:32 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:32 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:32 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:32 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:32 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=63}
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260372337}
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260372337}
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260372337}
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260372337}
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:19:32 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260372337}
-2025-11-28 00:19:32 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:19:32 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:19:32 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:30 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:30 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:30 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:30 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=2}
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260430614}
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260430614}
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260430614}
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260430614}
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:20:30 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:30 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260430614}
-2025-11-28 00:20:30 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:30 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:30 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:30 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:40 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:40 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:40 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:40 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:40 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:40 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=50}
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260440731}
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260440731}
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260440731}
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260440731}
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:20:40 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260440731}
-2025-11-28 00:20:40 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:40 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:40 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:47 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:47 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:47 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:47 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:47 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:47 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=80}
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260447621}
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260447621}
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260447621}
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260447621}
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:20:47 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260447621}
-2025-11-28 00:20:47 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:20:47 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:20:47 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:21:06 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf, startPage: null, endPage: null
-2025-11-28 00:21:06 [http-nio-8080-exec-6] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
-2025-11-28 00:21:06 [http-nio-8080-exec-6] INFO  c.d.m.p.service.PreviewServiceImpl - Generating PDF preview for file: /root/lite-webviewer/docs/Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf, pages 1-20
-2025-11-28 00:21:09 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Web预览系统产品设计.md, startPage: null, endPage: null
-2025-11-28 00:21:09 [http-nio-8080-exec-5] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/Web预览系统产品设计.md
-2025-11-28 00:21:09 [http-nio-8080-exec-5] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/Web预览系统产品设计.md
-2025-11-28 00:22:10 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:10 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:10 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:22:10 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:10 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:10 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:22:33 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:33 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:33 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:22:33 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:33 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:33 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=30}
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260553555}
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260553555}
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260553555}
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260553555}
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:22:33 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260553555}
-2025-11-28 00:22:33 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:33 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:33 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:22:59 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:59 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:59 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:22:59 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:22:59 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:22:59 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=6}
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260580195}
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260580195}
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260580195}
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260580195}
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:23:00 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260580195}
-2025-11-28 00:23:00 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:23:00 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:23:00 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:23:05 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:23:05 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:23:05 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:23:05 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:23:05 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:23:05 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=105}
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260585396}
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260585396}
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260585396}
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260585396}
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:23:05 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260585396}
-2025-11-28 00:23:05 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:23:05 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:23:05 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:24:03 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:24:03 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:24:03 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:24:03 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:24:03 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:24:03 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260643324}
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260643324}
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260643324}
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260643324}
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:24:03 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260643324}
-2025-11-28 00:24:03 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:24:03 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:24:03 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=2}
-2025-11-28 00:24:19 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260659998}
-2025-11-28 00:24:20 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:24:20 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260659998}
-2025-11-28 00:24:20 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260659998}
-2025-11-28 00:24:20 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260659998}
-2025-11-28 00:24:20 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:24:20 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260659998}
-2025-11-28 00:24:20 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:24:20 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:24:20 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=0}
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260696498}
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260696498}
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260696498}
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260696498}
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:24:56 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260696498}
-2025-11-28 00:24:56 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:24:56 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:24:56 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=0}
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260701532}
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260701532}
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260701532}
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260701532}
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:25:01 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260701532}
-2025-11-28 00:25:01 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:01 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:01 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=1}
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702148}
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702148}
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702148}
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702148}
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:25:02 [http-nio-8080-exec-3] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702148}
-2025-11-28 00:25:02 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:02 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:02 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=0}
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702709}
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702709}
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702709}
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702709}
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:25:02 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260702709}
-2025-11-28 00:25:02 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:02 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:02 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=1}
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703033}
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703033}
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703033}
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703033}
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:25:03 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703033}
-2025-11-28 00:25:03 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:03 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:03 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=1}
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703366}
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703366}
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703366}
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703366}
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:25:03 [http-nio-8080-exec-9] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703366}
-2025-11-28 00:25:03 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:03 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:03 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: false
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 0 files, 3 directories
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=0, dirCount=3, durationMs=0}
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703687}
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703687}
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703687}
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703687}
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:25:03 [http-nio-8080-exec-1] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=3, files=0, directories=3, lastUpdated=1764260703687}
-2025-11-28 00:25:03 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:03 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:03 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:27 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:27 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:27 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:25:28 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:25:28 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:25:28 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260772129}
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260772129}
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260772129}
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260772129}
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:26:12 [http-nio-8080-exec-7] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260772129}
-2025-11-28 00:26:12 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:26:12 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:26:12 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:26:15 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: sample.csv, startPage: null, endPage: null
-2025-11-28 00:26:15 [http-nio-8080-exec-6] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/sample.csv
-2025-11-28 00:26:15 [http-nio-8080-exec-6] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating CSV preview for file: /root/lite-webviewer/docs/sample.csv
-2025-11-28 00:26:16 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Web预览系统产品设计.md, startPage: null, endPage: null
-2025-11-28 00:26:16 [http-nio-8080-exec-9] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: sample.csv, startPage: null, endPage: null
-2025-11-28 00:26:31 [http-nio-8080-exec-8] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: nexus-lite-vibe-coding-final.md, startPage: null, endPage: null
-2025-11-28 00:26:32 [http-nio-8080-exec-1] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Web预览系统产品设计.md, startPage: null, endPage: null
-2025-11-28 00:26:51 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:26:51 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:26:51 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:26:51 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:26:51 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:26:51 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=106}
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260811395}
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260811395}
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260811395}
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260811395}
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:26:51 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260811395}
-2025-11-28 00:26:51 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:26:51 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:26:51 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:26:54 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:26:54 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:26:54 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:26:54 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:26:54 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:26:54 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:27:01 [http-nio-8080-exec-8] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: sample.csv, startPage: null, endPage: null
-2025-11-28 00:27:02 [http-nio-8080-exec-3] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Web预览系统产品设计.md, startPage: null, endPage: null
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260828588}
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260828588}
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260828588}
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260828588}
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:27:08 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764260828588}
-2025-11-28 00:27:08 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:27:08 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:27:08 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:27:22 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:27:22 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:27:22 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:27:22 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:27:22 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:27:22 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:28:37 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:28:37 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:28:37 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:28:37 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:28:37 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:28:37 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:29:24 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:29:24 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:29:24 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:29:24 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:29:24 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:29:24 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:31:02 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:31:02 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:31:02 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:31:02 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:31:02 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:31:02 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:32:28 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:32:28 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:32:28 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:32:28 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:32:28 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:32:28 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:33:21 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:33:21 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:33:21 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:33:21 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:33:21 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:33:21 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:33:36 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:33:36 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:33:36 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:33:36 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:33:36 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:33:36 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:35:14 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:35:14 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:35:14 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:35:14 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:35:14 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:35:14 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:36:22 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:36:22 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:36:22 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:36:22 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:36:22 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:36:22 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:36:57 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:36:57 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:36:57 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:36:57 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:36:57 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:36:57 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:37:02 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:37:02 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:37:02 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:37:02 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:37:02 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:37:02 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:39:33 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:39:33 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:39:33 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:39:33 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:39:33 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:39:33 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:39:41 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:39:41 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:39:41 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:39:41 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:39:41 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:39:41 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:40:08 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:40:08 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:40:08 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:40:08 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:40:08 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:40:08 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:41:21 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:41:21 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:41:21 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:41:21 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:41:21 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:41:21 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:41:34 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:41:34 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:41:34 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:41:34 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:41:34 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:41:34 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:42:38 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:42:38 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:42:38 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:42:38 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:42:38 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:42:38 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261772845}
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261772845}
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261772845}
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261772845}
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:42:52 [http-nio-8080-exec-4] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261772845}
-2025-11-28 00:42:52 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:42:52 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:42:52 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261861300}
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261861300}
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261861300}
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261861300}
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:44:21 [http-nio-8080-exec-8] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261861300}
-2025-11-28 00:44:21 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:44:21 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:44:21 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:45:45 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:45:45 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:45:45 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:45:45 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:45:45 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:45:45 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261957292}
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261957292}
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261957292}
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261957292}
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:45:57 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261957292}
-2025-11-28 00:45:57 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:45:57 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:45:57 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261985707}
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261985707}
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261985707}
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261985707}
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:46:25 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764261985707}
-2025-11-28 00:46:25 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:46:25 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:46:25 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:46:52 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:46:52 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:46:52 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:46:52 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:46:52 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:46:52 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:48:24 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:48:24 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:48:24 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:48:24 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:48:24 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:48:24 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:09 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:09 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:09 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:09 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:09 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:09 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:20 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:20 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:20 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:20 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:20 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:20 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:32 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:32 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:32 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:32 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:32 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:32 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:41 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:41 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:41 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:49:41 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:49:41 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:49:41 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=2}
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262211269}
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262211269}
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262211269}
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262211269}
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:50:11 [http-nio-8080-exec-8] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262211269}
-2025-11-28 00:50:11 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:50:11 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:50:11 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:50:59 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:50:59 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:50:59 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:50:59 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:50:59 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:50:59 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:52:04 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:52:04 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:52:04 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:52:04 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:52:04 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:52:04 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:52:56 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:52:56 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:52:56 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:52:56 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:52:56 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:52:56 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:52:58 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:52:58 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:52:58 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:52:58 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:52:58 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:52:58 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:11 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:11 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:11 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:11 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:11 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:11 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:13 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:13 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:13 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:13 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:13 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:13 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:28 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:28 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:28 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:28 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:28 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:28 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:41 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:41 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:41 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:41 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:41 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:41 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:55 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:55 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:55 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:53:55 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:53:55 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:53:55 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:54:01 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:54:01 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:54:01 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:54:01 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:54:01 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:54:01 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:54:05 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:54:05 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:54:05 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:54:05 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:54:05 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=2}
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262445999}
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262445999}
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262445999}
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262445999}
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:54:06 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262445999}
-2025-11-28 00:54:06 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:54:06 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:54:06 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=2}
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262451491}
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262451491}
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262451491}
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262451491}
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:54:11 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262451491}
-2025-11-28 00:54:11 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:54:11 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:54:11 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=0}
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262462788}
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262462788}
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262462788}
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262462788}
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:54:22 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262462788}
-2025-11-28 00:54:22 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:54:22 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:54:22 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:55:22 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:55:22 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:55:22 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:55:22 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:55:22 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:55:22 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:55:29 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:55:29 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:55:29 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:55:29 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:55:29 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:55:29 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:55:55 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:55:55 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:55:55 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:55:55 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:55:55 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:55:55 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262561270}
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262561270}
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262561270}
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262561270}
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:56:01 [http-nio-8080-exec-6] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262561270}
-2025-11-28 00:56:01 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:56:01 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:56:01 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=0}
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262566899}
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262566899}
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262566899}
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262566899}
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:56:06 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262566899}
-2025-11-28 00:56:06 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:56:06 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:56:06 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:56:41 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:56:41 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:56:41 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:56:41 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:56:41 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:56:41 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:56:51 [http-nio-8080-exec-8] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:56:51 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:56:51 [http-nio-8080-exec-8] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:56:51 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:56:51 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:56:51 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:20 [http-nio-8080-exec-5] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:20 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:20 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:20 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:20 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:20 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:22 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:22 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:22 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:22 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:22 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:22 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/scan - dirPath: null, force: true
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=1}
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262648168}
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262648168}
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262648168}
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262648168}
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
-2025-11-28 00:57:28 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764262648168}
-2025-11-28 00:57:28 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:28 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:28 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:40 [http-nio-8080-exec-4] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:40 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:40 [http-nio-8080-exec-4] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
-2025-11-28 00:57:40 [http-nio-8080-exec-7] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
-2025-11-28 00:57:40 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
-2025-11-28 00:57:40 [http-nio-8080-exec-7] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:08:53 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-30 00:08:53 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-30 00:08:53 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 44 ms
+2025-11-30 00:08:53 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:08:53 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:08:53 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:08:53 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:08:53 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:08:53 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:09:02 [http-nio-8080-exec-3] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: true
+2025-11-30 00:09:03 [http-nio-8080-exec-3] WARN  c.d.web.controller.SearchController - Advanced search failed for keyword: '伍志勇', using ES: true, error: ES search failed: http 404
+2025-11-30 00:09:07 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: true
+2025-11-30 00:09:07 [http-nio-8080-exec-4] WARN  c.d.web.controller.SearchController - Advanced search failed for keyword: '伍志勇', using ES: true, error: ES search failed: http 404
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/force-scan - executing forced full scan
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - Starting forced full scan...
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
+2025-11-30 00:09:10 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Cache size before clearing: 0
+2025-11-30 00:09:10 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Cache cleared, cache size: 0
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories: [/root/lite-webviewer/docs]
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Using root directories: /root/lite-webviewer/docs
+2025-11-30 00:09:10 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Data directory configured as: ./data
+2025-11-30 00:09:10 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: Web预览系统产品设计.md (size: 58324 bytes, modified: 1764088729656)
+2025-11-30 00:09:10 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/Web预览系统产品设计.md
+2025-11-30 00:09:10 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 壮壮作息时间安排.xlsx (size: 9069 bytes, modified: 1764415190910)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/售前资料/壮壮作息时间安排.xlsx
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: test.md (size: 151 bytes, modified: 1764177801408)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/售前资料/test.md
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 项目申报管理.html (size: 20629 bytes, modified: 1764201191129)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/项目申报管理.html
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 华为研发IPD流程介绍.docx (size: 7402653 bytes, modified: 1764176242249)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/技术案例/华为研发IPD流程介绍.docx
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: nexus-lite-vibe-coding-final.md (size: 15129 bytes, modified: 1764088772062)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 专业前景分析.html (size: 117786 bytes, modified: 1764212180851)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/专业前景分析.html
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: sample.csv (size: 47 bytes, modified: 1764228242599)
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/sample.csv
+2025-11-30 00:09:11 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf (size: 3016626 bytes, modified: 1764177487578)
+2025-11-30 00:09:12 [http-nio-8080-exec-5] WARN  o.a.p.pdmodel.font.PDCIDFontType2 - Using fallback font WenQuanYiZenHei for CID-keyed TrueType font SimSun
+2025-11-30 00:09:12 [http-nio-8080-exec-5] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Creating index from 12 collected items
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 9 files, 3 directories
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Scan duration: 2591 ms
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=9, dirCount=3, durationMs=2591}
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764432552828}
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764432552828}
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764432552828}
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764432552828}
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=12, files=9, directories=3, lastUpdated=1764432552828}
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Saving 9 search metadata entries
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.m.s.service.FileScanServiceImpl - Successfully saved search metadata
+2025-11-30 00:09:12 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - forced full scan completed successfully
+2025-11-30 00:09:12 [http-nio-8080-exec-6] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:09:12 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:09:12 [http-nio-8080-exec-6] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:09:15 [http-nio-8080-exec-7] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: true
+2025-11-30 00:09:15 [http-nio-8080-exec-7] WARN  c.d.web.controller.SearchController - Advanced search failed for keyword: '伍志勇', using ES: true, error: ES search failed: http 404
+2025-11-30 00:09:25 [http-nio-8080-exec-9] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: true
+2025-11-30 00:09:25 [http-nio-8080-exec-9] WARN  c.d.web.controller.SearchController - Advanced search failed for keyword: '伍志勇', using ES: true, error: ES search failed: http 404
+2025-11-30 00:19:59 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:19:59 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:19:59 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:19:59 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:19:59 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:19:59 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:20:04 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Web预览系统产品设计.md, startPage: null, endPage: null
+2025-11-30 00:20:05 [http-nio-8080-exec-2] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/Web预览系统产品设计.md
+2025-11-30 00:20:05 [http-nio-8080-exec-2] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/Web预览系统产品设计.md
+2025-11-30 00:20:06 [http-nio-8080-exec-3] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: sample.csv, startPage: null, endPage: null
+2025-11-30 00:20:06 [http-nio-8080-exec-3] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/sample.csv
+2025-11-30 00:20:06 [http-nio-8080-exec-3] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating CSV preview for file: /root/lite-webviewer/docs/sample.csv
+2025-11-30 00:20:07 [http-nio-8080-exec-4] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: nexus-lite-vibe-coding-final.md, startPage: null, endPage: null
+2025-11-30 00:20:07 [http-nio-8080-exec-4] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
+2025-11-30 00:20:07 [http-nio-8080-exec-4] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
+2025-11-30 00:20:08 [http-nio-8080-exec-5] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf, startPage: null, endPage: null
+2025-11-30 00:20:08 [http-nio-8080-exec-5] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
+2025-11-30 00:20:08 [http-nio-8080-exec-5] INFO  c.d.m.p.service.PreviewServiceImpl - Generating PDF preview for file: /root/lite-webviewer/docs/Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf, pages 1-20
+2025-11-30 00:20:12 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: 售前资料/壮壮作息时间安排.xlsx, startPage: null, endPage: null
+2025-11-30 00:20:12 [http-nio-8080-exec-7] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/售前资料/壮壮作息时间安排.xlsx
+2025-11-30 00:20:12 [http-nio-8080-exec-7] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating XLSX preview for file: /root/lite-webviewer/docs/售前资料/壮壮作息时间安排.xlsx
+2025-11-30 00:20:16 [http-nio-8080-exec-8] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: true
+2025-11-30 00:20:16 [http-nio-8080-exec-8] WARN  c.d.web.controller.SearchController - Advanced search failed for keyword: '伍志勇', using ES: true, error: ES search failed: http 404
+2025-11-30 00:20:57 [http-nio-8080-exec-9] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:20:57 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:20:57 [http-nio-8080-exec-9] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:20:57 [http-nio-8080-exec-10] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:20:57 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:20:57 [http-nio-8080-exec-10] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:24:38 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-30 00:24:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-30 00:24:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-30 00:24:52 [main] INFO  c.d.NexusLiteApplication - Starting NexusLiteApplication using Java 17.0.17 with PID 1708925 (/root/lite-webviewer/target/classes started by root in /root/lite-webviewer)
+2025-11-30 00:24:52 [main] DEBUG c.d.NexusLiteApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-11-30 00:24:52 [main] INFO  c.d.NexusLiteApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 1 Elasticsearch repository interface.
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JPA - Could not safely identify store assignment for repository candidate interface com.documentpreview.modules.search.es.EsDocumentRepository; If you want this repository to be a JPA repository, consider annotating your entities with one of these annotations: jakarta.persistence.Entity, jakarta.persistence.MappedSuperclass (preferred), or consider extending one of the following types with your repository: org.springframework.data.jpa.repository.JpaRepository
+2025-11-30 00:24:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 JPA repository interfaces.
+2025-11-30 00:24:55 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-30 00:24:55 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-30 00:24:55 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-11-30 00:24:55 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-30 00:24:55 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2731 ms
+2025-11-30 00:24:56 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-30 00:24:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-30 00:24:56 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/nexus_db user=SA
+2025-11-30 00:24:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-30 00:24:56 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-30 00:24:57 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-30 00:24:58 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-30 00:24:58 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-11-30 00:25:00 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-11-30 00:25:00 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-11-30 00:25:00 [main] INFO  c.d.NexusLiteApplication - Started NexusLiteApplication in 8.437 seconds (process running for 9.548)
+2025-11-30 00:25:45 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-30 00:25:45 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-30 00:25:45 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-11-30 00:25:45 [http-nio-8080-exec-1] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:25:45 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:25:45 [http-nio-8080-exec-1] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:25:45 [http-nio-8080-exec-2] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:25:45 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:25:45 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:26:03 [http-nio-8080-exec-3] ERROR c.d.w.e.GlobalExceptionHandler - Exception occurred with trace ID: 60a89a1c-4002-4f95-a05e-0d4c3c580167
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/search/advanced-search.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-11-30 00:26:24 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: false
+2025-11-30 00:26:24 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:26:24 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Advanced search completed with 1 filtered results (1 original results) for keyword: '伍志勇', using ES: false
+2025-11-30 00:28:13 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: sample.csv, startPage: null, endPage: null
+2025-11-30 00:28:13 [http-nio-8080-exec-6] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/sample.csv
+2025-11-30 00:28:13 [http-nio-8080-exec-6] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating CSV preview for file: /root/lite-webviewer/docs/sample.csv
+2025-11-30 00:28:14 [http-nio-8080-exec-7] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: Web预览系统产品设计.md, startPage: null, endPage: null
+2025-11-30 00:28:14 [http-nio-8080-exec-7] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/Web预览系统产品设计.md
+2025-11-30 00:28:14 [http-nio-8080-exec-7] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/Web预览系统产品设计.md
+2025-11-30 00:28:24 [http-nio-8080-exec-8] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '专业', limit: 50, using ES: false
+2025-11-30 00:28:24 [http-nio-8080-exec-8] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:28:24 [http-nio-8080-exec-8] INFO  c.d.web.controller.SearchController - Advanced search completed with 2 filtered results (2 original results) for keyword: '专业', using ES: false
+2025-11-30 00:28:29 [http-nio-8080-exec-9] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '伍志勇', limit: 50, using ES: false
+2025-11-30 00:28:29 [http-nio-8080-exec-9] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:28:29 [http-nio-8080-exec-9] INFO  c.d.web.controller.SearchController - Advanced search completed with 1 filtered results (1 original results) for keyword: '伍志勇', using ES: false
+2025-11-30 00:28:34 [http-nio-8080-exec-10] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '流程', limit: 50, using ES: false
+2025-11-30 00:28:34 [http-nio-8080-exec-10] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:28:34 [http-nio-8080-exec-10] INFO  c.d.web.controller.SearchController - Advanced search completed with 2 filtered results (2 original results) for keyword: '流程', using ES: false
+2025-11-30 00:28:41 [http-nio-8080-exec-1] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '高考', limit: 50, using ES: false
+2025-11-30 00:28:41 [http-nio-8080-exec-1] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:28:41 [http-nio-8080-exec-1] INFO  c.d.web.controller.SearchController - Advanced search completed with 0 filtered results (0 original results) for keyword: '高考', using ES: false
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - POST /api/v1/document/force-scan - executing forced full scan
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - Starting forced full scan...
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Forcing full scan (clearing cache)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Cache size before clearing: 0
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Cache cleared, cache size: 0
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scanning root directory: /root/lite-webviewer/docs
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Starting scan of 1 directories: [/root/lite-webviewer/docs]
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Using root directories: /root/lite-webviewer/docs
+2025-11-30 00:28:50 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Data directory configured as: ./data
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: Web预览系统产品设计.md (size: 58324 bytes, modified: 1764088729656)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/Web预览系统产品设计.md
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 壮壮作息时间安排.xlsx (size: 9069 bytes, modified: 1764433212359)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/售前资料/壮壮作息时间安排.xlsx
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: test.md (size: 151 bytes, modified: 1764177801408)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/售前资料/test.md
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 高考志愿填写辅助工具-系统设计说明书.md (size: 96993 bytes, modified: 1764433500384)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-系统设计说明书.md
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 高考志愿填写辅助工具-项目实现计划.md (size: 11150 bytes, modified: 1764433500492)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-项目实现计划.md
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 高考志愿填写辅助工具-数据初始化说明书.md (size: 20353 bytes, modified: 1764433500204)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 高考志愿填写辅助工具-软件开发环境准备指南.md (size: 6334 bytes, modified: 1764433500040)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-软件开发环境准备指南.md
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 项目申报管理.html (size: 20629 bytes, modified: 1764201191129)
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/项目申报管理.html
+2025-11-30 00:28:50 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 华为研发IPD流程介绍.docx (size: 7402653 bytes, modified: 1764176242249)
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/技术案例/华为研发IPD流程介绍.docx
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: nexus-lite-vibe-coding-final.md (size: 15129 bytes, modified: 1764088772062)
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/nexus-lite-vibe-coding-final.md
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: 专业前景分析.html (size: 117786 bytes, modified: 1764212180851)
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/专业前景分析.html
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: sample.csv (size: 47 bytes, modified: 1764228242599)
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/sample.csv
+2025-11-30 00:28:51 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Processing file: Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf (size: 3016626 bytes, modified: 1764177487578)
+2025-11-30 00:28:51 [http-nio-8080-exec-2] WARN  o.a.p.pdmodel.font.PDCIDFontType2 - Using fallback font WenQuanYiZenHei for CID-keyed TrueType font SimSun
+2025-11-30 00:28:52 [http-nio-8080-exec-2] DEBUG c.d.m.s.service.FileScanServiceImpl - Successfully built search meta for: /root/lite-webviewer/docs/Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Creating index from 18 collected items
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan completed successfully: Completed: 13 files, 5 directories
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Scan duration: 2153 ms
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Handling ScanFinishedEvent: ScanFinishedEvent{rootDirs=[/root/lite-webviewer/docs], fileCount=13, dirCount=5, durationMs=2153}
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=18, files=13, directories=5, lastUpdated=1764433732314}
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as JSON to: ./data/index.json
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as JSON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=18, files=13, directories=5, lastUpdated=1764433732314}
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Saving index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=18, files=13, directories=5, lastUpdated=1764433732314}
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.s.TOONGeneratorServiceImpl - Generating TOON from index: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=18, files=13, directories=5, lastUpdated=1764433732314}
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.r.IndexRepositoryImpl - Successfully saved index as TOON to: ./data/index.toon
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.scan.service.ScanEventListener - Successfully saved index as TOON: FilesIndex{rootDir='/root/lite-webviewer/docs', totalItems=18, files=13, directories=5, lastUpdated=1764433732314}
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Saving 13 search metadata entries
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.m.s.service.FileScanServiceImpl - Successfully saved search metadata
+2025-11-30 00:28:52 [http-nio-8080-exec-2] INFO  c.d.w.controller.DocumentController - forced full scan completed successfully
+2025-11-30 00:28:52 [http-nio-8080-exec-3] INFO  c.d.web.controller.IndexController - GET /api/v1/index/json
+2025-11-30 00:28:52 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from file system
+2025-11-30 00:28:52 [http-nio-8080-exec-3] INFO  c.d.m.s.r.IndexRepositoryImpl - Loading index from JSON file: ./data/index.json
+2025-11-30 00:29:04 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '高考', limit: 50, using ES: false
+2025-11-30 00:29:04 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:29:04 [http-nio-8080-exec-4] INFO  c.d.web.controller.SearchController - Advanced search completed with 4 filtered results (4 original results) for keyword: '高考', using ES: false
+2025-11-30 00:29:09 [http-nio-8080-exec-5] INFO  c.d.web.controller.SearchController - Advanced search request received with keyword: '软件', limit: 50, using ES: false
+2025-11-30 00:29:09 [http-nio-8080-exec-5] INFO  c.d.web.controller.SearchController - Elasticsearch not enabled or unavailable, using local search
+2025-11-30 00:29:09 [http-nio-8080-exec-5] INFO  c.d.web.controller.SearchController - Advanced search completed with 3 filtered results (3 original results) for keyword: '软件', using ES: false
+2025-11-30 00:29:18 [http-nio-8080-exec-6] INFO  c.d.w.controller.DocumentController - GET /api/v1/document/preview - filePath: 高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md, startPage: null, endPage: null
+2025-11-30 00:29:18 [http-nio-8080-exec-6] INFO  c.d.m.p.service.PreviewServiceImpl - Generating preview for file: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md
+2025-11-30 00:29:18 [http-nio-8080-exec-6] DEBUG c.d.m.p.service.PreviewServiceImpl - Generating Markdown preview for file: /root/lite-webviewer/docs/高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md

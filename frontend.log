@@ -1,0 +1,153 @@
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 382 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+2:30:11 PM [vite] hmr update /src/App.jsx
+2:30:43 PM [vite] hmr update /src/App.jsx
+2:31:06 PM [vite] hmr update /src/App.jsx
+2:31:23 PM [vite] hmr update /src/App.jsx
+2:32:10 PM [vite] hmr update /src/App.jsx
+2:34:58 PM [vite] hmr update /src/App.jsx
+2:38:16 PM [vite] hmr update /src/App.jsx
+2:40:17 PM [vite] hmr update /src/App.jsx
+2:40:53 PM [vite] hmr update /src/App.jsx
+3:50:16 PM [vite] hmr update /src/App.jsx
+3:51:33 PM [vite] hmr update /src/App.jsx
+3:53:10 PM [vite] hmr update /src/App.jsx
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 543 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 344 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+5:45:43 PM [vite] hmr update /src/App.jsx
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 327 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+5:46:36 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+5:46:36 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+5:46:36 PM [vite] http proxy error: /api/v1/document/scan?force=true
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 291 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+5:47:52 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+5:47:52 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+5:47:52 PM [vite] http proxy error: /api/v1/document/scan?force=true
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 328 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 276 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 325 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 412 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+
+  VITE v5.4.21  ready in 339 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://172.29.18.7:5174/
+  ➜  Network: http://172.17.0.1:5174/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 515 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/

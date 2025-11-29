@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Layout, Input, Button, App as AntdApp, Space } from 'antd';
+import { Layout, Input, Button, App as AntdApp, Space, Select, Divider } from 'antd';
+import DOMPurify from 'dompurify';
 import { SearchOutlined, ReloadOutlined, MenuFoldOutlined, MenuUnfoldOutlined, BarsOutlined } from '@ant-design/icons';
 import './App.css';
 import FileTree from './components/FileTree';
@@ -14,6 +15,11 @@ function App() {
   const { message, notification } = AntdApp.useApp();
   const [collapsed, setCollapsed] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [typeFilters, setTypeFilters] = useState([]);
+  const [localResults, setLocalResults] = useState([]); // 存储本地文件名搜索结果
+  const [searchMode, setSearchMode] = useState('local'); // 'local' 或 'es'
   const scanAttempted = useRef(false);
   
   const {
@@ -29,11 +35,11 @@ function App() {
 
   const containerRef = useRef(null);
 
-  const handleScan = useCallback(async (force = false) => {
+  const handleScan = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/v1/document/scan?force=${force}`, {
+      const response = await fetch(`/api/v1/document/force-scan`, {
         method: 'POST'
       });
       if (!response.ok) {
@@ -102,6 +108,70 @@ function App() {
     }
   }, [message, setLoading, setError, setFiles]);
 
+  // 处理搜索输入，进行本地文件名匹配
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+    setSearchMode('local');
+    
+    if (!value.trim()) {
+      setLocalResults([]);
+      return;
+    }
+    
+    // 从files数组中筛选文件名包含搜索文本的文件
+    const searchTerm = value.toLowerCase();
+    const filteredResults = files
+      .filter(filePath => {
+        const fileName = filePath.split('/').pop();
+        return fileName.toLowerCase().includes(searchTerm);
+      })
+      .map(filePath => {
+        const fileName = filePath.split('/').pop();
+        const parentDir = filePath.split('/').slice(0, -1).join('/');
+        return {
+          filePath,
+          fileName,
+          parentDir,
+          snippet: `文件名匹配: ${fileName}`
+        };
+      });
+    
+    setLocalResults(filteredResults);
+  };
+
+  const runSearch = useCallback(async () => {
+    const q = (searchText || '').trim();
+    if (!q) {
+      setSearchResults([]);
+      return;
+    }
+    setSearching(true);
+    setSearchMode('es');
+    try {
+      // 简化搜索参数，只包含关键字和文件类型
+      let searchEndpoint = '/api/v1/search/advanced';
+      let bodyParams = {
+        keyword: q,
+        fileTypes: typeFilters
+      };
+      
+      const body = JSON.stringify(bodyParams);
+      const resp = await fetch(`${searchEndpoint}?limit=50`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+      });
+      if (!resp.ok) throw new Error('搜索失败');
+      const data = await resp.json();
+      setSearchResults(Array.isArray(data) ? data : []);
+    } catch (err) {
+      notification.error({ message: '搜索失败', description: err.message });
+    } finally {
+      setSearching(false);
+    }
+  }, [searchText, typeFilters]);
+
   useEffect(() => {
     fetchFileTree();
   }, [fetchFileTree]);
@@ -112,17 +182,9 @@ function App() {
         <div className="logo">Nexus-Lite 知识预览系统</div>
         <div className="header-actions">
           <Button
-            type="primary"
-            icon={<ReloadOutlined />}
-            onClick={() => handleScan(false)}
-            loading={loading}
-          >
-            扫描
-          </Button>
-          <Button
             danger
             icon={<ReloadOutlined />}
-            onClick={() => handleScan(true)}
+            onClick={handleScan}
             loading={loading}
           >
             强制扫描
@@ -147,9 +209,10 @@ function App() {
                 allowClear
                 size="small"
                 value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={handleSearchInput}
+                onPressEnter={runSearch}
               />
-              <Button size="small" icon={<SearchOutlined />} />
+              <Button size="small" icon={<SearchOutlined />} loading={loading || searching} onClick={runSearch} />
               <Button
                 size="small"
                 aria-label={collapsed ? '展开侧边栏' : '折叠侧边栏'}
@@ -157,13 +220,84 @@ function App() {
                 onClick={() => setCollapsed((c) => !c)}
               />
             </Space.Compact>
+            <Divider style={{ margin: '8px 0' }} />
+            <Select
+              mode="multiple"
+              allowClear
+              size="small"
+              placeholder="文件类型筛选"
+              style={{ width: '100%' }}
+              value={typeFilters}
+              onChange={setTypeFilters}
+              options={[
+                { label: 'MD', value: 'MD' },
+                { label: 'DOCX', value: 'DOCX' },
+                { label: 'PDF', value: 'PDF' },
+                { label: 'CSV', value: 'CSV' },
+                { label: 'HTML', value: 'HTML' },
+                { label: 'XLSX', value: 'XLSX' },
+              ]}
+            />
           </div>
-          <FileTree
-            files={files}
-            searchText={searchText}
-            onFileSelect={setSelectedFile}
-            loading={loading}
-          />
+          {((searchMode === 'local' && localResults.length > 0) || (searchMode === 'es' && searchResults.length > 0)) ? (
+            <div style={{ padding: 8 }}>
+              {(searchMode === 'local' && localResults.length > 0) && (
+                <>
+                  <div style={{ padding: 8, fontWeight: 'bold' }}>文件名匹配结果:</div>
+                  {localResults.map((r) => (
+                    <div
+                      key={r.filePath}
+                      className="search-item"
+                      style={{ padding: 8, cursor: 'pointer' }}
+                      onClick={() => setSelectedFile(r.filePath)}
+                    >
+                      <div>
+                        <span>{r.fileName}</span>
+                      </div>
+                      {r.snippet ? (
+                        <div
+                          style={{ opacity: 0.8, fontSize: 12, marginTop: 4 }}
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(r.snippet) }}
+                        />
+                      ) : null}
+                      <div style={{ opacity: 0.6, fontSize: 12 }}>{r.parentDir}</div>
+                    </div>
+                  ))}
+                </>
+              )}
+              {(searchMode === 'es' && searchResults.length > 0) && (
+                <>
+                  <div style={{ padding: 8, fontWeight: 'bold' }}>全文检索结果:</div>
+                  {searchResults.map((r) => (
+                    <div
+                      key={r.filePath}
+                      className="search-item"
+                      style={{ padding: 8, cursor: 'pointer' }}
+                      onClick={() => setSelectedFile(r.filePath)}
+                    >
+                      <div>
+                        <span>{r.fileName}</span>
+                      </div>
+                      {r.snippet ? (
+                        <div
+                          style={{ opacity: 0.8, fontSize: 12, marginTop: 4 }}
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(r.snippet) }}
+                        />
+                      ) : null}
+                      <div style={{ opacity: 0.6, fontSize: 12 }}>{r.parentDir}</div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          ) : (
+            <FileTree
+              files={files}
+              searchText={searchText}
+              onFileSelect={setSelectedFile}
+              loading={loading}
+            />
+          )}
         </Sider>
         {collapsed && (
           <Button
