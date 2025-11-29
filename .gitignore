@@ -43,3 +43,7 @@ Thumbs.db
 # 临时文件
 tmp/
 temp/
+*.log
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
