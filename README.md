@@ -34,11 +34,16 @@ Nexus-Lite 是一个轻量级的知识预览系统，旨在为用户提供高效
 - 支持文档内部导航
 - 提供文档元数据信息
 
-### 4. 全文检索（规划中）
+### 4. 全文检索
 - 基于Elasticsearch的全文检索
 - 支持文档内容、文件名、元数据的检索
 - 支持精确匹配、模糊匹配、短语匹配
 - 中文和英文分词支持
+- 支持搜索结果高亮显示
+- 支持按文件类型、大小、修改时间等高级筛选
+- 提供基础搜索和高级搜索两种模式，高级搜索支持复杂查询和高性能检索
+- 高可用设计：实现了Elasticsearch搜索失败时自动降级到本地搜索的机制，确保即使ES服务不可用，搜索功能仍然可以正常提供服务
+- 增强的错误处理：完善的日志记录和错误追踪，便于问题排查和系统监控
 
 ### 5. 高性能缓存
 - 使用Caffeine缓存提升预览性能
@@ -125,6 +130,42 @@ Nexus-Lite 是一个轻量级的知识预览系统，旨在为用户提供高效
    - Method: `GET`
    - 描述: 获取文档的TOON结构
    - 响应: TOON结构JSON
+
+#### 全文检索相关接口
+
+1. **基础搜索**
+   - URL: `/api/v1/search/basic`
+   - Method: `GET`
+   - 参数: 
+     - `q`: 搜索关键词
+     - `limit`: 结果数量限制（默认20）
+   - 描述: 基于文件名的基础搜索
+   - 响应: 搜索结果列表，包含文件路径、标题、修改时间等基本信息
+
+2. **高级搜索**
+   - URL: `/api/v1/search/advanced`
+   - Method: `POST`
+   - 请求体: SearchRequest对象（包含关键词、文件类型、目录等筛选条件）
+   - 参数: 
+     - `limit`: 结果数量限制（默认50）
+   - 描述: 支持多条件筛选的高级全文搜索，当Elasticsearch配置启用时，将使用ES进行高性能搜索，否则使用本地搜索
+   - 响应: 搜索结果列表（包含高亮显示、详细的文件元数据和内容摘要）
+
+3. **重建索引**
+   - URL: `/api/v1/search/reindex`
+   - Method: `POST`
+   - 参数: 
+     - `clear`: 是否清空现有索引（默认false）
+   - 描述: 重建索引，重建本地元数据索引，如需同步到Elasticsearch，需额外配置
+   - 响应: 索引文档数量
+
+4. **初始化索引**
+   - URL: `/api/v1/search/admin/init`
+   - Method: `PUT`
+   - 参数: 
+     - `clear`: 是否清空现有索引（默认true）
+   - 描述: 管理员初始化索引操作
+   - 响应: 初始化文档数量
 
 ### 集成示例
 
@@ -218,6 +259,60 @@ npm install
 npm run dev
 ```
 
+### Elasticsearch部署
+
+系统使用Elasticsearch进行全文检索，目前采用Docker单节点部署方式：
+
+#### Docker部署Elasticsearch
+
+```bash
+# 拉取Elasticsearch镜像
+docker pull docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+
+# 启动Elasticsearch容器（单节点模式）
+docker run -d \
+  --name elasticsearch \
+  -p 9200:9200 \
+  -e "discovery.type=single-node" \
+  -e "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
+  -e "xpack.security.enabled=false" \
+  docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+```
+
+配置说明：
+- 端口：9200（API访问端口）
+- 内存：1GB堆内存（可根据实际需求调整）
+- 安全：禁用安全功能（仅开发环境）
+- 模式：单节点模式
+
+#### 验证Elasticsearch连接
+
+```bash
+# 验证Elasticsearch是否正常运行
+curl -X GET http://localhost:9200
+```
+
+正常响应示例：
+```json
+{
+  "name" : "your-container-id",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "your-cluster-uuid",
+  "version" : {
+    "number" : "8.4.3",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "f229ed3f893a515d590d0f39b05f68913e2d9b53",
+    "build_date" : "2022-10-04T07:17:24.662462378Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.3.0",
+    "minimum_wire_compatibility_version" : "7.17.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+```
+
 ### 生产环境部署
 
 #### 构建项目
@@ -278,6 +373,42 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
+
+# Elasticsearch配置
+spring.elasticsearch.uris=http://localhost:9200
+spring.elasticsearch.connection-timeout=5000
+spring.elasticsearch.socket-timeout=30000
+
+# 搜索功能配置
+app.search.use-es=true
+app.search.es-index-name=nexus-lite-docs
+app.search.es-replicas=0
+app.search.es-shards=1
+
+# 是否启用Elasticsearch搜索（true/false）
+app.search.elasticsearch.enabled=true
+
+# 搜索索引名称
+app.search.index.name=nexus-lite-docs
+
+# 搜索配置
+app.search.page-size=20
+
+# 本地搜索最大结果数
+app.search.local.max-results=100
+
+# 是否启用全文检索功能
+app.search.enabled=true
+
+# 文件内容提取配置
+# PDF文档提取页数
+app.search.extract.pdf.pages=10
+# Word文档提取段落数
+app.search.extract.docx.paragraphs=200
+# Excel文档提取行数
+app.search.extract.xlsx.rows=5000
+# 内容文本最大长度（字符）
+app.search.extract.max-length=20000
 ```
 
 ## 协同开发

@@ -23,6 +23,8 @@ spring:
     type: caffeine
     caffeine:
       spec: maximumSize=1000,expireAfterWrite=3600s
+  elasticsearch:
+    uris: http://localhost:9200
 
 # Application Configuration
 app:
@@ -45,6 +47,12 @@ app:
   # Data Directory
   data:
     dir: ./data
+  search:
+    use-es: true
+    es-index-name: nexus-lite-docs
+    es-replicas: 0
+    es-shards: 1
+
 
 # Web Configuration
 server:

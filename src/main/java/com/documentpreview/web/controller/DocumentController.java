@@ -73,8 +73,9 @@ public class DocumentController {
         Result<TOONStructure> toonResult = toonGeneratorService.generateFromFilePath(filePath);
         
         if (toonResult.isFailure()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(toonResult.getErrorMessage().orElse("Failed to generate TOON"));
+            String errorMessage = toonResult.getErrorMessage().orElse("Failed to generate TOON");
+            logger.error("Failed to generate TOON for {}: {}", filePath, errorMessage);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
         
         TOONStructure toonStructure = toonResult.getValue().get();
@@ -118,8 +119,9 @@ public class DocumentController {
         }
         
         if (previewResult.isFailure()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(previewResult.getErrorMessage().orElse("Failed to generate preview"));
+            String errorMessage = previewResult.getErrorMessage().orElse("Failed to generate preview");
+            logger.error("Failed to generate preview for {}: {}", filePath, errorMessage);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
 
         PreviewContent previewContent = previewResult.getValue().get();
@@ -135,32 +137,39 @@ public class DocumentController {
     }
     
     /**
-     * Triggers a manual scan of the file system.
+     * Triggers a forced full scan of the file system.
      * 
-     * @param dirPath The directory to scan (optional, defaults to configured root).
-     * @param force Whether to force a full scan (optional, defaults to false).
      * @return A response indicating the scan status.
      */
-    @PostMapping("/scan")
-    public ResponseEntity<?> triggerScan(@RequestParam(required = false) String dirPath, 
-                                       @RequestParam(defaultValue = "false") boolean force) {
-        logger.info("POST /api/v1/document/scan - dirPath: {}, force: {}", dirPath, force);
+    @PostMapping("/force-scan")
+    public ResponseEntity<?> triggerForceScan() {
+        logger.info("POST /api/v1/document/force-scan - executing forced full scan");
+        
+        if (fileScanService.isScanInProgress()) {
+            logger.info("Scan skipped: another scan is already in progress");
+            return ResponseEntity.ok("Scan already in progress");
+        }
         
         Result<?> scanResult;
+        String scanType = "forced full scan";
         
-        if (force) {
+        try {
+            logger.info("Starting {}...", scanType);
             scanResult = fileScanService.forceFullScan();
-        } else if (dirPath != null) {
-            scanResult = fileScanService.scanDirectory(dirPath);
-        } else {
-            scanResult = fileScanService.scanRootDirectories();
-        }
-        
-        if (scanResult.isFailure()) {
+            
+            if (scanResult.isFailure()) {
+                String errorMessage = scanResult.getErrorMessage().orElse("Scan failed");
+                logger.error("{} failed: {}", scanType, errorMessage);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(errorMessage);
+            }
+            
+            logger.info("{} completed successfully", scanType);
+            return ResponseEntity.ok("Scan completed successfully");
+        } catch (Exception e) {
+            logger.error("Unexpected error during {}: {}", scanType, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(scanResult.getErrorMessage().orElse("Scan failed"));
+                    .body("Unexpected error during scan: " + e.getMessage());
         }
-        
-        return ResponseEntity.ok("Scan completed successfully");
     }
 }

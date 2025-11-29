@@ -45,6 +45,8 @@ public class FileScanServiceImpl implements FileScanService {
     private String dataDir;
     
     private final ApplicationEventPublisher eventPublisher;
+    private final com.documentpreview.modules.search.repository.SearchMetaRepository searchMetaRepository;
+    private final com.documentpreview.modules.search.service.SearchMetaBuilder searchMetaBuilder;
     
     // Thread-safe state management
     private final AtomicBoolean isScanning = new AtomicBoolean(false);
@@ -55,8 +57,12 @@ public class FileScanServiceImpl implements FileScanService {
     // Cache for last modified times to detect changes
     private final Map<String, Long> lastModifiedCache = new ConcurrentHashMap<>();
     
-    public FileScanServiceImpl(ApplicationEventPublisher eventPublisher) {
+    public FileScanServiceImpl(ApplicationEventPublisher eventPublisher,
+                               com.documentpreview.modules.search.repository.SearchMetaRepository searchMetaRepository,
+                               com.documentpreview.modules.search.service.SearchMetaBuilder searchMetaBuilder) {
         this.eventPublisher = eventPublisher;
+        this.searchMetaRepository = searchMetaRepository;
+        this.searchMetaBuilder = searchMetaBuilder;
     }
     
     @Override
@@ -87,11 +93,14 @@ public class FileScanServiceImpl implements FileScanService {
         
         Instant startTime = Instant.now();
         List<FilesIndexItem> allItems = Collections.synchronizedList(new ArrayList<>());
+        List<com.documentpreview.modules.search.domain.SearchMeta> metas = Collections.synchronizedList(new ArrayList<>());
         AtomicInteger fileCount = new AtomicInteger(0);
         AtomicInteger dirCount = new AtomicInteger(0);
         
         try {
-            logger.info("Starting scan of {} directories", dirPaths.size());
+            logger.info("Starting scan of {} directories: {}", dirPaths.size(), dirPaths);
+            logger.info("Using root directories: {}", rootDirs);
+            logger.info("Data directory configured as: {}", dataDir);
             lastScanStatus = "Scanning...";
             
             // Use ForkJoinPool for efficient parallel scanning
@@ -155,6 +164,7 @@ public class FileScanServiceImpl implements FileScanService {
                                     // Only process if file is new or has changed
                                     if (!lastModifiedCache.containsKey(filePath) || 
                                         lastModifiedCache.get(filePath) != lastModified) {
+                                        logger.debug("Processing file: {} (size: {} bytes, modified: {})", file.getFileName(), attrs.size(), lastModified);
                                         
                                         // Update cache
                                         lastModifiedCache.put(filePath, lastModified);
@@ -162,7 +172,22 @@ public class FileScanServiceImpl implements FileScanService {
                                         // Add file to index
                                         String relativePath = rootPath.relativize(file).toString();
                                         allItems.add(FilesIndexItem.file(relativePath, file.getFileName().toString()));
-                                        fileCount.incrementAndGet();
+                                        int currentCount = fileCount.incrementAndGet();
+                                        
+                                        // Log progress every 100 files
+                                        if (currentCount % 100 == 0) {
+                                            logger.info("Scanned {} files so far in directory: {}", currentCount, rootPath);
+                                        }
+
+                                        // Build search meta (lightweight extraction)
+                                        try {
+                                            metas.add(searchMetaBuilder.build(rootPath, file, lastModified));
+                                            logger.debug("Successfully built search meta for: {}", filePath);
+                                        } catch (Exception e) {
+                                            logger.error("Failed to build search meta for {}: {}", filePath, e.getMessage());
+                                        }
+                                    } else {
+                                        logger.debug("Skipping unchanged file: {}", filePath);
                                     }
                                 }
                                 
@@ -182,6 +207,7 @@ public class FileScanServiceImpl implements FileScanService {
             }
             
             // Create index from collected items
+            logger.info("Creating index from {} collected items", allItems.size());
             FilesIndex index = FilesIndex.create(allItems, dirPaths.get(0));
             lastIndex = index;
             lastScanTimestamp = System.currentTimeMillis();
@@ -192,6 +218,8 @@ public class FileScanServiceImpl implements FileScanService {
             
             // Publish scan finished event
             Instant endTime = Instant.now();
+            logger.info("Scan duration: {} ms", java.time.Duration.between(startTime, endTime).toMillis());
+            
             ScanFinishedEvent event = new ScanFinishedEvent(
                     dirPaths,
                     index.getFileCount(),
@@ -200,6 +228,15 @@ public class FileScanServiceImpl implements FileScanService {
                     endTime
             );
             eventPublisher.publishEvent(event);
+
+            // Persist search metas
+            logger.info("Saving {} search metadata entries", metas.size());
+            try {
+                searchMetaRepository.saveAll(metas);
+                logger.info("Successfully saved search metadata");
+            } catch (Exception e) {
+                logger.error("Failed to save search metadata: {}", e.getMessage(), e);
+            }
             
             return Result.success(index);
             
@@ -216,8 +253,10 @@ public class FileScanServiceImpl implements FileScanService {
     @Override
     public Result<FilesIndex> forceFullScan() {
         logger.info("Forcing full scan (clearing cache)");
+        logger.debug("Cache size before clearing: {}", lastModifiedCache.size());
         // Clear cache to force full scan
         lastModifiedCache.clear();
+        logger.debug("Cache cleared, cache size: {}", lastModifiedCache.size());
         return scanRootDirectories();
     }
     

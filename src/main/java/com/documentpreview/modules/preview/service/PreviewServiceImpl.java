@@ -126,26 +126,23 @@ public class PreviewServiceImpl implements PreviewService {
                 return Result.failure(String.format("Preview not supported for file type: %s", fileExtension));
             }
             
-            // Generate preview based on file type
-            FileType fileType = FileType.fromExtension(fileExtension);
-            switch (fileType) {
-                case MD:
-                    return generateMarkdownPreview(file);
-                case DOCX:
-                    return generateDocxPreview(file);
-                case PDF:
-                    return generatePdfPreview(file.getAbsolutePath(), 1, maxPdfPagesPerRequest);
-                case CSV:
-                    return generateCsvPreview(file);
-                case SVG:
-                    return generateSvgPreview(file);
-                case HTML:
-                case HTM:
-                    return generateHtmlPreview(file);
-                case XLSX:
-                    return generateXlsxPreview(file);
-                default:
-                    return Result.failure(String.format("Preview not supported for file type: %s", fileExtension));
+            // Generate preview based on file extension without enum switch to avoid synthetic class issues
+            if ("md".equals(fileExtension)) {
+                return generateMarkdownPreview(file);
+            } else if ("docx".equals(fileExtension)) {
+                return generateDocxPreview(file);
+            } else if ("pdf".equals(fileExtension)) {
+                return generatePdfPreview(file.getAbsolutePath(), 1, maxPdfPagesPerRequest);
+            } else if ("csv".equals(fileExtension)) {
+                return generateCsvPreview(file);
+            } else if ("svg".equals(fileExtension)) {
+                return generateSvgPreview(file);
+            } else if ("html".equals(fileExtension) || "htm".equals(fileExtension)) {
+                return generateHtmlPreview(file);
+            } else if ("xlsx".equals(fileExtension)) {
+                return generateXlsxPreview(file);
+            } else {
+                return Result.failure(String.format("Preview not supported for file type: %s", fileExtension));
             }
             
         } catch (Exception e) {
