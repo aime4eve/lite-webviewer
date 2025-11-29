@@ -44,6 +44,11 @@ Thumbs.db
 tmp/
 temp/
 *.log
+
+# 构建目录
+target/
+
+# 前端构建文件
 frontend/node_modules/
 frontend/dist/
 frontend/dist-ssr/
