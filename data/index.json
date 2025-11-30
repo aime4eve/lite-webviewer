@@ -16,37 +16,13 @@
     "type" : "file",
     "name" : "壮壮作息时间安排.xlsx"
   }, {
+    "path" : "售前资料/1.0科创基地二期智慧园区系统投标技术方案.docx",
+    "type" : "file",
+    "name" : "1.0科创基地二期智慧园区系统投标技术方案.docx"
+  }, {
     "path" : "售前资料/test.md",
     "type" : "file",
     "name" : "test.md"
-  }, {
-    "path" : "高考志愿填写工具/",
-    "type" : "directory",
-    "name" : "高考志愿填写工具"
-  }, {
-    "path" : "高考志愿填写工具/设计文档/",
-    "type" : "directory",
-    "name" : "设计文档"
-  }, {
-    "path" : "高考志愿填写工具/设计文档/高考志愿填写辅助工具-系统设计说明书.md",
-    "type" : "file",
-    "name" : "高考志愿填写辅助工具-系统设计说明书.md"
-  }, {
-    "path" : "高考志愿填写工具/设计文档/高考志愿填写辅助工具-项目实现计划.md",
-    "type" : "file",
-    "name" : "高考志愿填写辅助工具-项目实现计划.md"
-  }, {
-    "path" : "高考志愿填写工具/设计文档/2025年本科专业清单.xlsx",
-    "type" : "file",
-    "name" : "2025年本科专业清单.xlsx"
-  }, {
-    "path" : "高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md",
-    "type" : "file",
-    "name" : "高考志愿填写辅助工具-数据初始化说明书.md"
-  }, {
-    "path" : "高考志愿填写工具/设计文档/高考志愿填写辅助工具-软件开发环境准备指南.md",
-    "type" : "file",
-    "name" : "高考志愿填写辅助工具-软件开发环境准备指南.md"
   }, {
     "path" : "项目申报管理.html",
     "type" : "file",
@@ -60,13 +36,13 @@
     "type" : "file",
     "name" : "华为研发IPD流程介绍.docx"
   }, {
+    "path" : "技术案例/2025年本科专业清单.xlsx",
+    "type" : "file",
+    "name" : "2025年本科专业清单.xlsx"
+  }, {
     "path" : "nexus-lite-vibe-coding-final.md",
     "type" : "file",
     "name" : "nexus-lite-vibe-coding-final.md"
-  }, {
-    "path" : "test-xinjiang.md",
-    "type" : "file",
-    "name" : "test-xinjiang.md"
   }, {
     "path" : "专业前景分析.html",
     "type" : "file",
@@ -81,5 +57,5 @@
     "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
   } ],
   "rootDir" : "/root/lite-webviewer/docs",
-  "lastUpdated" : 1764467227638
+  "lastUpdated" : 1764522278064
 }

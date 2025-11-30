@@ -1,188 +1,56 @@
+前端依赖未安装，正在安装...
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'marked@16.4.2',
+npm WARN EBADENGINE   required: { node: '>= 20' },
+npm WARN EBADENGINE   current: { node: 'v18.19.1', npm: '9.2.0' }
+npm WARN EBADENGINE }
+npm WARN deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm WARN deprecated npmlog@5.0.1: This package is no longer supported.
+npm WARN deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+npm WARN deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm WARN deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm WARN deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+npm WARN deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+npm WARN deprecated gauge@3.0.2: This package is no longer supported.
+npm WARN deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 502 packages, and audited 503 packages in 18s
+
+151 packages are looking for funding
+  run `npm fund` for details
+
+6 vulnerabilities (5 moderate, 1 high)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
 正在启动 React 开发服务器 (Vite)...
 
 > frontend@0.0.0 dev
 > vite
 
 
-  VITE v5.4.21  ready in 382 ms
+  VITE v5.4.21  ready in 334 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: http://172.29.18.7:5173/
   ➜  Network: http://172.17.0.1:5173/
-2:30:11 PM [vite] hmr update /src/App.jsx
-2:30:43 PM [vite] hmr update /src/App.jsx
-2:31:06 PM [vite] hmr update /src/App.jsx
-2:31:23 PM [vite] hmr update /src/App.jsx
-2:32:10 PM [vite] hmr update /src/App.jsx
-2:34:58 PM [vite] hmr update /src/App.jsx
-2:38:16 PM [vite] hmr update /src/App.jsx
-2:40:17 PM [vite] hmr update /src/App.jsx
-2:40:53 PM [vite] hmr update /src/App.jsx
-3:50:16 PM [vite] hmr update /src/App.jsx
-3:51:33 PM [vite] hmr update /src/App.jsx
-3:53:10 PM [vite] hmr update /src/App.jsx
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 543 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 344 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-5:45:43 PM [vite] hmr update /src/App.jsx
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 327 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-5:46:36 PM [vite] http proxy error: /api/v1/index/json
-Error: connect ECONNREFUSED 127.0.0.1:8080
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
-5:46:36 PM [vite] http proxy error: /api/v1/index/json
-Error: connect ECONNREFUSED 127.0.0.1:8080
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
-5:46:36 PM [vite] http proxy error: /api/v1/document/scan?force=true
-Error: connect ECONNREFUSED 127.0.0.1:8080
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 291 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-5:47:52 PM [vite] http proxy error: /api/v1/index/json
-Error: connect ECONNREFUSED 127.0.0.1:8080
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
-5:47:52 PM [vite] http proxy error: /api/v1/index/json
-Error: connect ECONNREFUSED 127.0.0.1:8080
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
-5:47:52 PM [vite] http proxy error: /api/v1/document/scan?force=true
-Error: connect ECONNREFUSED 127.0.0.1:8080
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 328 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 276 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 325 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 412 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
+3:23:07 PM [vite] hmr update /src/components/PreviewPane.jsx
+3:24:21 PM [vite] hmr update /src/components/PreviewPane.jsx
 正在启动 React 开发服务器 (Vite)...
 
 > frontend@0.0.0 dev
 > vite
 
 Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
 
-  VITE v5.4.21  ready in 339 ms
+  VITE v5.4.21  ready in 312 ms
 
-  ➜  Local:   http://localhost:5174/
-  ➜  Network: http://172.29.18.7:5174/
-  ➜  Network: http://172.17.0.1:5174/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 515 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 333 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-  ➜  Network: http://172.17.0.1:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-
-  VITE v5.4.21  ready in 286 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: http://172.29.18.7:5173/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-Port 5173 is in use, trying another one...
-
-  VITE v5.4.21  ready in 315 ms
-
-  ➜  Local:   http://localhost:5174/
-  ➜  Network: http://172.29.18.7:5174/
+  ➜  Local:   http://localhost:5175/
+  ➜  Network: http://172.29.18.7:5175/
+  ➜  Network: http://172.17.0.1:5175/
 正在启动 React 开发服务器 (Vite)...
 
 > frontend@0.0.0 dev
@@ -192,20 +60,7 @@ Port 5173 is in use, trying another one...
 Port 5174 is in use, trying another one...
 Port 5175 is in use, trying another one...
 
-  VITE v5.4.21  ready in 316 ms
-
-  ➜  Local:   http://localhost:5176/
-  ➜  Network: http://172.29.18.7:5176/
-正在启动 React 开发服务器 (Vite)...
-
-> frontend@0.0.0 dev
-> vite
-
-Port 5173 is in use, trying another one...
-Port 5174 is in use, trying another one...
-Port 5175 is in use, trying another one...
-
-  VITE v5.4.21  ready in 399 ms
+  VITE v5.4.21  ready in 441 ms
 
   ➜  Local:   http://localhost:5176/
   ➜  Network: http://172.29.18.7:5176/
@@ -220,53 +75,128 @@ Port 5174 is in use, trying another one...
 Port 5175 is in use, trying another one...
 Port 5176 is in use, trying another one...
 
-  VITE v5.4.21  ready in 930 ms
+  VITE v5.4.21  ready in 341 ms
 
   ➜  Local:   http://localhost:5177/
   ➜  Network: http://172.29.18.7:5177/
   ➜  Network: http://172.17.0.1:5177/
-9:32:01 AM [vite] hmr update /src/App.jsx
-9:32:01 AM [vite] hmr update /src/App.jsx
-9:32:01 AM [vite] hmr update /src/App.jsx
-9:32:21 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:32:21 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:32:32 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:32:32 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:32:55 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:32:55 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:33:26 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:33:26 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:33:45 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:33:45 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:44:58 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:44:58 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:46:12 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:46:12 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:52:20 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:52:20 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:52:48 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:52:48 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:53:31 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:53:31 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:53:58 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:53:58 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:55:38 AM [vite] hmr update /src/App.css
-9:55:38 AM [vite] hmr update /src/App.css
-9:56:26 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:56:26 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:56:53 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:56:53 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:57:17 AM [vite] hmr update /src/components/PreviewPane.jsx
-9:57:17 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:07:25 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:07:25 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:07:33 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:07:33 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:16:10 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:16:10 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:16:18 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:16:18 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:20:57 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:20:57 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:21:22 AM [vite] hmr update /src/components/PreviewPane.jsx
-10:21:22 AM [vite] hmr update /src/components/PreviewPane.jsx
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+
+  VITE v5.4.21  ready in 562 ms
+
+  ➜  Local:   http://localhost:5178/
+  ➜  Network: http://172.29.18.7:5178/
+  ➜  Network: http://172.17.0.1:5178/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+
+  VITE v5.4.21  ready in 547 ms
+
+  ➜  Local:   http://localhost:5179/
+  ➜  Network: http://172.29.18.7:5179/
+  ➜  Network: http://172.17.0.1:5179/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+Port 5179 is in use, trying another one...
+
+  VITE v5.4.21  ready in 504 ms
+
+  ➜  Local:   http://localhost:5180/
+  ➜  Network: http://172.29.18.7:5180/
+  ➜  Network: http://172.17.0.1:5180/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+Port 5179 is in use, trying another one...
+Port 5180 is in use, trying another one...
+
+  VITE v5.4.21  ready in 697 ms
+
+  ➜  Local:   http://localhost:5181/
+  ➜  Network: http://172.29.18.7:5181/
+  ➜  Network: http://172.17.0.1:5181/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+Port 5179 is in use, trying another one...
+Port 5180 is in use, trying another one...
+Port 5181 is in use, trying another one...
+
+  VITE v5.4.21  ready in 361 ms
+
+  ➜  Local:   http://localhost:5182/
+  ➜  Network: http://172.29.18.7:5182/
+  ➜  Network: http://172.17.0.1:5182/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+Port 5179 is in use, trying another one...
+Port 5180 is in use, trying another one...
+Port 5181 is in use, trying another one...
+Port 5182 is in use, trying another one...
+
+  VITE v5.4.21  ready in 688 ms
+
+  ➜  Local:   http://localhost:5183/
+  ➜  Network: http://172.29.18.7:5183/
+  ➜  Network: http://172.17.0.1:5183/
+10:54:41 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+10:54:41 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+10:54:41 PM [vite] http proxy error: /api/v1/document/scan?force=true
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)

@@ -28,7 +28,7 @@ public class Result<T> {
      * @return A success result.
      */
     public static <T> Result<T> success(T value) {
-        return new Result<>(Objects.requireNonNull(value, "Success value cannot be null"), null, true);
+        return new Result<>(value, null, true);
     }
 
     /**

@@ -22,10 +22,10 @@ import java.util.Locale;
 @Component
 public class SearchMetaBuilder {
 
-    @Value("${app.search.extract.xlsx.rows:50000}")
+    @Value("${app.search.extract.xlsx.rows:1000000}")
     private int maxExcelRows;
     
-    @Value("${app.search.extract.content.max-length:200000}")
+    @Value("${app.search.extract.content.max-length:10000000}")
     private int maxContentLength;
 
     public SearchMeta build(Path rootPath, Path filePath, long modifiedAt) {
@@ -50,50 +50,22 @@ public class SearchMetaBuilder {
                 title = doc.title() != null && !doc.title().isBlank() ? doc.title() : title;
                 contentText = doc.text();
             } else if (type == FileType.PDF) {
-                // extract text from PDF (include head and tail pages for coverage)
+                // extract full text from PDF
                 try (PDDocument pdf = org.apache.pdfbox.Loader.loadPDF(new File(filePath.toString()))) {
                     PDFTextStripper stripper = new PDFTextStripper();
                     stripper.setSortByPosition(true);
                     int total = pdf.getNumberOfPages();
-                    int headEnd = Math.min(5, total);
                     stripper.setStartPage(1);
-                    stripper.setEndPage(headEnd);
-                    String head = stripper.getText(pdf);
-
-                    String tail = "";
-                    if (total > headEnd) {
-                        PDFTextStripper tailStripper = new PDFTextStripper();
-                        tailStripper.setSortByPosition(true);
-                        int tailStart = Math.max(1, total - 5);
-                        tailStripper.setStartPage(tailStart);
-                        tailStripper.setEndPage(total);
-                        tail = tailStripper.getText(pdf);
-                    }
-
-                    String h = (head == null ? "" : head);
-                    String t = (tail == null ? "" : tail);
-                    String combined = h + t;
-                    if (combined.length() > maxContentLength) {
-                        String hPart = h.substring(0, Math.min(h.length(), (int)(maxContentLength * 0.75)));
-                        String tPart = t;
-                        if (tPart.length() > maxContentLength / 4) {
-                            tPart = tPart.substring(tPart.length() - (maxContentLength / 4));
-                        }
-                        contentText = hPart + tPart;
-                    } else {
-                        contentText = combined;
-                    }
+                    stripper.setEndPage(total);
+                    contentText = stripper.getText(pdf);
                 }
             } else if (type == FileType.DOCX) {
                 try (XWPFDocument docx = new XWPFDocument(new FileInputStream(filePath.toFile()))) {
                     StringBuilder sb = new StringBuilder();
-                    int paraCount = 0;
                     for (XWPFParagraph p : docx.getParagraphs()) {
                         if (p.getText() != null && !p.getText().isBlank()) {
                             sb.append(p.getText()).append('\n');
                         }
-                        paraCount++;
-                        if (paraCount >= 200) break; // cap paragraphs to avoid heavy processing
                     }
                     contentText = sb.toString();
                 }
@@ -106,30 +78,61 @@ public class SearchMetaBuilder {
                     // configure formatter to be resilient
                     fmt.setUseCachedValuesForFormulaCells(true);
                     int rows = 0;
+                    
+                    // 添加工作表名称作为上下文
                     for (int i = 0; i < wb.getNumberOfSheets(); i++) {
                         org.apache.poi.ss.usermodel.Sheet sheet = wb.getSheetAt(i);
+                        String sheetName = sheet.getSheetName();
+                        if (sheetName != null && !sheetName.trim().isEmpty()) {
+                            sb.append("工作表: ").append(sheetName).append("\n");
+                        }
+                        
                         for (org.apache.poi.ss.usermodel.Row row : sheet) {
+                            StringBuilder rowBuilder = new StringBuilder();
+                            boolean hasContent = false;
+                            
                             for (org.apache.poi.ss.usermodel.Cell cell : row) {
                                 String val = "";
                                 try {
-                                    // try getting rich text first for strings
+                                    // 改进单元格内容提取逻辑
                                     if (cell.getCellType() == org.apache.poi.ss.usermodel.CellType.STRING) {
                                         val = cell.getStringCellValue();
+                                    } else if (cell.getCellType() == org.apache.poi.ss.usermodel.CellType.NUMERIC) {
+                                        if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
+                                            java.util.Date date = cell.getDateCellValue();
+                                            val = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                                        } else {
+                                            val = fmt.formatCellValue(cell, evaluator);
+                                        }
+                                    } else if (cell.getCellType() == org.apache.poi.ss.usermodel.CellType.BOOLEAN) {
+                                        val = String.valueOf(cell.getBooleanCellValue());
+                                    } else if (cell.getCellType() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
+                                        try {
+                                            val = fmt.formatCellValue(cell, evaluator);
+                                        } catch (Exception e) {
+                                            val = cell.getCellFormula();
+                                        }
                                     } else {
                                         val = fmt.formatCellValue(cell, evaluator);
                                     }
                                 } catch (Exception ignore) {
                                     try { val = cell.toString(); } catch (Exception ignored2) {}
                                 }
-                                if (val != null && !val.isBlank()) {
-                                    sb.append(val).append(' ');
+                                
+                                if (val != null && !val.trim().isEmpty()) {
+                                    rowBuilder.append(val).append(" ");
+                                    hasContent = true;
                                 }
                             }
-                            sb.append('\n');
-                            rows++;
-                            if (rows >= maxExcelRows) break;
+                            
+                            if (hasContent) {
+                                sb.append(rowBuilder.toString().trim()).append("\n");
+                                rows++;
+                                if (rows >= maxExcelRows) break;
+                            }
                         }
                         if (rows >= maxExcelRows) break;
+                        sb.append("\n"); // 工作表之间添加空行分隔
                     }
                     contentText = sb.toString();
                     wb.close();

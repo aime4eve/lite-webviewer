@@ -1,110 +1,44 @@
 package com.documentpreview.modules.search.es;
 
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 简单的文档仓库实现，不再依赖Elasticsearch
- * 当Elasticsearch被禁用时，使用内存存储作为替代方案
+ * Elasticsearch文档仓库接口
+ * 基于Spring Data Elasticsearch提供文档的CRUD操作
  */
 @Repository
-public class EsDocumentRepository {
-    
-    // 使用内存存储作为替代方案
-    private final ConcurrentHashMap<String, EsDocument> documentStore = new ConcurrentHashMap<>();
+public interface EsDocumentRepository extends ElasticsearchRepository<EsDocument, String> {
     
     /**
-     * 保存文档
+     * 根据文件路径查询文档
      */
-    public EsDocument save(EsDocument document) {
-        documentStore.put(document.getId(), document);
-        return document;
-    }
+    List<EsDocument> findByFilePath(String filePath);
     
     /**
-     * 批量保存文档
+     * 根据文件类型查询文档
      */
-    public Iterable<EsDocument> saveAll(Iterable<EsDocument> documents) {
-        List<EsDocument> result = new ArrayList<>();
-        for (EsDocument doc : documents) {
-            result.add(save(doc));
-        }
-        return result;
-    }
+    List<EsDocument> findByFileType(String fileType);
     
     /**
-     * 根据ID查找文档
+     * 根据父目录查询文档
      */
-    public Optional<EsDocument> findById(String id) {
-        return Optional.ofNullable(documentStore.get(id));
-    }
+    List<EsDocument> findByParentDir(String parentDir);
     
     /**
-     * 查找所有文档
+     * 根据文件路径删除文档
      */
-    public Iterable<EsDocument> findAll() {
-        return new ArrayList<>(documentStore.values());
-    }
+    void deleteByFilePath(String filePath);
     
     /**
-     * 根据ID列表查找文档
+     * 根据父目录删除文档
      */
-    public Iterable<EsDocument> findAllById(Iterable<String> ids) {
-        List<EsDocument> result = new ArrayList<>();
-        for (String id : ids) {
-            EsDocument doc = documentStore.get(id);
-            if (doc != null) {
-                result.add(doc);
-            }
-        }
-        return result;
-    }
+    void deleteByParentDir(String parentDir);
     
     /**
-     * 统计文档数量
+     * 查询是否存在指定文件路径的文档
      */
-    public long count() {
-        return documentStore.size();
-    }
-    
-    /**
-     * 根据ID删除文档
-     */
-    public void deleteById(String id) {
-        documentStore.remove(id);
-    }
-    
-    /**
-     * 删除指定文档
-     */
-    public void delete(EsDocument document) {
-        documentStore.remove(document.getId());
-    }
-    
-    /**
-     * 根据ID列表删除文档
-     */
-    public void deleteAllById(Iterable<? extends String> ids) {
-        for (String id : ids) {
-            documentStore.remove(id);
-        }
-    }
-    
-    /**
-     * 删除所有文档
-     */
-    public void deleteAll() {
-        documentStore.clear();
-    }
-    
-    /**
-     * 根据ID判断文档是否存在
-     */
-    public boolean existsById(String id) {
-        return documentStore.containsKey(id);
-    }
+    boolean existsByFilePath(String filePath);
 }

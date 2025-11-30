@@ -1,9 +1,11 @@
 package com.documentpreview.modules.search.service;
 
 import com.documentpreview.modules.search.domain.SearchMeta;
+import com.documentpreview.modules.search.domain.SearchResult;
 import com.documentpreview.modules.search.es.EsDocument;
 import com.documentpreview.modules.search.es.EsDocumentRepository;
 import com.documentpreview.modules.search.repository.SearchMetaRepository;
+import com.documentpreview.shared.ddd.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ import java.util.stream.Collectors;
  * 当Elasticsearch被禁用时，此类仅作为占位符，实际搜索操作由SimpleSearchService处理
  */
 @Service
-@ConditionalOnProperty(name = "search.use-es", havingValue = "false")
-public class EsSearchService {
+@ConditionalOnProperty(name = "app.search.use-es", havingValue = "false")
+public class EsSearchService implements EsSearchServiceInterface {
     private static final Logger logger = LoggerFactory.getLogger(EsSearchService.class);
     
     @Autowired
@@ -33,9 +35,9 @@ public class EsSearchService {
      * 检查Elasticsearch连接
      * 由于Elasticsearch被禁用，返回false
      */
-    public boolean checkConnection() {
+    public Result<Boolean> checkConnection() {
         logger.info("Elasticsearch is disabled, connection check returns false");
-        return false;
+        return Result.success(false);
     }
     
     /**
@@ -51,26 +53,25 @@ public class EsSearchService {
      * 简单文本搜索
      * 由于Elasticsearch被禁用，返回空结果
      */
-    public List<EsDocument> simpleSearch(String query) {
+    public Result<List<SearchResult>> simpleSearch(String keyword, int limit) {
         logger.info("Elasticsearch is disabled, simpleSearch returns empty result");
-        return new ArrayList<>();
+        return Result.success(new ArrayList<>());
     }
     
     /**
      * 高级搜索
      * 由于Elasticsearch被禁用，返回空结果
      */
-    public List<EsDocument> advancedSearch(String query, List<String> fileTypes, 
-                                           String dateRange, String sizeRange) {
+    public Result<List<SearchResult>> advancedSearch(String keyword, int limit) {
         logger.info("Elasticsearch is disabled, advancedSearch returns empty result");
-        return new ArrayList<>();
+        return Result.success(new ArrayList<>());
     }
     
     /**
      * 获取搜索建议
      * 由于Elasticsearch被禁用，返回空列表
      */
-    public List<String> getSuggestions(String query) {
+    public List<String> getSuggestions(String keyword) {
         logger.info("Elasticsearch is disabled, getSuggestions returns empty list");
         return new ArrayList<>();
     }
@@ -79,27 +80,8 @@ public class EsSearchService {
      * 获取搜索统计信息
      * 由于Elasticsearch被禁用，返回默认值
      */
-    public SearchStats getSearchStats() {
+    public EsSearchServiceInterface.SearchStats getSearchStats() {
         logger.info("Elasticsearch is disabled, returning default search stats");
-        return new SearchStats(0, 0, 0);
-    }
-    
-    /**
-     * 搜索统计信息类
-     */
-    public static class SearchStats {
-        private final long totalDocuments;
-        private final long totalSearches;
-        private final long avgResponseTime;
-        
-        public SearchStats(long totalDocuments, long totalSearches, long avgResponseTime) {
-            this.totalDocuments = totalDocuments;
-            this.totalSearches = totalSearches;
-            this.avgResponseTime = avgResponseTime;
-        }
-        
-        public long getTotalDocuments() { return totalDocuments; }
-        public long getTotalSearches() { return totalSearches; }
-        public long getAvgResponseTime() { return avgResponseTime; }
+        return new EsSearchServiceInterface.SearchStats(0, 0, 0);
     }
 }

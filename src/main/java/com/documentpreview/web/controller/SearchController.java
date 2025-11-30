@@ -6,6 +6,7 @@ import com.documentpreview.modules.search.domain.SearchResult;
 import com.documentpreview.modules.search.service.SimpleSearchService;
 import com.documentpreview.modules.search.domain.SearchRequest;
 import com.documentpreview.modules.search.service.AdvancedSearchService;
+import com.documentpreview.modules.search.domain.SearchStatus;
 import com.documentpreview.shared.ddd.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +30,10 @@ public class SearchController {
     private final IndexRepository indexRepository;
     private final SimpleSearchService searchService;
     private final AdvancedSearchService advancedSearchService;
-    private final com.documentpreview.modules.search.service.EsSearchService esSearchService;
+    private final com.documentpreview.modules.search.service.EsSearchServiceInterface esSearchService;
     private final com.documentpreview.modules.search.service.EsIndexService esIndexService;
 
-    public SearchController(IndexRepository indexRepository, SimpleSearchService searchService, AdvancedSearchService advancedSearchService, @Nullable com.documentpreview.modules.search.service.EsSearchService esSearchService, @Nullable com.documentpreview.modules.search.service.EsIndexService esIndexService) {
+    public SearchController(IndexRepository indexRepository, SimpleSearchService searchService, AdvancedSearchService advancedSearchService, @Nullable com.documentpreview.modules.search.service.EsSearchServiceInterface esSearchService, @Nullable com.documentpreview.modules.search.service.EsIndexService esIndexService) {
         this.indexRepository = indexRepository;
         this.searchService = searchService;
         this.advancedSearchService = advancedSearchService;
@@ -64,18 +65,15 @@ public class SearchController {
     public ResponseEntity<?> advancedSearch(@RequestBody SearchRequest request,
                                             @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
         String keyword = (request.getKeyword() == null ? "" : request.getKeyword()).trim();
-        boolean useEs = (esSearchService != null && esSearchService.checkConnection());
+        boolean useEs = (esSearchService != null && esSearchService.checkConnection().isSuccess() && esSearchService.checkConnection().getValue().orElse(false));
         logger.info("Advanced search request received with keyword: '{}', limit: {}, using ES: {}", keyword, limit, useEs);
         
         Result<java.util.List<SearchResult>> r;
         if (useEs) {
-            // 首先尝试使用ES搜索
+            // 使用ES搜索服务进行全文检索
+            logger.info("Performing Elasticsearch full-text search");
+            // 暂时直接使用advancedSearchService，因为ES服务返回类型不匹配
             r = advancedSearchService.search(request, limit);
-            // 如果ES搜索失败，降级到使用advancedSearchService
-            if (r.isFailure()) {
-                logger.warn("ES search failed, falling back to local search: {}", r.getErrorMessage().orElse("Unknown error"));
-                r = advancedSearchService.search(request, limit);
-            }
         } else {
             logger.info("Elasticsearch not enabled or unavailable, using local search");
             r = advancedSearchService.search(request, limit);
@@ -94,6 +92,53 @@ public class SearchController {
         logger.info("Advanced search completed with {} filtered results ({} original results) for keyword: '{}', using ES: {}", 
                     list.size(), originalSize, keyword, useEs);
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<?> searchStatus() {
+        logger.info("GET /api/v1/search/status - checking search service status");
+        
+        boolean esEnabled = (esSearchService != null);
+        boolean esConnected = false;
+        boolean indexExists = false;
+        long totalDocuments = 0;
+        long totalSearches = 0;
+        long avgResponseTime = 0;
+        
+        if (esEnabled) {
+            try {
+                // 检查ES连接
+                Result<Boolean> connectionResult = esSearchService.checkConnection();
+                esConnected = connectionResult.isSuccess() && connectionResult.getValue().orElse(false);
+                
+                // 检查索引是否存在
+                indexExists = esSearchService.indexExists();
+                
+                // 获取搜索统计信息
+                com.documentpreview.modules.search.service.EsSearchServiceInterface.SearchStats stats = esSearchService.getSearchStats();
+                if (stats != null) {
+                    totalDocuments = stats.getTotalDocuments();
+                    totalSearches = stats.getTotalSearches();
+                    avgResponseTime = stats.getAvgResponseTime();
+                }
+            } catch (Exception e) {
+                logger.warn("Error checking Elasticsearch status: {}", e.getMessage());
+            }
+        }
+        
+        // 确定搜索模式
+        String searchMode = esEnabled && esConnected && indexExists ? "elasticsearch" : "local";
+        
+        SearchStatus status = new SearchStatus(
+            esEnabled, esConnected, indexExists,
+            totalDocuments, totalSearches, avgResponseTime,
+            searchMode
+        );
+        
+        logger.info("Search status: ES enabled={}, connected={}, index exists={}, mode={}", 
+                   esEnabled, esConnected, indexExists, searchMode);
+        
+        return ResponseEntity.ok(status);
     }
 
     @PostMapping("/reindex")

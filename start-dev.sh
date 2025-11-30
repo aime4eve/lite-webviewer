@@ -28,8 +28,9 @@ echo "正在启动开发环境..."
 temp_dir=$(mktemp -d)
 frontend_pid_file="$temp_dir/frontend.pid"
 backend_pid_file="$temp_dir/backend.pid"
-es_container_name="es"
-
+es_container_name="elasticsearch"
+#docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" e29a1f876ffd
+    
 # 清理函数，用于停止服务和清理临时文件
 cleanup() {
     echo "\n正在清理资源..."
@@ -87,7 +88,6 @@ start_frontend() {
 # 启动 Elasticsearch 容器
 start_elasticsearch() {
     echo "\n启动 Elasticsearch 容器..."
-    
     # 检查容器是否存在
     if docker ps -a | grep -q "$es_container_name"; then
         echo "检测到已存在的 Elasticsearch 容器，正在启动..."

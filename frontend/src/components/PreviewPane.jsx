@@ -40,11 +40,17 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     setError(null);
     
     try {
-      const ext = (filePath || '').split('.').pop().toLowerCase();
+      // 确保文件路径使用正确的格式 - 去除可能的前导斜杠，使路径相对于文档根目录
+      let formattedFilePath = filePath;
+      if (formattedFilePath && formattedFilePath.startsWith('/')) {
+        formattedFilePath = formattedFilePath.substring(1);
+      }
+      
+      const ext = (formattedFilePath || '').split('.').pop().toLowerCase();
       let previewContent = null;
       
       if (ext === 'html' || ext === 'htm') {
-        const fsUrl = `/api/v1/fs/${encodeURI(filePath)}`;
+        const fsUrl = `/api/v1/fs/${encodeURIComponent(formattedFilePath)}`;
         if (textOnly) {
           const resp = await fetch(fsUrl);
           if (!resp.ok) throw new Error(`Failed to fetch HTML: ${resp.statusText}`);
@@ -70,7 +76,9 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         return;
       }
       
-      const response = await fetch(`/api/v1/document/preview?filePath=${encodeURIComponent(filePath)}`);
+      // 确保使用正确的URL编码和文件路径格式
+      const previewUrl = `/api/v1/document/preview?filePath=${encodeURIComponent(formattedFilePath)}`;
+      const response = await fetch(previewUrl);
       
       if (!response.ok) {
         throw new Error(`Failed to fetch preview: ${response.statusText}`);
@@ -78,16 +86,16 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
       
       const contentType = response.headers.get('content-type');
       
-      if (contentType.includes('text/html')) {
+      if (contentType?.includes('text/html')) {
         previewContent = await response.text();
-      } else if (contentType.includes('application/pdf')) {
+      } else if (contentType?.includes('application/pdf')) {
         const blob = await response.blob();
         previewContent = URL.createObjectURL(blob);
-      } else if (contentType.includes('image/svg+xml')) {
+      } else if (contentType?.includes('image/svg+xml')) {
         previewContent = await response.text();
-      } else if (contentType.includes('text/csv')) {
+      } else if (contentType?.includes('text/csv')) {
         previewContent = await response.text();
-      } else if (contentType.includes('text/markdown') || filePath.endsWith('.md')) {
+      } else if (contentType?.includes('text/markdown') || formattedFilePath.endsWith('.md')) {
         previewContent = await response.text();
       } else {
         previewContent = await response.text();
@@ -95,7 +103,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
       
       setContent(previewContent);
     } catch (err) {
-      setError(err.message);
+      setError(`Failed to load preview: ${err.message}`);
     } finally {
       setLoading(false);
     }

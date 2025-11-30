@@ -1,7 +1,9 @@
 package com.documentpreview.modules.search.domain;
 
 import com.documentpreview.modules.document.domain.FileType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchMeta {
     private String filePath;
     private String fileName;
@@ -42,4 +44,17 @@ public class SearchMeta {
     public void setContentText(String v) { this.contentText = v; }
     public void setSize(Long v) { this.size = v; }
     public void setModifiedAt(Long v) { this.modifiedAt = v; }
+
+    // 添加缺少的方法
+    public String getId() {
+        return filePath; // 使用文件路径作为ID
+    }
+    
+    public String getContent() {
+        return contentText; // 返回内容文本
+    }
+    
+    public Long getLastModified() {
+        return modifiedAt; // 返回最后修改时间
+    }
 }
