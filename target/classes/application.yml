@@ -48,10 +48,16 @@ app:
   data:
     dir: ./data
   search:
-    use-es: true
+    use-es: false  # Temporarily disable Elasticsearch
     es-index-name: nexus-lite-docs
     es-replicas: 0
     es-shards: 1
+    # Content extraction configuration
+    extract:
+      xlsx:
+        rows: 50000  # Maximum number of rows to extract from Excel files
+      content:
+        max-length: 200000  # Maximum length of content text to store for search
 
 
 # Web Configuration

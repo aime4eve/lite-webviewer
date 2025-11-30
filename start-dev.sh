@@ -20,6 +20,7 @@ check_command() {
 check_command npm
 check_command mvn
 check_command java
+check_command docker
 
 echo "正在启动开发环境..."
 
@@ -27,6 +28,7 @@ echo "正在启动开发环境..."
 temp_dir=$(mktemp -d)
 frontend_pid_file="$temp_dir/frontend.pid"
 backend_pid_file="$temp_dir/backend.pid"
+es_container_name="es"
 
 # 清理函数，用于停止服务和清理临时文件
 cleanup() {
@@ -47,6 +49,10 @@ cleanup() {
         kill -15 $backend_pid 2>/dev/null || true
         wait $backend_pid 2>/dev/null || true
     fi
+    
+    # 停止ES服务
+    echo "停止 Elasticsearch 容器..."
+    docker stop $es_container_name 2>/dev/null || true
     
     # 清理临时文件
     rm -rf "$temp_dir"
@@ -78,6 +84,45 @@ start_frontend() {
     echo "前端日志: frontend.log"
 }
 
+# 启动 Elasticsearch 容器
+start_elasticsearch() {
+    echo "\n启动 Elasticsearch 容器..."
+    
+    # 检查容器是否存在
+    if docker ps -a | grep -q "$es_container_name"; then
+        echo "检测到已存在的 Elasticsearch 容器，正在启动..."
+        docker start $es_container_name
+    else
+        echo "未找到 Elasticsearch 容器，正在尝试查找并启动..."
+        # 尝试查找其他可能的ES容器
+        es_container=$(docker ps -a | grep elasticsearch | head -1 | awk '{print $1}')
+        if [ -n "$es_container" ]; then
+            echo "找到 Elasticsearch 容器: $es_container，正在启动..."
+            docker start $es_container
+            es_container_name=$es_container
+        else
+            echo "警告: 未找到 Elasticsearch 容器，请确保已使用正确的镜像创建容器"
+            echo "提示: 可以使用以下命令创建ES容器:"
+            echo "docker run -d --name es -p 9200:9200 -p 9300:9300 -e 'discovery.type=single-node' docker.elastic.co/elasticsearch/elasticsearch:8.14.0"
+        fi
+    fi
+    
+    # 等待ES服务启动
+    echo "等待 Elasticsearch 服务启动..."
+    for i in {1..30}; do
+        if curl -s http://localhost:9200 > /dev/null; then
+            echo "Elasticsearch 服务已成功启动！"
+            break
+        fi
+        if [ $i -eq 30 ]; then
+            echo "警告: Elasticsearch 服务启动超时，请检查容器状态"
+        else
+            echo "Elasticsearch 服务正在启动中... ($i/30)"
+            sleep 2
+        fi
+    done
+}
+
 # 启动后端 Spring Boot 应用
 start_backend() {
     echo "\n启动后端 Spring Boot 应用..."
@@ -93,6 +138,7 @@ start_backend() {
 }
 
 # 启动服务
+start_elasticsearch
 start_frontend
 start_backend
 
@@ -100,10 +146,12 @@ echo "\n========================================"
 echo "开发环境服务已全部启动！"
 echo "前端开发服务器: http://localhost:5173"
 echo "后端 Spring Boot 应用: http://localhost:8080"
+echo "Elasticsearch 服务: http://localhost:9200"
 echo "\n注意事项:"
 echo "1. 按 Ctrl+C 可以停止所有服务"
 echo "2. 前端日志在: frontend.log"
 echo "3. 后端日志在: backend.log"
+echo "4. Elasticsearch 日志可以通过 'docker logs $es_container_name' 查看"
 echo "========================================"
 
 # 等待任一服务结束

@@ -32,7 +32,7 @@ public class SearchController {
     private final com.documentpreview.modules.search.service.EsSearchService esSearchService;
     private final com.documentpreview.modules.search.service.EsIndexService esIndexService;
 
-    public SearchController(IndexRepository indexRepository, SimpleSearchService searchService, AdvancedSearchService advancedSearchService, com.documentpreview.modules.search.service.EsSearchService esSearchService, com.documentpreview.modules.search.service.EsIndexService esIndexService) {
+    public SearchController(IndexRepository indexRepository, SimpleSearchService searchService, AdvancedSearchService advancedSearchService, @Nullable com.documentpreview.modules.search.service.EsSearchService esSearchService, @Nullable com.documentpreview.modules.search.service.EsIndexService esIndexService) {
         this.indexRepository = indexRepository;
         this.searchService = searchService;
         this.advancedSearchService = advancedSearchService;
@@ -64,13 +64,13 @@ public class SearchController {
     public ResponseEntity<?> advancedSearch(@RequestBody SearchRequest request,
                                             @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
         String keyword = (request.getKeyword() == null ? "" : request.getKeyword()).trim();
-        boolean useEs = (esSearchService != null && esSearchService.enabled());
+        boolean useEs = (esSearchService != null && esSearchService.checkConnection());
         logger.info("Advanced search request received with keyword: '{}', limit: {}, using ES: {}", keyword, limit, useEs);
         
         Result<java.util.List<SearchResult>> r;
         if (useEs) {
             // 首先尝试使用ES搜索
-            r = esSearchService.search(request, limit);
+            r = advancedSearchService.search(request, limit);
             // 如果ES搜索失败，降级到使用advancedSearchService
             if (r.isFailure()) {
                 logger.warn("ES search failed, falling back to local search: {}", r.getErrorMessage().orElse("Unknown error"));

@@ -36,6 +36,10 @@
     "type" : "file",
     "name" : "高考志愿填写辅助工具-项目实现计划.md"
   }, {
+    "path" : "高考志愿填写工具/设计文档/2025年本科专业清单.xlsx",
+    "type" : "file",
+    "name" : "2025年本科专业清单.xlsx"
+  }, {
     "path" : "高考志愿填写工具/设计文档/高考志愿填写辅助工具-数据初始化说明书.md",
     "type" : "file",
     "name" : "高考志愿填写辅助工具-数据初始化说明书.md"
@@ -60,6 +64,10 @@
     "type" : "file",
     "name" : "nexus-lite-vibe-coding-final.md"
   }, {
+    "path" : "test-xinjiang.md",
+    "type" : "file",
+    "name" : "test-xinjiang.md"
+  }, {
     "path" : "专业前景分析.html",
     "type" : "file",
     "name" : "专业前景分析.html"
@@ -73,5 +81,5 @@
     "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
   } ],
   "rootDir" : "/root/lite-webviewer/docs",
-  "lastUpdated" : 1764433732314
+  "lastUpdated" : 1764467227638
 }

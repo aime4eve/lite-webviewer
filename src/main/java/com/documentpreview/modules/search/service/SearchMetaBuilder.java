@@ -9,6 +9,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -20,6 +21,12 @@ import java.util.Locale;
 
 @Component
 public class SearchMetaBuilder {
+
+    @Value("${app.search.extract.xlsx.rows:50000}")
+    private int maxExcelRows;
+    
+    @Value("${app.search.extract.content.max-length:200000}")
+    private int maxContentLength;
 
     public SearchMeta build(Path rootPath, Path filePath, long modifiedAt) {
         try {
@@ -66,11 +73,11 @@ public class SearchMetaBuilder {
                     String h = (head == null ? "" : head);
                     String t = (tail == null ? "" : tail);
                     String combined = h + t;
-                    if (combined.length() > 20000) {
-                        String hPart = h.substring(0, Math.min(h.length(), 15000));
+                    if (combined.length() > maxContentLength) {
+                        String hPart = h.substring(0, Math.min(h.length(), (int)(maxContentLength * 0.75)));
                         String tPart = t;
-                        if (tPart.length() > 5000) {
-                            tPart = tPart.substring(tPart.length() - 5000);
+                        if (tPart.length() > maxContentLength / 4) {
+                            tPart = tPart.substring(tPart.length() - (maxContentLength / 4));
                         }
                         contentText = hPart + tPart;
                     } else {
@@ -120,9 +127,9 @@ public class SearchMetaBuilder {
                             }
                             sb.append('\n');
                             rows++;
-                            if (rows >= 5000) break;
+                            if (rows >= maxExcelRows) break;
                         }
-                        if (rows >= 5000) break;
+                        if (rows >= maxExcelRows) break;
                     }
                     contentText = sb.toString();
                     wb.close();
@@ -130,8 +137,8 @@ public class SearchMetaBuilder {
             }
 
             // truncate large text to avoid huge JSON
-            if (contentText != null && contentText.length() > 20000) {
-                contentText = contentText.substring(0, 20000);
+            if (contentText != null && contentText.length() > maxContentLength) {
+                contentText = contentText.substring(0, maxContentLength);
             }
 
             return new SearchMeta(rel, fileName, parentDir, type, title, contentText, size, modifiedAt);

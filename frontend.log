@@ -162,3 +162,111 @@ Port 5173 is in use, trying another one...
   ➜  Local:   http://localhost:5173/
   ➜  Network: http://172.29.18.7:5173/
   ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 286 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+
+  VITE v5.4.21  ready in 315 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://172.29.18.7:5174/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+
+  VITE v5.4.21  ready in 316 ms
+
+  ➜  Local:   http://localhost:5176/
+  ➜  Network: http://172.29.18.7:5176/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+
+  VITE v5.4.21  ready in 399 ms
+
+  ➜  Local:   http://localhost:5176/
+  ➜  Network: http://172.29.18.7:5176/
+  ➜  Network: http://172.17.0.1:5176/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+
+  VITE v5.4.21  ready in 930 ms
+
+  ➜  Local:   http://localhost:5177/
+  ➜  Network: http://172.29.18.7:5177/
+  ➜  Network: http://172.17.0.1:5177/
+9:32:01 AM [vite] hmr update /src/App.jsx
+9:32:01 AM [vite] hmr update /src/App.jsx
+9:32:01 AM [vite] hmr update /src/App.jsx
+9:32:21 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:32:21 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:32:32 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:32:32 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:32:55 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:32:55 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:33:26 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:33:26 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:33:45 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:33:45 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:44:58 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:44:58 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:46:12 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:46:12 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:52:20 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:52:20 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:52:48 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:52:48 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:53:31 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:53:31 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:53:58 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:53:58 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:55:38 AM [vite] hmr update /src/App.css
+9:55:38 AM [vite] hmr update /src/App.css
+9:56:26 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:56:26 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:56:53 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:56:53 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:57:17 AM [vite] hmr update /src/components/PreviewPane.jsx
+9:57:17 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:07:25 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:07:25 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:07:33 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:07:33 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:16:10 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:16:10 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:16:18 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:16:18 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:20:57 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:20:57 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:21:22 AM [vite] hmr update /src/components/PreviewPane.jsx
+10:21:22 AM [vite] hmr update /src/components/PreviewPane.jsx

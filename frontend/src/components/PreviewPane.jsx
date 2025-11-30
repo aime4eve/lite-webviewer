@@ -10,12 +10,30 @@ import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const { Title, Text } = Typography;
 
 // Preview component for different file types
-const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
+const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchKeywords }) => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [textOnly, setTextOnly] = useState(false);
   useEffect(() => { mermaid.initialize({ startOnLoad: false, theme: 'dark' }); }, []);
+  
+  // Highlight keywords in text
+  const highlightKeywords = (text) => {
+    if (!searchKeywords || !text || typeof text !== 'string') {
+      return text;
+    }
+    
+    const keywords = searchKeywords.trim().split(/\s+/).filter(k => k.length > 0);
+    if (keywords.length === 0) {
+      return text;
+    }
+    
+    // Create regex pattern for all keywords, case insensitive
+    const pattern = new RegExp(`(${keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi');
+    
+    // Replace keywords with highlight tags
+    return text.replace(pattern, '<em class="highlight">$1</em>');
+  };
   
   const fetchPreview = useCallback(async () => {
     setLoading(true);
@@ -23,6 +41,8 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
     
     try {
       const ext = (filePath || '').split('.').pop().toLowerCase();
+      let previewContent = null;
+      
       if (ext === 'html' || ext === 'htm') {
         const fsUrl = `/api/v1/fs/${encodeURI(filePath)}`;
         if (textOnly) {
@@ -32,10 +52,24 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
           const plain = extractPlainText(htmlText);
           setContent(plain);
         } else {
-          setContent(fsUrl);
+          // Fetch HTML content, add highlights, then create Blob URL
+          const resp = await fetch(fsUrl);
+          if (!resp.ok) throw new Error(`Failed to fetch HTML: ${resp.statusText}`);
+          let htmlText = await resp.text();
+          
+          // Add keyword highlights to HTML content
+          if (searchKeywords) {
+            htmlText = highlightHTML(htmlText);
+          }
+          
+          // Create Blob URL for the highlighted HTML
+          const blob = new Blob([htmlText], { type: 'text/html' });
+          previewContent = URL.createObjectURL(blob);
+          setContent(previewContent);
         }
         return;
       }
+      
       const response = await fetch(`/api/v1/document/preview?filePath=${encodeURIComponent(filePath)}`);
       
       if (!response.ok) {
@@ -43,7 +77,6 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
       }
       
       const contentType = response.headers.get('content-type');
-      let previewContent = null;
       
       if (contentType.includes('text/html')) {
         previewContent = await response.text();
@@ -66,7 +99,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
     } finally {
       setLoading(false);
     }
-  }, [filePath, textOnly]);
+  }, [filePath, textOnly, searchKeywords]);
 
   useEffect(() => {
     if (!filePath) {
@@ -95,6 +128,16 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
       }, [chart]);
       return <div dangerouslySetInnerHTML={{ __html: svg }} />;
     };
+    
+    // Custom component to apply highlighting to text content
+    const HighlightText = ({ children }) => {
+      if (typeof children === 'string') {
+        const highlighted = highlightKeywords(children);
+        return <span dangerouslySetInnerHTML={{ __html: highlighted }} />;
+      }
+      return children;
+    };
+    
     return (
       <div className="markdown-preview" style={{ padding: '20px' }}>
         <ReactMarkdown
@@ -121,6 +164,18 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
                 </code>
               );
             },
+            // Apply highlighting to all text content
+            p: ({ children, ...props }) => <p {...props}><HighlightText>{children}</HighlightText></p>,
+            h1: ({ children, ...props }) => <h1 {...props}><HighlightText>{children}</HighlightText></h1>,
+            h2: ({ children, ...props }) => <h2 {...props}><HighlightText>{children}</HighlightText></h2>,
+            h3: ({ children, ...props }) => <h3 {...props}><HighlightText>{children}</HighlightText></h3>,
+            h4: ({ children, ...props }) => <h4 {...props}><HighlightText>{children}</HighlightText></h4>,
+            h5: ({ children, ...props }) => <h5 {...props}><HighlightText>{children}</HighlightText></h5>,
+            h6: ({ children, ...props }) => <h6 {...props}><HighlightText>{children}</HighlightText></h6>,
+            li: ({ children, ...props }) => <li {...props}><HighlightText>{children}</HighlightText></li>,
+            span: ({ children, ...props }) => <span {...props}><HighlightText>{children}</HighlightText></span>,
+            strong: ({ children, ...props }) => <strong {...props}><HighlightText>{children}</HighlightText></strong>,
+            em: ({ children, ...props }) => <em {...props}><HighlightText>{children}</HighlightText></em>,
           }}
         >
           {mdContent}
@@ -156,7 +211,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
         <tr key={index}>
           {cells.map((cell, cellIndex) => (
             <td key={cellIndex} style={{ padding: '8px', border: '1px solid #e8e8e8' }}>
-              {cell}
+              <div dangerouslySetInnerHTML={{ __html: highlightKeywords(cell) }} />
             </td>
           ))}
         </tr>
@@ -170,7 +225,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
             <tr style={{ backgroundColor: '#fafafa' }}>
               {headers.map((header, index) => (
                 <th key={index} style={{ padding: '12px 8px', border: '1px solid #e8e8e8', textAlign: 'left', fontWeight: 'bold' }}>
-                  {header}
+                  <div dangerouslySetInnerHTML={{ __html: highlightKeywords(header) }} />
                 </th>
               ))}
             </tr>
@@ -192,10 +247,80 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
     );
   };
   
+  // Highlight keywords in HTML content
+  const highlightHTML = (html) => {
+    if (!searchKeywords || !html || typeof html !== 'string') {
+      return html;
+    }
+    
+    const keywords = searchKeywords.trim().split(/\s+/).filter(k => k.length > 0);
+    if (keywords.length === 0) {
+      return html;
+    }
+    
+    // Create a temporary element to parse HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    
+    // Recursively highlight text nodes
+    const highlightTextNodes = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const highlightedText = highlightKeywords(text);
+        if (highlightedText !== text) {
+          const temp = document.createElement('div');
+          temp.innerHTML = highlightedText;
+          while (temp.firstChild) {
+            node.parentNode.insertBefore(temp.firstChild, node);
+          }
+          node.parentNode.removeChild(node);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE' && node.tagName !== 'CODE' && node.tagName !== 'PRE') {
+        // Don't process script, style, code, or pre tags
+        // Use while loop instead of for loop to avoid skipping nodes when replacing
+        let i = 0;
+        while (i < node.childNodes.length) {
+          highlightTextNodes(node.childNodes[i]);
+          i++;
+        }
+      }
+    };
+    
+    highlightTextNodes(tempDiv);
+    
+    // Get the modified HTML content
+    let highlightedHtml = tempDiv.innerHTML;
+    
+    // Add highlight CSS style to the HTML content so it works in iframe
+    const highlightStyle = `
+      <style>
+        .highlight {
+          background: rgba(0,229,255,0.12);
+          color: #00E5FF;
+          padding: 0 2px;
+          border-radius: 2px;
+        }
+      </style>
+    `;
+    
+    // Insert the style into the HTML head or at the beginning
+    if (highlightedHtml.includes('<head>')) {
+      highlightedHtml = highlightedHtml.replace('<head>', `<head>${highlightStyle}`);
+    } else {
+      highlightedHtml = highlightStyle + highlightedHtml;
+    }
+    
+    return highlightedHtml;
+  };
+
   // Render HTML content
   const HTMLPreview = ({ html }) => {
     const needsAssets = false;
     const containerRef = React.useRef(null);
+    
+    // Apply highlighting to HTML content
+    const highlightedHtml = highlightHTML(html);
+    
     useEffect(() => {
       if (needsAssets) return;
       const el = containerRef.current;
@@ -214,9 +339,9 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
       });
     }, [html, needsAssets]);
     if (needsAssets) {
-      return <div className="html-preview" ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />;
+      return <div className="html-preview" ref={containerRef} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
     }
-    return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: html }} />;
+    return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
   };
 
   const extractPlainText = (html) => {
@@ -255,11 +380,10 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError }) => {
   
   // Render plain text
   const renderText = (textContent) => {
+    const highlightedContent = highlightKeywords(textContent);
     return (
       <div className="text-preview" style={{ padding: '20px', backgroundColor: '#f0f0f0' }}>
-        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: '#000' }}>
-          {textContent}
-        </pre>
+        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: '#000' }} dangerouslySetInnerHTML={{ __html: highlightedContent }} />
       </div>
     );
   };

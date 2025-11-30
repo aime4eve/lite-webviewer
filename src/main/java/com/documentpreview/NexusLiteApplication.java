@@ -8,7 +8,11 @@ import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestCli
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+    ElasticsearchDataAutoConfiguration.class,
+    ElasticsearchClientAutoConfiguration.class,
+    ElasticsearchRestClientAutoConfiguration.class
+})
 @EnableCaching
 @EnableScheduling
 public class NexusLiteApplication {

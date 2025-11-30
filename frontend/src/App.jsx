@@ -312,7 +312,7 @@ function App() {
         <Content className="content" ref={containerRef}>
           <div className="content-layout">
             <div className="left-content" style={{ width: '100%' }}>
-              <PreviewPane filePath={selectedFile} loading={loading} error={error} />
+              <PreviewPane filePath={selectedFile} loading={loading} error={error} searchKeywords={searchText} />
             </div>
           </div>
         </Content>
