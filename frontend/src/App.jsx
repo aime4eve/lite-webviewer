@@ -157,7 +157,8 @@ function App() {
       };
       
       const body = JSON.stringify(bodyParams);
-      const resp = await fetch(`${searchEndpoint}?limit=50`, {
+      // 移除limit参数限制，确保显示所有搜索结果
+      const resp = await fetch(`${searchEndpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
