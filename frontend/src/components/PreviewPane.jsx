@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Spin, Empty, Alert, Typography, Switch } from 'antd';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -9,13 +9,204 @@ import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const { Title, Text } = Typography;
 
+// 独立的Mermaid组件 - 避免样式和逻辑冲突
+const EnhancedMermaidBlock = ({ chart }) => {
+  // 简化状态管理
+  const [svg, setSvg] = useState('');
+  const [isRendering, setIsRendering] = useState(true);
+  const containerRef = useRef(null);
+  
+  // 直接使用内联样式控制所有UI元素，确保样式正确应用
+  useEffect(() => {
+    // 配置Mermaid实例
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      logLevel: 3,
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true
+      },
+      sequence: {
+        showSequenceNumbers: false
+      },
+      gantt: {
+        useWidth: 100
+      }
+    });
+    
+    // 渲染函数
+    const renderMermaidChart = async () => {
+      try {
+        setIsRendering(true);
+        // 创建唯一ID
+        const id = `mermaid-chart-${Date.now()}`;
+        // 直接渲染图表
+        const { svg: renderedSvg } = await mermaid.render(id, chart);
+        
+        // 确保SVG包含必要的类和样式
+        const processedSvg = renderedSvg
+          .replace('<svg', '<svg class="mermaid-svg"')
+          .replace('viewBox', 'preserveAspectRatio="xMidYMid meet" viewBox');
+          
+        setSvg(processedSvg);
+      } catch (error) {
+        console.error('Mermaid rendering error:', error);
+        // 错误显示
+        setSvg(`<div class="mermaid-error" style="
+          padding: 20px;
+          color: #dc3545;
+          background: #f8d7da;
+          border: 1px solid #f5c6cb;
+          border-radius: 8px;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          text-align: center;
+        ">图表渲染失败: ${error.message}</div>`);
+      } finally {
+        setIsRendering(false);
+      }
+    };
+    
+    renderMermaidChart();
+  }, [chart]);
+  
+  // 添加简单的交互样式控制
+  const [showControls, setShowControls] = useState(true);
+  const [scale, setScale] = useState(1);
+  
+  const zoomIn = () => setScale(s => Math.min(s * 1.1, 2));
+  const zoomOut = () => setScale(s => Math.max(s * 0.9, 0.5));
+  const resetZoom = () => setScale(1);
+  
+  // 基本容器样式 - 确保应用
+  const containerStyle = {
+    position: 'relative',
+    backgroundColor: '#ffffff',
+    border: '2px solid #e2e8f0',
+    borderRadius: '12px',
+    padding: '20px',
+    margin: '20px 0',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    minHeight: '300px',
+    overflow: 'auto',
+    transition: 'all 0.3s ease'
+  };
+  
+  // 控件样式
+  const controlsStyle = {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    display: 'flex',
+    gap: '6px',
+    zIndex: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    padding: '8px',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    border: '1px solid #e2e8f0'
+  };
+  
+  // 按钮样式
+  const buttonStyle = {
+    backgroundColor: '#64748b',
+    border: 'none',
+    borderRadius: '4px',
+    padding: '6px 8px',
+    cursor: 'pointer',
+    color: 'white',
+    fontSize: '12px',
+    minWidth: '32px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.2s ease'
+  };
+  
+  // 图表样式
+  const chartStyle = {
+    width: '100%',
+    height: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: `scale(${scale})`,
+    transformOrigin: 'center center',
+    transition: 'transform 0.3s ease',
+    padding: '20px 0',
+    minHeight: '250px'
+  };
+  
+  return (
+    <div ref={containerRef} style={containerStyle}>
+      {/* 控制按钮 */}
+      {showControls && (
+        <div style={controlsStyle}>
+          <button 
+            style={{ ...buttonStyle, backgroundColor: '#2563eb' }}
+            onClick={zoomIn}
+            title="放大"
+          >
+            +
+          </button>
+          <button 
+            style={{ ...buttonStyle, backgroundColor: '#64748b' }}
+            onClick={zoomOut}
+            title="缩小"
+          >
+            -
+          </button>
+          <button 
+            style={{ ...buttonStyle, backgroundColor: '#10b981' }}
+            onClick={resetZoom}
+            title="重置"
+          >
+            ⟳
+          </button>
+        </div>
+      )}
+      
+      {/* 图表容器 */}
+      <div 
+        style={chartStyle}
+        dangerouslySetInnerHTML={{ __html: isRendering ? 
+          '<div style="text-align: center; padding: 40px; color: #64748b;">图表加载中...</div>' : 
+          svg 
+        }}
+      />
+    </div>
+  );
+}
+
 // Preview component for different file types
 const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchKeywords }) => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [textOnly, setTextOnly] = useState(false);
-  useEffect(() => { mermaid.initialize({ startOnLoad: false, theme: 'dark' }); }, []);
+  useEffect(() => { 
+    mermaid.initialize({ 
+      startOnLoad: false, 
+      theme: 'default',
+      fontFamily: 'Inter, sans-serif',
+      securityLevel: 'loose',
+      flowchart: {
+        htmlLabels: true,
+        curve: 'basis'
+      },
+      themeVariables: {
+        primaryColor: '#2c3e50',
+        primaryTextColor: '#2c3e50',
+        primaryBorderColor: '#2c3e50',
+        lineColor: '#95a5a6',
+        secondaryColor: '#34495e',
+        tertiaryColor: '#e74c3c'
+      }
+    }); 
+  }, []);
   
   // Highlight keywords in text
   const highlightKeywords = (text) => {
@@ -128,14 +319,6 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
   
   // Render markdown content
   const renderMarkdown = (mdContent) => {
-    const MermaidBlock = ({ chart }) => {
-      const [svg, setSvg] = useState('');
-      useEffect(() => {
-        const id = `mmd-${Math.random().toString(36).slice(2)}`;
-        mermaid.render(id, chart).then(({ svg }) => setSvg(svg)).catch(() => setSvg('<pre>Mermaid 渲染失败</pre>'));
-      }, [chart]);
-      return <div dangerouslySetInnerHTML={{ __html: svg }} />;
-    };
     
     // Custom component to apply highlighting to text content
     const HighlightText = ({ children }) => {
@@ -155,7 +338,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
             code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');
               if (!inline && match && match[1] === 'mermaid') {
-                return <MermaidBlock chart={String(children)} />;
+                return <EnhancedMermaidBlock chart={String(children)} />;
               }
               return !inline && match ? (
                 <SyntaxHighlighter

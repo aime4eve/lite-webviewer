@@ -64,3 +64,257 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Mermaid container styles with enhanced interactivity */
+.mermaid-container {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  overflow: auto;
+  min-height: 350px;
+  transition: all 0.3s ease;
+}
+
+.mermaid-container .mermaid {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  cursor: grab;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mermaid-container .mermaid svg {
+  max-width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.mermaid-container .mermaid:active,
+.mermaid-container:active {
+  cursor: grabbing;
+}
+
+.mermaid-container.zoomed .mermaid {
+  height: 100%;
+  width: 100%;
+  cursor: grab;
+}
+
+/* Enhanced Mermaid controls area - always visible */
+.mermaid-controls {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+/* Responsive controls on small screens */
+@media (max-width: 768px) {
+  .mermaid-controls {
+    top: 10px;
+    right: 10px;
+    gap: 6px;
+    padding: 6px;
+  }
+}
+
+/* Enhanced Mermaid control buttons with better visual feedback */
+.mermaid-control-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  font-size: 16px;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Individual button colors and hover effects */
+.mermaid-control-btn:first-child {
+  background: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.mermaid-control-btn:first-child:hover {
+  background: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px) scale(1.05);
+}
+
+.mermaid-control-btn:nth-child(2) {
+  background: #6b7280;
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+}
+
+.mermaid-control-btn:nth-child(2):hover {
+  background: #4b5563;
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+  transform: translateY(-1px) scale(1.05);
+}
+
+.mermaid-control-btn:nth-child(3) {
+  background: #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.mermaid-control-btn:nth-child(3):hover {
+  background: #059669;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  transform: translateY(-1px) scale(1.05);
+}
+
+.mermaid-control-btn:nth-child(4) {
+  background: #8b5cf6;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.mermaid-control-btn:nth-child(4):hover {
+  background: #7c3aed;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  transform: translateY(-1px) scale(1.05);
+}
+
+/* Active state for buttons */
+.mermaid-control-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip enhancement */
+.mermaid-control-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 101;
+}
+
+/* Override mermaid default styles for better contrast and consistency */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  fill: #ffffff !important;
+  stroke: #2c3e50 !important;
+  stroke-width: 2px !important;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+}
+
+/* Different node colors with good contrast */
+.mermaid .node:nth-child(4n+1) rect,
+.mermaid .node:nth-child(4n+1) circle,
+.mermaid .node:nth-child(4n+1) ellipse,
+.mermaid .node:nth-child(4n+1) polygon {
+  fill: #ffffff !important;
+  stroke: #2c3e50 !important;
+}
+
+.mermaid .node:nth-child(4n+2) rect,
+.mermaid .node:nth-child(4n+2) circle,
+.mermaid .node:nth-child(4n+2) ellipse,
+.mermaid .node:nth-child(4n+2) polygon {
+  fill: #f8f9fa !important;
+  stroke: #34495e !important;
+}
+
+.mermaid .node:nth-child(4n+3) rect,
+.mermaid .node:nth-child(4n+3) circle,
+.mermaid .node:nth-child(4n+3) ellipse,
+.mermaid .node:nth-child(4n+3) polygon {
+  fill: #e3f2fd !important;
+  stroke: #1976d2 !important;
+}
+
+.mermaid .node:nth-child(4n+4) rect,
+.mermaid .node:nth-child(4n+4) circle,
+.mermaid .node:nth-child(4n+4) ellipse,
+.mermaid .node:nth-child(4n+4) polygon {
+  fill: #fff3e0 !important;
+  stroke: #f57c00 !important;
+}
+
+.mermaid .node .label {
+  color: #2c3e50 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  font-family: 'Inter', sans-serif !important;
+  text-shadow: none !important;
+}
+
+.mermaid .edgePath .path {
+  stroke: #95a5a6 !important;
+  stroke-width: 2px !important;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+.mermaid .edgeLabel {
+  background-color: #ffffff !important;
+  color: #2c3e50 !important;
+  font-weight: 500 !important;
+  font-family: 'Inter', sans-serif !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.mermaid .marker {
+  fill: #95a5a6 !important;
+  stroke: #95a5a6 !important;
+}
+
+/* Timeline specific styling */
+.mermaid .section0, .mermaid .section1, .mermaid .section2, .mermaid .section3 {
+  fill: #f8f9fa !important;
+  stroke: #2c3e50 !important;
+}
+
+.mermaid .cScale0, .mermaid .cScale1, .mermaid .cScale2 {
+  fill: #2c3e50 !important;
+}
+
+/* Responsive styles for small screens */
+@media (max-width: 768px) {
+  .mermaid-container {
+    padding: 15px;
+    max-height: 400px;
+  }
+}
