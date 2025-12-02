@@ -1,5 +1,6 @@
 package com.documentpreview.modules.preview.service;
 
+import com.documentpreview.modules.config.service.ConfigService;
 import com.documentpreview.modules.document.domain.PreviewContent;
 import com.documentpreview.modules.document.domain.FileType;
 import com.documentpreview.shared.ddd.Result;
@@ -84,8 +85,13 @@ public class PreviewServiceImpl implements PreviewService {
     @Value("${app.preview.pdf.max-pages-per-request}")
     private int maxPdfPagesPerRequest;
     
-    @Value("${app.scan.root-dirs}")
-    private String rootDir;
+    // 从ConfigService获取根目录配置
+    private final ConfigService configService;
+    
+    // 构造函数注入ConfigService
+    public PreviewServiceImpl(ConfigService configService) {
+        this.configService = configService;
+    }
     
     @Override
     @Cacheable(value = "preview-content", key = "#filePath + '-' + #root.targetClass.simpleName")
@@ -96,7 +102,7 @@ public class PreviewServiceImpl implements PreviewService {
         File file = new File(filePath);
         if (!file.isAbsolute()) {
             // If it's a relative path, prepend the root directory
-            file = new File(rootDir, filePath);
+            file = new File(configService.getRootDirs(), filePath);
         }
         
         return generatePreview(file);
@@ -145,6 +151,8 @@ public class PreviewServiceImpl implements PreviewService {
                 return generateHtmlPreview(file);
             } else if ("xlsx".equals(fileExtension)) {
                 return generateXlsxPreview(file);
+            } else if ("log".equals(fileExtension) || "txt".equals(fileExtension)) {
+                return generateTextPreview(file);
             } else {
                 return Result.failure(String.format("Preview not supported for file type: %s", fileExtension));
             }
@@ -469,5 +477,32 @@ public class PreviewServiceImpl implements PreviewService {
             );
             return Result.success(previewContent);
         }
+    }
+    
+    /**
+     * Generates preview content for a text file (log or txt).
+     * 
+     * @param file The text file to generate preview for.
+     * @return A Result containing the generated PreviewContent if successful, or an error message otherwise.
+     */
+    private Result<PreviewContent> generateTextPreview(File file) throws IOException {
+        logger.debug("Generating text preview for file: {}", file.getAbsolutePath());
+        
+        // Read text content
+        String textContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+        
+        // Escape HTML characters and wrap in <pre> tag for proper formatting
+        String escapedContent = org.springframework.web.util.HtmlUtils.htmlEscape(textContent);
+        String htmlContent = "<html><body><pre style='white-space: pre-wrap; word-wrap: break-word; font-family: monospace; background-color: #f5f5f5; padding: 10px; border-radius: 4px;'>" + 
+                           escapedContent + 
+                           "</pre></body></html>";
+        
+        PreviewContent previewContent = new PreviewContent(
+                "text/html",
+                htmlContent,
+                true
+        );
+        
+        return Result.success(previewContent);
     }
 }
