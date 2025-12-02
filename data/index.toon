@@ -1,16 +1,20 @@
-files[14]{path,type,name}:
+files[18]{path,type,name}:
 docs/,directory,docs
 Web预览系统产品设计.md,file,Web预览系统产品设计.md
 售前资料/,directory,售前资料
 售前资料/壮壮作息时间安排.xlsx,file,壮壮作息时间安排.xlsx
 售前资料/1.0科创基地二期智慧园区系统投标技术方案.docx,file,1.0科创基地二期智慧园区系统投标技术方案.docx
 售前资料/test.md,file,test.md
-项目申报管理.html,file,项目申报管理.html
 技术案例/,directory,技术案例
+技术案例/产品需求设计.md,file,产品需求设计.md
+技术案例/清华大学本科专业介绍.md,file,清华大学本科专业介绍.md
+技术案例/mermaid-test.md,file,mermaid-test.md
+技术案例/test-table.md,file,test-table.md
 技术案例/华为研发IPD流程介绍.docx,file,华为研发IPD流程介绍.docx
 技术案例/2025年本科专业清单.xlsx,file,2025年本科专业清单.xlsx
+技术案例/系统概要设计.md,file,系统概要设计.md
 nexus-lite-vibe-coding-final.md,file,nexus-lite-vibe-coding-final.md
 专业前景分析.html,file,专业前景分析.html
 sample.csv,file,sample.csv
 Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf,file,Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
-metadata{total,last_updated,root}: 14,2025-12-01T01:04:38+08:00,/root/lite-webviewer/docs
+metadata{total,last_updated,root}: 18,2025-12-02T14:09:00+08:00,/root/lite-webviewer/docs

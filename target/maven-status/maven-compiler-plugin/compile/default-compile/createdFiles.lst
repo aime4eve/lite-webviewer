@@ -1,3 +1,4 @@
+com/documentpreview/modules/search/domain/KeywordExpression.class
 com/documentpreview/modules/search/service/EsSearchServiceInterface$SearchStats.class
 com/documentpreview/modules/search/service/EsIndexService.class
 com/documentpreview/modules/scan/service/TOONGeneratorServiceImpl.class
@@ -7,6 +8,7 @@ com/documentpreview/web/controller/DocumentController.class
 com/documentpreview/modules/preview/service/PreviewService.class
 com/documentpreview/modules/scan/service/ScanEventListener.class
 com/documentpreview/shared/ddd/Result.class
+com/documentpreview/modules/search/domain/AndExpression.class
 com/documentpreview/shared/ddd/AggregateRoot.class
 com/documentpreview/modules/scan/service/FileScanServiceImpl.class
 com/documentpreview/shared/ddd/Entity.class
@@ -21,6 +23,7 @@ com/documentpreview/modules/search/service/EsSearchService.class
 com/documentpreview/modules/search/domain/SearchStatus.class
 com/documentpreview/modules/search/repository/SearchMetaRepository.class
 com/documentpreview/web/controller/SearchController.class
+com/documentpreview/modules/search/domain/OrExpression.class
 com/documentpreview/modules/scan/domain/FilesIndex.class
 com/documentpreview/modules/search/service/AdvancedSearchService.class
 com/documentpreview/modules/scan/domain/ScanFinishedEvent.class
@@ -29,6 +32,7 @@ com/documentpreview/infra/cache/CacheConfig.class
 com/documentpreview/modules/scan/service/TOONGeneratorService.class
 com/documentpreview/web/config/WebConfig.class
 com/documentpreview/modules/scan/domain/FilesIndexItem.class
+com/documentpreview/modules/search/service/SearchExpressionParser$ParseResult.class
 com/documentpreview/modules/document/domain/DirectoryTree.class
 com/documentpreview/modules/document/domain/TOONStructure.class
 com/documentpreview/shared/ddd/ValueObject.class
@@ -37,6 +41,7 @@ com/documentpreview/modules/search/es/EsDocument.class
 com/documentpreview/modules/preview/service/PreviewServiceImpl.class
 com/documentpreview/web/controller/FileController.class
 com/documentpreview/modules/document/domain/FileType.class
+com/documentpreview/modules/search/domain/SearchExpression.class
 com/documentpreview/modules/scan/service/FileScanServiceImpl$1.class
 com/documentpreview/web/controller/IndexController.class
 com/documentpreview/modules/preview/service/PreviewServiceImpl$1.class
@@ -45,6 +50,7 @@ com/documentpreview/modules/scan/repository/IndexRepository.class
 com/documentpreview/modules/search/domain/SearchRequest.class
 com/documentpreview/modules/search/service/SimpleSearchService.class
 com/documentpreview/modules/search/service/SearchMetaBuilder.class
+com/documentpreview/modules/search/service/SearchExpressionParser.class
 com/documentpreview/NexusLiteApplication.class
 com/documentpreview/modules/search/es/EsDocumentRepository.class
 com/documentpreview/web/exception/GlobalExceptionHandler.class

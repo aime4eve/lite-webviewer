@@ -52,6 +52,11 @@ app:
     es-index-name: nexus-lite-docs
     es-replicas: 0
     es-shards: 1
+    extract:
+      xlsx:
+        rows: 1000000  # Maximum rows to extract from Excel files
+      content:
+        max-length: 10000000  # Maximum content length to extract (characters)
 
 
 # Web Configuration

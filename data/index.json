@@ -24,13 +24,25 @@
     "type" : "file",
     "name" : "test.md"
   }, {
-    "path" : "项目申报管理.html",
-    "type" : "file",
-    "name" : "项目申报管理.html"
-  }, {
     "path" : "技术案例/",
     "type" : "directory",
     "name" : "技术案例"
+  }, {
+    "path" : "技术案例/产品需求设计.md",
+    "type" : "file",
+    "name" : "产品需求设计.md"
+  }, {
+    "path" : "技术案例/清华大学本科专业介绍.md",
+    "type" : "file",
+    "name" : "清华大学本科专业介绍.md"
+  }, {
+    "path" : "技术案例/mermaid-test.md",
+    "type" : "file",
+    "name" : "mermaid-test.md"
+  }, {
+    "path" : "技术案例/test-table.md",
+    "type" : "file",
+    "name" : "test-table.md"
   }, {
     "path" : "技术案例/华为研发IPD流程介绍.docx",
     "type" : "file",
@@ -39,6 +51,10 @@
     "path" : "技术案例/2025年本科专业清单.xlsx",
     "type" : "file",
     "name" : "2025年本科专业清单.xlsx"
+  }, {
+    "path" : "技术案例/系统概要设计.md",
+    "type" : "file",
+    "name" : "系统概要设计.md"
   }, {
     "path" : "nexus-lite-vibe-coding-final.md",
     "type" : "file",
@@ -57,5 +73,5 @@
     "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
   } ],
   "rootDir" : "/root/lite-webviewer/docs",
-  "lastUpdated" : 1764522278064
+  "lastUpdated" : 1764655740107
 }

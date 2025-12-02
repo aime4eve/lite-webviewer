@@ -70,6 +70,10 @@ public class PreviewServiceImpl implements PreviewService {
     // Initialize Markdown parser and renderer
     static {
         MutableDataSet options = new MutableDataSet();
+        // Enable table extensions for Markdown
+        options.set(Parser.EXTENSIONS, Arrays.asList(
+            com.vladsch.flexmark.ext.tables.TablesExtension.create()
+        ));
         MARKDOWN_PARSER = Parser.builder(options).build();
         HTML_RENDERER = HtmlRenderer.builder(options).build();
     }
