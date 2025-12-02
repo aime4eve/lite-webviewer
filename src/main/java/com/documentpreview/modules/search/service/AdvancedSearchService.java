@@ -3,12 +3,12 @@ package com.documentpreview.modules.search.service;
 import com.documentpreview.modules.document.domain.FileType;
 import com.documentpreview.modules.search.domain.SearchMeta;
 import com.documentpreview.modules.search.domain.SearchRequest;
+import com.documentpreview.modules.config.service.ConfigService;
 import com.documentpreview.modules.search.domain.SearchResult;
 import com.documentpreview.modules.search.domain.SearchExpression;
 import com.documentpreview.modules.search.repository.SearchMetaRepository;
 import com.documentpreview.shared.ddd.Result;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 public class AdvancedSearchService {
     private final SearchMetaRepository repo;
     private final SearchExpressionParser parser;
-    @Value("${app.scan.root-dirs}")
-    private String rootDir;
+    private final ConfigService configService;
 
-    public AdvancedSearchService(SearchMetaRepository repo) { 
+    public AdvancedSearchService(SearchMetaRepository repo, ConfigService configService) { 
         this.repo = repo; 
         this.parser = new SearchExpressionParser();
+        this.configService = configService;
     }
 
     /**
@@ -91,39 +91,39 @@ public class AdvancedSearchService {
 
         
         // 对于PDF文件进行额外的内容匹配
-        if (meta.getFileType() == FileType.PDF) {
-            for (String kw : keywords) {
-                String keywordLower = kw.toLowerCase(Locale.ROOT);
-                try (org.apache.pdfbox.pdmodel.PDDocument pdf = org.apache.pdfbox.Loader.loadPDF(new java.io.File(java.nio.file.Paths.get(rootDir, meta.getFilePath()).toString()))) {
-                    int total = pdf.getNumberOfPages();
-                    StringBuilder pat = new StringBuilder();
-                    for (int i = 0; i < keywordLower.length(); i++) {
-                        String ch = String.valueOf(keywordLower.charAt(i));
-                        // escape regex special chars
-                        pat.append(Pattern.quote(ch));
-                        if (i < keywordLower.length() - 1) pat.append("[\\s\\-]*");
+                    if (meta.getFileType() == FileType.PDF) {
+                        for (String kw : keywords) {
+                            String keywordLower = kw.toLowerCase(Locale.ROOT);
+                            try (org.apache.pdfbox.pdmodel.PDDocument pdf = org.apache.pdfbox.Loader.loadPDF(new java.io.File(java.nio.file.Paths.get(configService.getRootDirs(), meta.getFilePath()).toString()))) {
+                                int total = pdf.getNumberOfPages();
+                                StringBuilder pat = new StringBuilder();
+                                for (int i = 0; i < keywordLower.length(); i++) {
+                                    String ch = String.valueOf(keywordLower.charAt(i));
+                                    // escape regex special chars
+                                    pat.append(Pattern.quote(ch));
+                                    if (i < keywordLower.length() - 1) pat.append("[\\s\\-]*");
+                                }
+                                Pattern regex = Pattern.compile(pat.toString(), Pattern.CASE_INSENSITIVE);
+                                for (int p = 1; p <= total; p++) {
+                                    org.apache.pdfbox.text.PDFTextStripper s = new org.apache.pdfbox.text.PDFTextStripper();
+                                    s.setSortByPosition(true);
+                                    s.setStartPage(p);
+                                    s.setEndPage(p);
+                                    String pageText = s.getText(pdf);
+                                    if (pageText == null || pageText.isBlank()) continue;
+                                    Matcher matcher = regex.matcher(pageText);
+                                    if (matcher.find()) {
+                                            int st = Math.max(0, matcher.start() - 60);
+                                            int ed = Math.min(pageText.length(), matcher.end() + 60);
+                                            String snippetBefore = pageText.substring(st, matcher.start());
+                                            String matchedText = pageText.substring(matcher.start(), matcher.end());
+                                            String snippetAfter = pageText.substring(matcher.end(), ed);
+                                            return snippetBefore + "<em class='highlight'>" + matchedText + "</em>" + snippetAfter;
+                                        }
+                                }
+                            } catch (Exception ignore) {}
+                        }
                     }
-                    Pattern regex = Pattern.compile(pat.toString(), Pattern.CASE_INSENSITIVE);
-                    for (int p = 1; p <= total; p++) {
-                        org.apache.pdfbox.text.PDFTextStripper s = new org.apache.pdfbox.text.PDFTextStripper();
-                        s.setSortByPosition(true);
-                        s.setStartPage(p);
-                        s.setEndPage(p);
-                        String pageText = s.getText(pdf);
-                        if (pageText == null || pageText.isBlank()) continue;
-                        Matcher matcher = regex.matcher(pageText);
-                        if (matcher.find()) {
-                                int st = Math.max(0, matcher.start() - 60);
-                                int ed = Math.min(pageText.length(), matcher.end() + 60);
-                                String snippetBefore = pageText.substring(st, matcher.start());
-                                String matchedText = pageText.substring(matcher.start(), matcher.end());
-                                String snippetAfter = pageText.substring(matcher.end(), ed);
-                                return snippetBefore + "<em class='highlight'>" + matchedText + "</em>" + snippetAfter;
-                            }
-                    }
-                } catch (Exception ignore) {}
-            }
-        }
         
         // 如果没有找到匹配，返回默认摘要
         return "...";

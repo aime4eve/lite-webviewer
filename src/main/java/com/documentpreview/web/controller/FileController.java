@@ -1,8 +1,8 @@
 package com.documentpreview.web.controller;
 
+import com.documentpreview.modules.config.service.ConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,12 @@ import java.nio.file.Paths;
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Value("${app.scan.root-dirs}")
-    private String rootDir;
+    private final ConfigService configService;
+
+    // 构造函数注入ConfigService
+    public FileController(ConfigService configService) {
+        this.configService = configService;
+    }
 
     @GetMapping("/fs/**")
     public ResponseEntity<?> serveFile(HttpServletRequest request) {
@@ -38,6 +42,8 @@ public class FileController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid path");
             }
 
+            // 从ConfigService获取当前根目录
+            String rootDir = configService.getRootDirs();
             Path root = Paths.get(rootDir).normalize();
             Path target = root.resolve(path).normalize();
 

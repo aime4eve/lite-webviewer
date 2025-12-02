@@ -567,6 +567,9 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     );
   };
   
+  // Extract plain text from HTML
+
+
   // Highlight keywords in HTML content
   const highlightHTML = (html) => {
     if (!searchKeywords || !html || typeof html !== 'string') {

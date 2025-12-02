@@ -1,5 +1,6 @@
 package com.documentpreview.modules.search.service;
 
+import com.documentpreview.modules.config.service.ConfigService;
 import com.documentpreview.modules.document.domain.FileType;
 import com.documentpreview.modules.search.domain.SearchResult;
 import com.documentpreview.modules.search.domain.SearchMeta;
@@ -32,13 +33,15 @@ public class SimpleSearchService {
     private final PreviewService previewService;
     private final SearchMetaRepository searchMetaRepository;
     private final SearchExpressionParser parser;
-    @Value("${app.scan.root-dirs}")
-    private String rootDir;
+    
+    // 根目录配置通过ConfigService获取
+    private final ConfigService configService;
 
-    public SimpleSearchService(PreviewService previewService, SearchMetaRepository searchMetaRepository) {
+    public SimpleSearchService(PreviewService previewService, SearchMetaRepository searchMetaRepository, ConfigService configService) {
         this.previewService = previewService;
         this.searchMetaRepository = searchMetaRepository;
         this.parser = new SearchExpressionParser();
+        this.configService = configService;
     }
 
     public Result<List<SearchResult>> search(FilesIndex index, String keyword, int limit) {
