@@ -325,3 +325,18 @@ Re-optimizing dependencies because vite config has changed
 11:40:31 AM [vite] server restarted.
 11:40:31 AM [vite] server restarted.
 11:40:31 AM [vite] server restarted.
+11:52:01 PM [vite] http proxy error: /api/v1/config/root-dirs
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/config/root-dirs
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/document/scan?force=true
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
