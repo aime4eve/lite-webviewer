@@ -23,6 +23,7 @@ com/documentpreview/modules/search/service/EsSearchService.class
 com/documentpreview/modules/search/domain/SearchStatus.class
 com/documentpreview/modules/search/repository/SearchMetaRepository.class
 com/documentpreview/web/controller/SearchController.class
+com/documentpreview/web/controller/ConfigController.class
 com/documentpreview/modules/search/domain/OrExpression.class
 com/documentpreview/modules/scan/domain/FilesIndex.class
 com/documentpreview/modules/search/service/AdvancedSearchService.class
@@ -40,6 +41,7 @@ com/documentpreview/modules/document/domain/DocumentSummary.class
 com/documentpreview/modules/search/es/EsDocument.class
 com/documentpreview/modules/preview/service/PreviewServiceImpl.class
 com/documentpreview/web/controller/FileController.class
+com/documentpreview/modules/config/service/ConfigService.class
 com/documentpreview/modules/document/domain/FileType.class
 com/documentpreview/modules/search/domain/SearchExpression.class
 com/documentpreview/modules/scan/service/FileScanServiceImpl$1.class

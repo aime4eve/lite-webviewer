@@ -10,6 +10,7 @@
 /root/lite-webviewer/src/main/java/com/documentpreview/shared/ddd/AggregateRoot.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/preview/service/PreviewServiceImpl.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/search/es/EsDocumentRepository.java
+/root/lite-webviewer/src/main/java/com/documentpreview/modules/config/service/ConfigService.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/search/domain/KeywordExpression.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/search/domain/SearchStatus.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/search/service/AdvancedSearchService.java
@@ -35,6 +36,7 @@
 /root/lite-webviewer/src/main/java/com/documentpreview/web/controller/DocumentController.java
 /root/lite-webviewer/src/main/java/com/documentpreview/web/controller/FileController.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/scan/domain/FilesIndex.java
+/root/lite-webviewer/src/main/java/com/documentpreview/web/controller/ConfigController.java
 /root/lite-webviewer/src/main/java/com/documentpreview/web/controller/SearchController.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/scan/service/FileScanService.java
 /root/lite-webviewer/src/main/java/com/documentpreview/modules/search/es/EsDocument.java
