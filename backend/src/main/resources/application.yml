@@ -1,0 +1,104 @@
+spring:
+  application:
+    name: nexus-lite
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:h2:file:./data/nexus_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.H2Dialect
+  
+  # Cache Configuration
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=3600s
+  elasticsearch:
+    uris: http://localhost:9200
+
+# Application Configuration
+app:
+  # Scan Configuration
+  scan:
+    root-dirs: /home/agentic/lite-webviewer/docs
+    cron: 60  # minutes
+  
+  # Preview Configuration
+  preview:
+    max-file-size: 200 # MB
+    pdf:
+      max-pages-per-request: 20
+  
+  # Cache Configuration
+  cache:
+    toon-ttl: 3600  # seconds
+    preview-ttl: 600  # seconds
+  
+  # Data Directory
+  data:
+    dir: ./data
+  search:
+    use-es: true  # Enable Elasticsearch for full-text search
+    es-index-name: nexus-lite-docs
+    es-replicas: 0
+    es-shards: 1
+    extract:
+      xlsx:
+        rows: 1000000  # Maximum rows to extract from Excel files
+      content:
+        max-length: 10000000  # Maximum content length to extract (characters)
+
+
+# Web Configuration
+server:
+  port: ${SERVER_PORT:8090}
+  servlet:
+    context-path: /
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.documentpreview: DEBUG
+    org.springframework: INFO
+    org.hibernate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ./logs/nexus-lite.log
+
+# CORS Configuration
+cors:
+  allowed-origins: ["*"]
+  allowed-methods: [GET, POST, PUT, DELETE, OPTIONS]
+  allowed-headers: ["*"]
+  exposed-headers: [ETag, Last-Modified]
+  allow-credentials: true
+  max-age: 3600
+
+# Rate Limiting Configuration
+rate-limiting:
+  enabled: true
+  requests-per-minute: 120
+  burst-capacity: 30

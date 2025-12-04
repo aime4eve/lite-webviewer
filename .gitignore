@@ -1,5 +1,5 @@
 # 忽略构建输出目录
-target/
+backend/target/
 
 # 忽略Spring Boot静态资源目录中的构建产物
 src/main/resources/static/assets/
