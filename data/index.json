@@ -1,61 +1,21 @@
 {
   "items" : [ {
-    "path" : "docs/",
+    "path" : "logs/",
     "type" : "directory",
-    "name" : "docs"
+    "name" : "logs"
   }, {
-    "path" : "Web预览系统产品设计.md",
+    "path" : "nexus-lite.log.2025-11-30.0.gz",
     "type" : "file",
-    "name" : "Web预览系统产品设计.md"
+    "name" : "nexus-lite.log.2025-11-30.0.gz"
   }, {
-    "path" : "售前资料/",
-    "type" : "directory",
-    "name" : "售前资料"
-  }, {
-    "path" : "售前资料/壮壮作息时间安排.xlsx",
+    "path" : "nexus-lite.log",
     "type" : "file",
-    "name" : "壮壮作息时间安排.xlsx"
+    "name" : "nexus-lite.log"
   }, {
-    "path" : "售前资料/1.0科创基地二期智慧园区系统投标技术方案.docx",
+    "path" : "nexus-lite.log.2025-12-01.0.gz",
     "type" : "file",
-    "name" : "1.0科创基地二期智慧园区系统投标技术方案.docx"
-  }, {
-    "path" : "售前资料/test.md",
-    "type" : "file",
-    "name" : "test.md"
-  }, {
-    "path" : "项目申报管理.html",
-    "type" : "file",
-    "name" : "项目申报管理.html"
-  }, {
-    "path" : "技术案例/",
-    "type" : "directory",
-    "name" : "技术案例"
-  }, {
-    "path" : "技术案例/华为研发IPD流程介绍.docx",
-    "type" : "file",
-    "name" : "华为研发IPD流程介绍.docx"
-  }, {
-    "path" : "技术案例/2025年本科专业清单.xlsx",
-    "type" : "file",
-    "name" : "2025年本科专业清单.xlsx"
-  }, {
-    "path" : "nexus-lite-vibe-coding-final.md",
-    "type" : "file",
-    "name" : "nexus-lite-vibe-coding-final.md"
-  }, {
-    "path" : "专业前景分析.html",
-    "type" : "file",
-    "name" : "专业前景分析.html"
-  }, {
-    "path" : "sample.csv",
-    "type" : "file",
-    "name" : "sample.csv"
-  }, {
-    "path" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf",
-    "type" : "file",
-    "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
+    "name" : "nexus-lite.log.2025-12-01.0.gz"
   } ],
-  "rootDir" : "/root/lite-webviewer/docs",
-  "lastUpdated" : 1764522278064
+  "rootDir" : "/root/lite-webviewer/logs",
+  "lastUpdated" : 1764667942403
 }

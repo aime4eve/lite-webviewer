@@ -11,7 +11,9 @@ public enum FileType {
     SVG("svg"),
     HTML("html"),
     HTM("htm"),
-    XLSX("xlsx");
+    XLSX("xlsx"),
+    LOG("log"),
+    TXT("txt");
 
     private final String extension;
 

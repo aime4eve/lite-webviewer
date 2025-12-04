@@ -38,8 +38,13 @@ public class FileScanServiceImpl implements FileScanService {
     // Attributes to follow when visiting files
     private static final LinkOption[] LINK_OPTIONS = { LinkOption.NOFOLLOW_LINKS };
     
-    @Value("${app.scan.root-dirs}")
+    // 动态根目录配置
     private String rootDirs;
+    
+    @Value("${app.scan.root-dirs}")
+    public void setInitialRootDirs(String rootDirs) {
+        this.rootDirs = rootDirs;
+    }
     
     @Value("${app.data.dir}")
     private String dataDir;
@@ -339,5 +344,16 @@ public class FileScanServiceImpl implements FileScanService {
      */
     private String normalizePath(String path) {
         return path.replace("\\", "/");
+    }
+    
+    /**
+     * Updates the root directories for scanning.
+     * This method allows dynamic updating of the root directories without restarting the service.
+     * 
+     * @param newRootDirs The new root directories to use for scanning
+     */
+    public void updateRootDirs(String newRootDirs) {
+        logger.info("Updating root directories from {} to {}", this.rootDirs, newRootDirs);
+        this.rootDirs = newRootDirs;
     }
 }

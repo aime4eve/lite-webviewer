@@ -22,6 +22,11 @@ function App() {
   const [searchMode, setSearchMode] = useState('local'); // 'local' 或 'es'
   const scanAttempted = useRef(false);
   
+  // 根目录配置状态
+  const [rootDirs, setRootDirs] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempRootDirs, setTempRootDirs] = useState('');
+  
   const {
     files,
     setFiles,
@@ -66,47 +71,95 @@ function App() {
     }
   }, [message, setLoading, setError, setFiles]);
 
-  const fetchFileTree = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  // 获取根目录配置
+  const fetchRootDirs = useCallback(async () => {
     try {
-      const response = await fetch('/api/v1/index/json');
-      if (!response.ok) {
-        throw new Error('Failed to fetch file tree');
+      const response = await fetch('/api/v1/config/root-dirs');
+      if (response.ok) {
+        const data = await response.text();
+        setRootDirs(data);
+        setTempRootDirs(data);
       }
-      const data = await response.json();
-
-      const filePaths = data.items
-        .filter(item => item.type === 'file')
-        .map(item => item.path);
-      setFiles(filePaths);
-      notifyTreeLoaded(notification, filePaths, { onForceScan: () => handleScan(true) });
     } catch (err) {
-      if (!scanAttempted.current) {
-        scanAttempted.current = true;
+      console.error('Failed to fetch root dirs:', err);
+      notification.error({ message: '获取根目录配置失败', description: err.message, placement: 'bottomRight', duration: 3 });
+    }
+  }, [notification]);
+
+  // 更新根目录配置
+  const handleUpdateRootDirs = useCallback(async () => {
+    try {
+      const response = await fetch('/api/v1/config/root-dirs', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: tempRootDirs
+      });
+      if (response.ok) {
+        setRootDirs(tempRootDirs);
+        setIsEditing(false);
+        notification.success({ 
+          message: '配置更新成功', 
+          description: '根目录配置已更新，将自动触发扫描', 
+          placement: 'bottomRight', 
+          duration: 3 
+        });
+        // 自动触发扫描
+        handleScan();
+      }
+    } catch (err) {
+      console.error('Failed to update root dirs:', err);
+      notification.error({ 
+        message: '配置更新失败', 
+        description: err.message, 
+        placement: 'bottomRight', 
+        duration: 3 
+      });
+    }
+  }, [tempRootDirs, handleScan, notification]);
+
+  const fetchFileTree = useCallback(async () => {
+        setLoading(true);
+        setError(null);
         try {
-          const scanResp = await fetch('/api/v1/document/scan?force=true', { method: 'POST' });
-          if (scanResp.ok) {
-            const treeResp = await fetch('/api/v1/index/json');
-            if (treeResp.ok) {
-              const data2 = await treeResp.json();
-              const filePaths2 = data2.items
+            const response = await fetch('/api/v1/index/json');
+            if (!response.ok) {
+                throw new Error('Failed to fetch file tree');
+            }
+            const data = await response.json();
+
+            const filePaths = data.items
                 .filter(item => item.type === 'file')
                 .map(item => item.path);
-              setFiles(filePaths2);
-              notifyTreeLoaded(notification, filePaths2);
-              return;
+            setFiles(filePaths);
+            notifyTreeLoaded(notification, filePaths, { onForceScan: () => handleScan(true) });
+        } catch (err) {
+            if (!scanAttempted.current) {
+                scanAttempted.current = true;
+                try {
+                    const scanResp = await fetch('/api/v1/document/scan?force=true', { method: 'POST' });
+                    if (scanResp.ok) {
+                        const treeResp = await fetch('/api/v1/index/json');
+                        if (treeResp.ok) {
+                            const data2 = await treeResp.json();
+                            const filePaths2 = data2.items
+                                .filter(item => item.type === 'file')
+                                .map(item => item.path);
+                            setFiles(filePaths2);
+                            notifyTreeLoaded(notification, filePaths2);
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    // ignore scan fallback error and continue to show fetch error
+                }
             }
-          }
-        } catch (e) {
-          // ignore scan fallback error and continue to show fetch error
+            notification.error({ key: NOTIFY_KEYS.treeLoadFail, message: '文件加载树失败', description: err.message, placement: 'bottomRight', duration: 3 });
+        } finally {
+            setLoading(false);
         }
-      }
-      notification.error({ key: NOTIFY_KEYS.treeLoadFail, message: '文件加载树失败', description: err.message, placement: 'bottomRight', duration: 3 });
-    } finally {
-      setLoading(false);
-    }
-  }, [message, setLoading, setError, setFiles]);
+    }, [message, setLoading, setError, setFiles]);
 
   // 处理搜索输入，进行本地文件名匹配
   const handleSearchInput = (e) => {
@@ -157,7 +210,8 @@ function App() {
       };
       
       const body = JSON.stringify(bodyParams);
-      const resp = await fetch(`${searchEndpoint}?limit=50`, {
+      // 移除limit参数限制，确保显示所有搜索结果
+      const resp = await fetch(`${searchEndpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
@@ -173,14 +227,43 @@ function App() {
   }, [searchText, typeFilters]);
 
   useEffect(() => {
+    fetchRootDirs();
     fetchFileTree();
-  }, [fetchFileTree]);
+  }, [fetchRootDirs, fetchFileTree]);
 
   return (
     <Layout style={{ minHeight: '100vh' }} className="app-root">
       <Header className="header">
         <div className="logo">Nexus-Lite 知识预览系统</div>
         <div className="header-actions">
+          {/* 根目录配置 */}
+          <Space style={{ marginRight: 16 }}>
+            {isEditing ? (
+              <>
+                <Input
+                  size="small"
+                  value={tempRootDirs}
+                  onChange={(e) => setTempRootDirs(e.target.value)}
+                  placeholder="请输入扫描根目录"
+                  style={{ width: 250 }}
+                />
+                <Space>
+                  <Button size="small" onClick={handleUpdateRootDirs}>保存</Button>
+                  <Button size="small" onClick={() => {
+                    setIsEditing(false);
+                    setTempRootDirs(rootDirs);
+                  }}>取消</Button>
+                </Space>
+              </>
+            ) : (
+              <Space>
+                <span style={{ color: '#fff', marginRight: 8 }}>根目录: {rootDirs}</span>
+                <Button size="small" onClick={() => setIsEditing(true)}>修改</Button>
+              </Space>
+            )}
+          </Space>
+          
+          {/* 强制扫描按钮 */}
           <Button
             danger
             icon={<ReloadOutlined />}

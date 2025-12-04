@@ -200,3 +200,143 @@ Error: connect ECONNREFUSED 127.0.0.1:8080
 10:54:41 PM [vite] http proxy error: /api/v1/document/scan?force=true
 Error: connect ECONNREFUSED 127.0.0.1:8080
     at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 376 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 319 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 269 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+
+  VITE v5.4.21  ready in 271 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: http://172.29.18.7:5174/
+  ➜  Network: http://172.17.0.1:5174/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+
+  VITE v5.4.21  ready in 282 ms
+
+  ➜  Local:   http://localhost:5175/
+  ➜  Network: http://172.29.18.7:5175/
+  ➜  Network: http://172.17.0.1:5175/
+12:36:54 AM [vite] page reload index.html
+12:36:54 AM [vite] page reload index.html
+12:36:54 AM [vite] page reload index.html
+12:37:18 AM [vite] page reload index.html
+12:37:18 AM [vite] page reload index.html
+12:37:18 AM [vite] page reload index.html
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+
+  VITE v5.4.21  ready in 414 ms
+
+  ➜  Local:   http://localhost:5179/
+  ➜  Network: http://172.29.18.7:5179/
+  ➜  Network: http://172.17.0.1:5179/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+
+  VITE v5.4.21  ready in 306 ms
+
+  ➜  Local:   http://localhost:5176/
+  ➜  Network: http://172.29.18.7:5176/
+  ➜  Network: http://172.17.0.1:5176/
+11:32:20 AM [vite] vite.config.js changed, restarting server...
+11:32:20 AM [vite] vite.config.js changed, restarting server...
+11:32:20 AM [vite] vite.config.js changed, restarting server...
+Re-optimizing dependencies because vite config has changed
+Re-optimizing dependencies because vite config has changed
+Re-optimizing dependencies because vite config has changed
+11:32:20 AM [vite] server restarted.
+11:32:20 AM [vite] server restarted.
+11:32:20 AM [vite] server restarted.
+11:33:14 AM [vite] vite.config.js changed, restarting server...
+11:33:14 AM [vite] vite.config.js changed, restarting server...
+11:33:14 AM [vite] vite.config.js changed, restarting server...
+Re-optimizing dependencies because vite config has changed
+11:33:14 AM [vite] server restarted.
+11:33:14 AM [vite] server restarted.
+11:33:14 AM [vite] server restarted.
+11:38:10 AM [vite] vite.config.js changed, restarting server...
+11:38:10 AM [vite] vite.config.js changed, restarting server...
+11:38:10 AM [vite] vite.config.js changed, restarting server...
+11:38:10 AM [vite] server restarted.
+11:38:11 AM [vite] server restarted.
+11:38:11 AM [vite] server restarted.
+11:40:30 AM [vite] vite.config.js changed, restarting server...
+11:40:30 AM [vite] vite.config.js changed, restarting server...
+11:40:30 AM [vite] vite.config.js changed, restarting server...
+Re-optimizing dependencies because vite config has changed
+Re-optimizing dependencies because vite config has changed
+11:40:31 AM [vite] server restarted.
+11:40:31 AM [vite] server restarted.
+11:40:31 AM [vite] server restarted.
+11:52:01 PM [vite] http proxy error: /api/v1/config/root-dirs
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/config/root-dirs
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/index/json
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+11:52:01 PM [vite] http proxy error: /api/v1/document/scan?force=true
+Error: connect ECONNREFUSED 127.0.0.1:8080
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)

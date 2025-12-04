@@ -1,13 +1,334 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Spin, Empty, Alert, Typography, Switch } from 'antd';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import mermaid from 'mermaid';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import mermaid from 'mermaid';
 
 const { Title, Text } = Typography;
+
+// 增强的Mermaid图表组件 - 包含样式增强和交互功能
+const EnhancedMermaidBlock = ({ chart }) => {
+  // 状态管理
+  const [svg, setSvg] = useState('');
+  const [isRendering, setIsRendering] = useState(true);
+  const [showControls, setShowControls] = useState(true);
+  const [scale, setScale] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [activeNode, setActiveNode] = useState(null);
+  const containerRef = useRef(null);
+  const chartRef = useRef(null);
+  
+  // 动态加载和渲染Mermaid图表
+  useEffect(() => {
+    const renderMermaidChart = async () => {
+      try {
+        setIsRendering(true);
+        
+        // 动态导入Mermaid库
+        const mermaidModule = await import('mermaid');
+        const mermaid = mermaidModule.default;
+        
+        // 配置Mermaid实例
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'dark',
+          securityLevel: 'loose',
+          flowchart: {
+            useMaxWidth: false,
+            htmlLabels: true,
+            curve: 'basis'
+          }
+        });
+        
+        const id = `mermaid-chart-${Date.now()}`;
+        const { svg: renderedSvg } = await mermaid.render(id, chart);
+        
+        // 增强SVG样式和交互功能
+        const processedSvg = renderedSvg
+          .replace('<svg', '<svg class="mermaid-svg-enhanced"')
+          .replace('viewBox', 'preserveAspectRatio="xMidYMid meet" viewBox')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced { filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1)); cursor: pointer; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .node rect { transition: all 0.3s ease; cursor: pointer; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .node rect:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 0 0 2px #3b82f6; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .node rect.active { filter: brightness(1.2); transform: scale(1.05); box-shadow: 0 0 0 3px #ef4444; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .edgePath path { transition: all 0.3s ease; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .edgePath:hover path { stroke-width: 3px; stroke: #ef4444; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .label { cursor: pointer; transition: all 0.3s ease; }')
+          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .label:hover { filter: brightness(1.1); transform: scale(1.05); }');
+          
+        setSvg(processedSvg);
+      } catch (error) {
+        console.error('Mermaid rendering error:', error);
+        setSvg(`<div class="mermaid-error" style="
+          padding: 30px;
+          color: #dc3545;
+          background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+          border: 2px solid #f5c6cb;
+          border-radius: 12px;
+          font-family: Inter, sans-serif;
+          font-size: 14px;
+          text-align: center;
+          box-shadow: 0 4px 6px rgba(220, 53, 69, 0.1);
+          cursor: default;
+        ">图表渲染失败: ${error.message}</div>`);
+      } finally {
+        setIsRendering(false);
+      }
+    };
+    
+    renderMermaidChart();
+  }, [chart]);
+  
+  // 缩放控制功能
+  const zoomIn = () => setScale(s => Math.min(s * 1.2, 3));
+  const zoomOut = () => setScale(s => Math.max(s * 0.8, 0.3));
+  const resetZoom = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+  
+  // 拖拽功能
+   const handleMouseDown = (e) => {
+     if (e.button !== 0) return; // 只响应左键
+     setIsDragging(true);
+     setDragStart({
+       x: e.clientX - position.x,
+       y: e.clientY - position.y
+     });
+     e.currentTarget.style.cursor = 'grabbing';
+   };
+   
+   const handleMouseMove = (e) => {
+     if (!isDragging) return;
+     setPosition({
+       x: e.clientX - dragStart.x,
+       y: e.clientY - dragStart.y
+     });
+   };
+   
+   const handleMouseUp = () => {
+     setIsDragging(false);
+     if (chartRef.current) {
+       chartRef.current.style.cursor = 'grab';
+     }
+   };
+   
+   // 节点点击事件处理
+   const handleNodeClick = (e) => {
+     if (isDragging) return; // 拖拽时不触发点击事件
+     
+     const target = e.target;
+     const nodeRect = target.closest('.node rect');
+     const label = target.closest('.label');
+     
+     if (nodeRect || label) {
+       // 移除之前激活的节点
+       const activeElements = chartRef.current?.querySelectorAll('.active');
+       activeElements?.forEach(el => el.classList.remove('active'));
+       
+       // 激活当前节点
+       const node = nodeRect || label;
+       node.classList.add('active');
+       setActiveNode(node);
+       
+       // 添加点击动画效果
+       node.style.transition = 'all 0.2s ease';
+       setTimeout(() => {
+         node.style.transition = 'all 0.3s ease';
+       }, 200);
+     }
+   };
+   
+   // 双击重置视图
+   const handleDoubleClick = () => {
+     resetZoom();
+   };
+   
+   // 添加鼠标悬停效果
+   const handleMouseEnter = (e) => {
+     if (chartRef.current) {
+       chartRef.current.style.cursor = 'grab';
+     }
+   };
+   
+   const handleMouseLeave = (e) => {
+     if (chartRef.current && !isDragging) {
+       chartRef.current.style.cursor = 'default';
+     }
+   };
+  
+  // 添加键盘快捷键
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch (e.key) {
+          case '=':
+          case '+':
+            e.preventDefault();
+            zoomIn();
+            break;
+          case '-':
+            e.preventDefault();
+            zoomOut();
+            break;
+          case '0':
+            e.preventDefault();
+            resetZoom();
+            break;
+        }
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+  
+  // 增强的容器样式
+  const containerStyle = {
+    position: 'relative',
+    background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+    border: '2px solid #e2e8f0',
+    borderRadius: '16px',
+    padding: '24px',
+    margin: '24px 0',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05)',
+    minHeight: '350px',
+    overflow: 'hidden',
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    backdropFilter: 'blur(10px)'
+  };
+  
+  // 增强的控件样式
+  const controlsStyle = {
+    position: 'absolute',
+    top: '12px',
+    right: '12px',
+    display: 'flex',
+    gap: '8px',
+    zIndex: 20,
+    background: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(10px)',
+    padding: '10px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+    border: '1px solid rgba(226, 232, 240, 0.8)',
+    transition: 'all 0.3s ease'
+  };
+  
+  // 增强的按钮样式
+  const buttonStyle = {
+    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    color: 'white',
+    fontSize: '14px',
+    fontWeight: '600',
+    minWidth: '36px',
+    height: '36px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)'
+  };
+  
+  // 增强的图表样式
+  const chartStyle = {
+    width: '100%',
+    height: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
+    transformOrigin: 'center center',
+    transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    padding: '30px 0',
+    minHeight: '300px',
+    cursor: isDragging ? 'grabbing' : 'grab'
+  };
+  
+  // 缩放指示器样式
+  const scaleIndicatorStyle = {
+    position: 'absolute',
+    bottom: '12px',
+    left: '12px',
+    background: 'rgba(0, 0, 0, 0.7)',
+    color: 'white',
+    padding: '6px 12px',
+    borderRadius: '20px',
+    fontSize: '12px',
+    fontWeight: '500',
+    zIndex: 10
+  };
+  
+  return (
+    <div ref={containerRef} style={containerStyle}>
+      {/* 控制按钮 */}
+      {showControls && (
+        <div style={controlsStyle}>
+          <button 
+            style={{ ...buttonStyle, background: 'linear-gradient(135deg, #10b981 0%, #047857 100%)' }}
+            onClick={zoomIn}
+            title="放大 (Ctrl+)"
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <span style={{ fontSize: '16px', fontWeight: 'bold' }}>+</span>
+          </button>
+          <button 
+            style={{ ...buttonStyle, background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}
+            onClick={zoomOut}
+            title="缩小 (Ctrl-)"
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <span style={{ fontSize: '16px', fontWeight: 'bold' }}>-</span>
+          </button>
+          <button 
+            style={{ ...buttonStyle, background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' }}
+            onClick={resetZoom}
+            title="重置 (Ctrl+0)"
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <span style={{ fontSize: '14px' }}>⟳</span>
+          </button>
+        </div>
+      )}
+      
+      {/* 缩放指示器 */}
+      <div style={scaleIndicatorStyle}>
+        缩放: {Math.round(scale * 100)}%
+      </div>
+      
+      {/* 图表容器 */}
+       <div 
+         ref={chartRef}
+         style={chartStyle}
+         onMouseDown={handleMouseDown}
+         onMouseMove={handleMouseMove}
+         onMouseUp={handleMouseUp}
+         onMouseLeave={handleMouseLeave}
+         onDoubleClick={handleDoubleClick}
+         onClick={handleNodeClick}
+         onMouseEnter={handleMouseEnter}
+         dangerouslySetInnerHTML={{ __html: isRendering ? 
+           '<div style="text-align: center; padding: 60px; color: #64748b; font-size: 16px;">' +
+           '<div style="margin-bottom: 16px;">🔄</div>' +
+           '图表加载中...</div>' : 
+           svg 
+         }}
+       />
+    </div>
+  );
+}
 
 // Preview component for different file types
 const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchKeywords }) => {
@@ -15,7 +336,6 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [textOnly, setTextOnly] = useState(false);
-  useEffect(() => { mermaid.initialize({ startOnLoad: false, theme: 'dark' }); }, []);
   
   // Highlight keywords in text
   const highlightKeywords = (text) => {
@@ -128,14 +448,6 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
   
   // Render markdown content
   const renderMarkdown = (mdContent) => {
-    const MermaidBlock = ({ chart }) => {
-      const [svg, setSvg] = useState('');
-      useEffect(() => {
-        const id = `mmd-${Math.random().toString(36).slice(2)}`;
-        mermaid.render(id, chart).then(({ svg }) => setSvg(svg)).catch(() => setSvg('<pre>Mermaid 渲染失败</pre>'));
-      }, [chart]);
-      return <div dangerouslySetInnerHTML={{ __html: svg }} />;
-    };
     
     // Custom component to apply highlighting to text content
     const HighlightText = ({ children }) => {
@@ -155,7 +467,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
             code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');
               if (!inline && match && match[1] === 'mermaid') {
-                return <MermaidBlock chart={String(children)} />;
+                return <EnhancedMermaidBlock chart={String(children)} />;
               }
               return !inline && match ? (
                 <SyntaxHighlighter
@@ -255,6 +567,9 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     );
   };
   
+  // Extract plain text from HTML
+
+
   // Highlight keywords in HTML content
   const highlightHTML = (html) => {
     if (!searchKeywords || !html || typeof html !== 'string') {

@@ -1,8 +1,10 @@
 package com.documentpreview.modules.search.service;
 
+import com.documentpreview.modules.config.service.ConfigService;
 import com.documentpreview.modules.document.domain.FileType;
 import com.documentpreview.modules.search.domain.SearchResult;
 import com.documentpreview.modules.search.domain.SearchMeta;
+import com.documentpreview.modules.search.domain.SearchExpression;
 import com.documentpreview.modules.search.repository.SearchMetaRepository;
 import com.documentpreview.modules.scan.domain.FilesIndex;
 import com.documentpreview.modules.scan.domain.FilesIndexItem;
@@ -30,12 +32,16 @@ public class SimpleSearchService {
 
     private final PreviewService previewService;
     private final SearchMetaRepository searchMetaRepository;
-    @Value("${app.scan.root-dirs}")
-    private String rootDir;
+    private final SearchExpressionParser parser;
+    
+    // 根目录配置通过ConfigService获取
+    private final ConfigService configService;
 
-    public SimpleSearchService(PreviewService previewService, SearchMetaRepository searchMetaRepository) {
+    public SimpleSearchService(PreviewService previewService, SearchMetaRepository searchMetaRepository, ConfigService configService) {
         this.previewService = previewService;
         this.searchMetaRepository = searchMetaRepository;
+        this.parser = new SearchExpressionParser();
+        this.configService = configService;
     }
 
     public Result<List<SearchResult>> search(FilesIndex index, String keyword, int limit) {
@@ -50,12 +56,20 @@ public class SimpleSearchService {
                 return Result.success(defaults);
             }
 
-            String qLower = q.toLowerCase(Locale.ROOT);
-
             List<SearchResult> results = new ArrayList<>();
             // load prebuilt metas for content search
             List<SearchMeta> metas = searchMetaRepository.loadAll().getValue().orElse(List.of());
             var metaByPath = metas.stream().collect(java.util.stream.Collectors.toMap(SearchMeta::getFilePath, m -> m));
+            
+            // 解析搜索表达式
+            SearchExpression expression;
+            try {
+                expression = parser.parse(q);
+            } catch (IllegalArgumentException e) {
+                // 搜索语法错误，返回错误信息
+                return Result.failure("搜索语法错误: " + e.getMessage() + "\n\n" + parser.getSyntaxHelp());
+            }
+            
             for (FilesIndexItem item : index.getItems()) {
                 if (!"file".equalsIgnoreCase(item.getType())) continue;
 
@@ -68,34 +82,44 @@ public class SimpleSearchService {
                 String snippet = null;
                 boolean isMatch = false;
 
-                // 文件名匹配检查
-                if (fileName.toLowerCase(Locale.ROOT).contains(qLower)) {
-                    isMatch = true;
-                    int pos = fileName.toLowerCase(Locale.ROOT).indexOf(qLower);
-                    int start = Math.max(0, pos - 10);
-                    int end = Math.min(fileName.length(), pos + qLower.length() + 10);
-                    // 添加高亮标签
-                    String snippetBefore = fileName.substring(start, pos);
-                    String matchedText = fileName.substring(pos, pos + q.length());
-                    String snippetAfter = fileName.substring(pos + q.length(), end);
-                    snippet = snippetBefore + "<em class='highlight'>" + matchedText + "</em>" + snippetAfter;
+                // 使用搜索表达式匹配
+                SearchMeta meta = metaByPath.get(filePath);
+                if (meta != null) {
+                    isMatch = expression.matches(meta);
+                } else {
+                    // 如果没有搜索元数据，只检查文件名
+                    SearchMeta tempMeta = new SearchMeta(filePath, fileName, parentDir, fileType, fileName, null, null, 0L);
+                    isMatch = expression.matches(tempMeta);
                 }
 
-                // 内容匹配检查（如果文件名未匹配）
-                if (!isMatch) {
-                    SearchMeta meta = metaByPath.get(filePath);
-                    if (meta != null && meta.getContentText() != null) {
+                // 如果匹配，构建摘要
+                if (isMatch) {
+                    // 简单的摘要生成，使用第一个关键字
+                    String firstKeyword = q.split("\\s+")[0];
+                    String firstKeywordLower = firstKeyword.toLowerCase(Locale.ROOT);
+                    
+                    // 文件名匹配检查
+                    if (fileName.toLowerCase(Locale.ROOT).contains(firstKeywordLower)) {
+                        int pos = fileName.toLowerCase(Locale.ROOT).indexOf(firstKeywordLower);
+                        int start = Math.max(0, pos - 10);
+                        int end = Math.min(fileName.length(), pos + firstKeyword.length() + 10);
+                        // 添加高亮标签
+                        String snippetBefore = fileName.substring(start, pos);
+                        String matchedText = fileName.substring(pos, pos + firstKeyword.length());
+                        String snippetAfter = fileName.substring(pos + firstKeyword.length(), end);
+                        snippet = snippetBefore + "<em class='highlight'>" + matchedText + "</em>" + snippetAfter;
+                    } else if (meta != null && meta.getContentText() != null) {
+                        // 内容匹配检查
                         String contentLower = meta.getContentText().toLowerCase(Locale.ROOT);
-                        int pos = contentLower.indexOf(qLower);
+                        int pos = contentLower.indexOf(firstKeywordLower);
                         if (pos >= 0) {
-                            isMatch = true;
                             int start = Math.max(0, pos - 40);
-                            int end = Math.min(meta.getContentText().length(), pos + qLower.length() + 40);
+                            int end = Math.min(meta.getContentText().length(), pos + firstKeyword.length() + 40);
                             // 添加高亮标签
                             String content = meta.getContentText();
                             String snippetBefore = content.substring(start, pos);
-                            String matchedText = content.substring(pos, pos + q.length());
-                            String snippetAfter = content.substring(pos + q.length(), end);
+                            String matchedText = content.substring(pos, pos + firstKeyword.length());
+                            String snippetAfter = content.substring(pos + firstKeyword.length(), end);
                             snippet = snippetBefore + "<em class='highlight'>" + matchedText + "</em>" + snippetAfter;
                             snippet = snippet.replaceAll("\n", " ");
                         }
