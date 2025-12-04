@@ -86,11 +86,13 @@ sleep 5 && curl -s -X POST "http://localhost:8080/api/v1/document/force-scan"
 curl -X POST "http://localhost:8080/api/v1/search/reindex?clear=true" 
 
 # 编译项目
+cd /root/lite-webviewer/frontend && npm install && npm run build 
+
 cd /root/lite-webviewer && mvn compile 
 # 启动项目
 pkill -f "spring-boot:run" 
 cd /root/lite-webviewer && mvn spring-boot:run 
-
+cd /root/lite-webviewer/frontend && npm run dev 
 # 全文检索含"新疆"的文档
 cd /root/lite-webviewer && curl -s "http://localhost:8080/api/v1/search/advanced" -H "Content-Type: application/json" -d '{"keyword":"新疆"}' 
 # 全文检索含"文档"的文档

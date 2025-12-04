@@ -2,6 +2,7 @@ package com.documentpreview.modules.search.service;
 
 import com.documentpreview.modules.document.domain.FileType;
 import com.documentpreview.modules.search.domain.SearchResult;
+import com.documentpreview.modules.search.domain.SearchExpression;
 import com.documentpreview.modules.search.es.EsDocument;
 import com.documentpreview.modules.search.es.EsDocumentRepository;
 import com.documentpreview.shared.ddd.Result;
@@ -43,6 +44,15 @@ public class EsSearchServiceImpl implements EsSearchServiceInterface {
 
     @Value("${app.search.es-index-name:nexus-lite-docs}")
     private String indexName;
+    
+    private final SearchExpressionParser parser;
+
+    /**
+     * 构造函数
+     */
+    public EsSearchServiceImpl() {
+        this.parser = new SearchExpressionParser();
+    }
 
     /**
      * 检查Elasticsearch连接
@@ -117,10 +127,17 @@ public class EsSearchServiceImpl implements EsSearchServiceInterface {
             
             logger.info("Performing simple search with keyword: '{}'", keyword);
             
-            // 创建多字段匹配查询
-            Criteria criteria = new Criteria("content").contains(keyword)
-                    .or("title").contains(keyword)
-                    .or("fileName").contains(keyword);
+            // 解析搜索表达式
+            SearchExpression expression;
+            try {
+                expression = parser.parse(keyword);
+            } catch (IllegalArgumentException e) {
+                // 搜索语法错误，返回错误信息
+                return Result.failure("搜索语法错误: " + e.getMessage() + "\n\n" + parser.getSyntaxHelp());
+            }
+            
+            // 构建ES查询条件
+            Criteria criteria = expression.buildCriteria();
             Query searchQuery = new CriteriaQuery(criteria)
                     .setPageable(PageRequest.of(0, limit > 0 ? limit : 100))
                     .addSort(Sort.by(Sort.Direction.DESC, "modifiedAt"));
@@ -156,14 +173,17 @@ public class EsSearchServiceImpl implements EsSearchServiceInterface {
         try {
             logger.info("Performing advanced search with keyword: '{}'", keyword);
 
-            Criteria criteria = new Criteria();
-
-            // 文本查询
-            if (StringUtils.isNotBlank(keyword)) {
-                criteria = criteria.and(new Criteria("content").contains(keyword)
-                        .or("title").contains(keyword)
-                        .or("fileName").contains(keyword));
+            // 解析搜索表达式
+            SearchExpression expression;
+            try {
+                expression = parser.parse(keyword);
+            } catch (IllegalArgumentException e) {
+                // 搜索语法错误，返回错误信息
+                return Result.failure("搜索语法错误: " + e.getMessage() + "\n\n" + parser.getSyntaxHelp());
             }
+            
+            // 构建ES查询条件
+            Criteria criteria = expression.buildCriteria();
 
             Query searchQuery = new CriteriaQuery(criteria)
                     .setPageable(PageRequest.of(0, limit > 0 ? limit : 50))

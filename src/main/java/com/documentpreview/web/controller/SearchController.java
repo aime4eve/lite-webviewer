@@ -63,7 +63,7 @@ public class SearchController {
 
     @PostMapping("/advanced")
     public ResponseEntity<?> advancedSearch(@RequestBody SearchRequest request,
-                                            @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+                                            @RequestParam(value = "limit", required = false, defaultValue = "1000") int limit) {
         String keyword = (request.getKeyword() == null ? "" : request.getKeyword()).trim();
         boolean useEs = (esSearchService != null && esSearchService.checkConnection().isSuccess() && esSearchService.checkConnection().getValue().orElse(false));
         logger.info("Advanced search request received with keyword: '{}', limit: {}, using ES: {}", keyword, limit, useEs);
