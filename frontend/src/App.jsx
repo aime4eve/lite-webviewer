@@ -7,12 +7,13 @@ import FileTree from './components/FileTree';
 import PreviewPane from './components/PreviewPane';
 import { useAppStore } from './store';
 import { NOTIFY_KEYS, notifyTreeLoaded } from './shared/notification';
+import { mockFiles } from './mockData';
 
 const { Header, Sider, Content } = Layout;
 const { Search } = Input;
 
 function App() {
-  const { message, notification } = AntdApp.useApp();
+  const { notification } = AntdApp.useApp();
   const [collapsed, setCollapsed] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -43,19 +44,20 @@ function App() {
   const handleScan = useCallback(async () => {
     setLoading(true);
     setError(null);
+    
     try {
       const response = await fetch(`/api/v1/document/force-scan`, {
         method: 'POST'
       });
       if (!response.ok) {
-        throw new Error('Scan failed');
+        throw new Error('扫描失败');
       }
       const result = await response.text();
       notification.success({ key: NOTIFY_KEYS.scanSuccess, message: '扫描完成', description: result, placement: 'bottomRight', duration: 3 });
 
       const treeResp = await fetch('/api/v1/index/json');
       if (!treeResp.ok) {
-        throw new Error('Failed to fetch file tree');
+        throw new Error('获取文件树失败');
       }
       const data = await treeResp.json();
       const filePaths = data.items
@@ -64,12 +66,17 @@ function App() {
       setFiles(filePaths);
       notifyTreeLoaded(notification, filePaths);
     } catch (err) {
-      setError(err.message);
-      notification.error({ key: NOTIFY_KEYS.scanFail, message: '扫描失败', description: err.message, placement: 'bottomRight', duration: 3 });
+      let errorMessage = err.message;
+      // 检查是否是连接错误
+      if (err.message.includes('Failed to fetch') || err.message.includes('ECONNREFUSED')) {
+        errorMessage = '无法连接到后端服务，请确保后端服务正在运行';
+      }
+      setError(errorMessage);
+      notification.error({ key: NOTIFY_KEYS.scanFail, message: '操作失败', description: errorMessage, placement: 'bottomRight', duration: 3 });
     } finally {
       setLoading(false);
     }
-  }, [message, setLoading, setError, setFiles]);
+  }, [setLoading, setError, setFiles, notification]);
 
   // 获取根目录配置
   const fetchRootDirs = useCallback(async () => {
@@ -125,7 +132,7 @@ function App() {
         try {
             const response = await fetch('/api/v1/index/json');
             if (!response.ok) {
-                throw new Error('Failed to fetch file tree');
+                throw new Error('获取文件树失败');
             }
             const data = await response.json();
 
@@ -135,6 +142,19 @@ function App() {
             setFiles(filePaths);
             notifyTreeLoaded(notification, filePaths, { onForceScan: () => handleScan(true) });
         } catch (err) {
+            let errorMessage = err.message;
+            // 检查是否是连接错误
+            if (err.message.includes('Failed to fetch') || err.message.includes('ECONNREFUSED') || err.message.includes('获取失败')) {
+                errorMessage = '无法连接到后端服务，正在使用模拟数据';
+                // 使用模拟数据
+                setFiles(mockFiles);
+                notifyTreeLoaded(notification, mockFiles, { onForceScan: () => handleScan(true) });
+                notification.warning({ key: NOTIFY_KEYS.treeLoadFail, message: '文件加载失败', description: errorMessage, placement: 'bottomRight', duration: 3 });
+            } else {
+                // 如果是其他错误，显示错误信息
+                notification.error({ key: NOTIFY_KEYS.treeLoadFail, message: '文件加载失败', description: errorMessage, placement: 'bottomRight', duration: 3 });
+            }
+            
             if (!scanAttempted.current) {
                 scanAttempted.current = true;
                 try {
@@ -155,11 +175,10 @@ function App() {
                     // ignore scan fallback error and continue to show fetch error
                 }
             }
-            notification.error({ key: NOTIFY_KEYS.treeLoadFail, message: '文件加载树失败', description: err.message, placement: 'bottomRight', duration: 3 });
         } finally {
             setLoading(false);
         }
-    }, [message, setLoading, setError, setFiles]);
+    }, [setLoading, setError, setFiles, handleScan, notification]);
 
   // 处理搜索输入，进行本地文件名匹配
   const handleSearchInput = (e) => {
@@ -224,7 +243,7 @@ function App() {
     } finally {
       setSearching(false);
     }
-  }, [searchText, typeFilters]);
+  }, [searchText, typeFilters, notification]);
 
   useEffect(() => {
     fetchRootDirs();

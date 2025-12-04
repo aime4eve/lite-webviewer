@@ -8,13 +8,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8090',
         changeOrigin: true,
         secure: false,
         ws: false,
       },
       '/fs': {
-        target: 'http://localhost:8080/api/v1/fs',
+        target: 'http://localhost:8090/api/v1/fs',
         changeOrigin: true,
         secure: false,
         ws: false,
@@ -22,4 +22,16 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // 确保mermaid库被单独打包
+          mermaid: ['mermaid'],
+          // 确保react相关库被单独打包
+          react: ['react', 'react-dom'],
+        }
+      }
+    }
+  }
 })

@@ -42,103 +42,155 @@ html, body, #root {
   background: radial-gradient(60% 60% at 20% 10%, rgba(0,229,255,0.08) 0%, transparent 60%),
               radial-gradient(50% 50% at 90% 80%, rgba(0,245,160,0.08) 0%, transparent 60%),
               linear-gradient(120deg, #0B1020 0%, #0F1429 60%, #0B1020 100%);
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .app-root::after {
   background: repeating-linear-gradient(90deg, rgba(0,229,255,0.03) 0px, rgba(0,229,255,0.03) 1px, transparent 1px, transparent 40px),
               repeating-linear-gradient(0deg, rgba(0,229,255,0.03) 0px, rgba(0,229,255,0.03) 1px, transparent 1px, transparent 40px);
   mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  transform: translateZ(0);
+  will-change: transform;
 }
 
-/* Layout styles */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--glass-bg);
-  padding: 0 32px; /* Increased horizontal padding */
-  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-  backdrop-filter: blur(8px);
+  padding: 0 24px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
+  height: 72px;
+  position: relative;
   z-index: 10;
-  height: 72px; /* Increased height slightly for better vertical breathing */
-  width: 100%; /* Ensure full width */
-  box-sizing: border-box; /* Include padding in width */
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
 }
 
 .logo {
   color: var(--neon-blue);
-  font-size: 22px; /* Slightly larger logo */
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(0,229,255,0.4);
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0,229,255,0.5);
   display: flex;
   align-items: center;
-  gap: 16px; /* Increased gap between dot and text */
+  gap: 10px;
 }
 
 .logo::before {
   content: '';
   display: block;
-  width: 10px; /* Slightly larger dot */
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background: var(--neon-green);
   border-radius: 50%;
   box-shadow: 0 0 10px var(--neon-green);
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 24px; /* Increased gap between buttons */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  overflow: hidden; /* Prevent outer scroll */
+  height: calc(100vh - 72px);
 }
 
 .sider {
-  background-color: var(--glass-bg) !important;
+  background: var(--glass-bg) !important;
   border-right: 1px solid var(--border-color);
-  backdrop-filter: blur(4px);
-}
-
-.ant-layout-sider-zero-width-trigger {
-  display: none !important;
+  backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 5;
+  height: calc(100vh - 72px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sider-float-trigger {
-  position: fixed;
-  left: 8px;
-  top: 80px;
-  z-index: 2000;
-  backdrop-filter: blur(4px);
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
 }
 
-.content {
-  background-color: transparent;
-  padding: 0;
-  overflow: hidden;
-  flex: 1;
-  height: 100%;
+/* Mermaid Fullscreen Styles - Enhanced for exclusive mode */
+.mermaid-fullscreen-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: #0B1020 !important;
+  z-index: 2147483647 !important; /* Max z-index */
+  
+  /* Completely isolate stacking context */
+  isolation: isolate !important;
+  
+  /* Capture all pointer events */
+  pointer-events: all !important;
+  
+  /* Disable browser touch actions */
+  touch-action: none !important;
+  
+  /* Ensure it covers everything */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  
+  /* Animation */
+  animation: fadeIn 0.3s ease-out !important;
 }
 
-.search-container {
-  background-color: transparent;
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color);
-}
-.search-container .ant-select, .search-container .ant-input, .search-container .ant-btn {
-  background: rgba(0,229,255,0.05);
-  border-color: var(--border-color);
+/* 全屏容器样式 */
+.mermaid-fullscreen-container {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #0B1020 !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  
+  /* 完全隔离事件 */
+  pointer-events: auto !important;
+  isolation: isolate !important;
+  
+  /* 防止任何内容溢出 */
+  contain: strict !important;
 }
 
-.search-item:hover {
-  background: rgba(0,229,255,0.06);
+/* 全屏控制栏样式 */
+.fullscreen-controls {
+  /* 确保控制栏完全隔离事件 */
+  pointer-events: auto !important;
+  isolation: isolate !important;
 }
 
-.highlight {
-  background: rgba(0,229,255,0.12);
-  color: var(--neon-blue);
-  padding: 0 2px;
-  border-radius: 2px;
+/* 全屏动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 防止全屏模式下底层内容交互 */
+.mermaid-fullscreen-overlay ~ * {
+  pointer-events: none !important;
+}
+
+/* 确保全屏模式下的body不滚动 */
+body.mermaid-fullscreen-active {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .preview-pane {
@@ -251,17 +303,98 @@ html, body, #root {
   max-width: 100%;
   color: #e0e6ed;
   font-size: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .markdown-preview {
+    font-size: 14px;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .markdown-preview {
+    font-size: 13px;
+    padding: 15px;
+  }
+  
+  .header {
+    padding: 0 16px;
+  }
+  
+  .logo {
+    font-size: 18px;
+  }
+  
+  .sider {
+    width: 250px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .markdown-preview {
+    font-size: 12px;
+    padding: 12px;
+    line-height: 1.6;
+  }
+  
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .content {
+    height: calc(100vh - 120px);
+  }
 }
 
 .markdown-preview h1,
 .markdown-preview h2,
-.markdown-preview h3 {
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
   color: var(--neon-blue);
   font-weight: 600;
   margin-top: 1.5em;
   margin-bottom: 0.8em;
-  border-bottom: 1px solid rgba(0,229,255,0.1);
+  border-bottom: 1px solid rgba(0,229,255,0.08);
   padding-bottom: 0.3em;
+}
+
+.markdown-preview h1 { font-size: 1.8em; }
+.markdown-preview h2 { font-size: 1.5em; }
+.markdown-preview h3 { font-size: 1.3em; }
+
+.markdown-preview a {
+  color: var(--neon-blue);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(0,229,255,0.3);
+  transition: all 0.2s;
+}
+
+.markdown-preview a:hover {
+  border-bottom-style: solid;
+  text-shadow: 0 0 8px rgba(0,229,255,0.4);
+}
+
+.markdown-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+  margin: 20px auto;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.markdown-preview ul, 
+.markdown-preview ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.2em;
 }
 
 .markdown-preview p {
@@ -411,3 +544,49 @@ html, body, #root {
 .html-preview table { overflow: hidden; }
 .html-preview .table-wrap { width: 100%; overflow-x: auto; }
 .html-preview blockquote { border-left: 3px solid var(--neon-blue); background: rgba(0,229,255,0.05); margin: 0 0 1.5em 0; padding: 1em; border-radius: 0 4px 4px 0; }
+
+/* Mermaid Fullscreen Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.mermaid-fullscreen-overlay.closing {
+  animation: fadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active node animation */
+.mermaid-svg-enhanced .node.active rect,
+.mermaid-svg-enhanced .node.active circle,
+.mermaid-svg-enhanced .node.active polygon,
+.mermaid-svg-enhanced .node.active path {
+  stroke: #00E5FF !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6));
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.8));
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.4));
+  }
+}

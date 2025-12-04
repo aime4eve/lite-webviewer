@@ -1,334 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Spin, Empty, Alert, Typography, Switch } from 'antd';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import mermaid from 'mermaid';
+import MarkdownPreview from './MarkdownPreview';
+import EnhancedMermaidBlock from './EnhancedMermaidBlock';
+import { createRoot } from 'react-dom/client';
+import { mockMarkdownContent } from '../mockData';
 
 const { Title, Text } = Typography;
-
-// 增强的Mermaid图表组件 - 包含样式增强和交互功能
-const EnhancedMermaidBlock = ({ chart }) => {
-  // 状态管理
-  const [svg, setSvg] = useState('');
-  const [isRendering, setIsRendering] = useState(true);
-  const [showControls, setShowControls] = useState(true);
-  const [scale, setScale] = useState(1);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [activeNode, setActiveNode] = useState(null);
-  const containerRef = useRef(null);
-  const chartRef = useRef(null);
-  
-  // 动态加载和渲染Mermaid图表
-  useEffect(() => {
-    const renderMermaidChart = async () => {
-      try {
-        setIsRendering(true);
-        
-        // 动态导入Mermaid库
-        const mermaidModule = await import('mermaid');
-        const mermaid = mermaidModule.default;
-        
-        // 配置Mermaid实例
-        mermaid.initialize({
-          startOnLoad: false,
-          theme: 'dark',
-          securityLevel: 'loose',
-          flowchart: {
-            useMaxWidth: false,
-            htmlLabels: true,
-            curve: 'basis'
-          }
-        });
-        
-        const id = `mermaid-chart-${Date.now()}`;
-        const { svg: renderedSvg } = await mermaid.render(id, chart);
-        
-        // 增强SVG样式和交互功能
-        const processedSvg = renderedSvg
-          .replace('<svg', '<svg class="mermaid-svg-enhanced"')
-          .replace('viewBox', 'preserveAspectRatio="xMidYMid meet" viewBox')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced { filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1)); cursor: pointer; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .node rect { transition: all 0.3s ease; cursor: pointer; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .node rect:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 0 0 2px #3b82f6; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .node rect.active { filter: brightness(1.2); transform: scale(1.05); box-shadow: 0 0 0 3px #ef4444; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .edgePath path { transition: all 0.3s ease; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .edgePath:hover path { stroke-width: 3px; stroke: #ef4444; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .label { cursor: pointer; transition: all 0.3s ease; }')
-          .replace(/<style>/, '<style>\n.mermaid-svg-enhanced .label:hover { filter: brightness(1.1); transform: scale(1.05); }');
-          
-        setSvg(processedSvg);
-      } catch (error) {
-        console.error('Mermaid rendering error:', error);
-        setSvg(`<div class="mermaid-error" style="
-          padding: 30px;
-          color: #dc3545;
-          background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-          border: 2px solid #f5c6cb;
-          border-radius: 12px;
-          font-family: Inter, sans-serif;
-          font-size: 14px;
-          text-align: center;
-          box-shadow: 0 4px 6px rgba(220, 53, 69, 0.1);
-          cursor: default;
-        ">图表渲染失败: ${error.message}</div>`);
-      } finally {
-        setIsRendering(false);
-      }
-    };
-    
-    renderMermaidChart();
-  }, [chart]);
-  
-  // 缩放控制功能
-  const zoomIn = () => setScale(s => Math.min(s * 1.2, 3));
-  const zoomOut = () => setScale(s => Math.max(s * 0.8, 0.3));
-  const resetZoom = () => {
-    setScale(1);
-    setPosition({ x: 0, y: 0 });
-  };
-  
-  // 拖拽功能
-   const handleMouseDown = (e) => {
-     if (e.button !== 0) return; // 只响应左键
-     setIsDragging(true);
-     setDragStart({
-       x: e.clientX - position.x,
-       y: e.clientY - position.y
-     });
-     e.currentTarget.style.cursor = 'grabbing';
-   };
-   
-   const handleMouseMove = (e) => {
-     if (!isDragging) return;
-     setPosition({
-       x: e.clientX - dragStart.x,
-       y: e.clientY - dragStart.y
-     });
-   };
-   
-   const handleMouseUp = () => {
-     setIsDragging(false);
-     if (chartRef.current) {
-       chartRef.current.style.cursor = 'grab';
-     }
-   };
-   
-   // 节点点击事件处理
-   const handleNodeClick = (e) => {
-     if (isDragging) return; // 拖拽时不触发点击事件
-     
-     const target = e.target;
-     const nodeRect = target.closest('.node rect');
-     const label = target.closest('.label');
-     
-     if (nodeRect || label) {
-       // 移除之前激活的节点
-       const activeElements = chartRef.current?.querySelectorAll('.active');
-       activeElements?.forEach(el => el.classList.remove('active'));
-       
-       // 激活当前节点
-       const node = nodeRect || label;
-       node.classList.add('active');
-       setActiveNode(node);
-       
-       // 添加点击动画效果
-       node.style.transition = 'all 0.2s ease';
-       setTimeout(() => {
-         node.style.transition = 'all 0.3s ease';
-       }, 200);
-     }
-   };
-   
-   // 双击重置视图
-   const handleDoubleClick = () => {
-     resetZoom();
-   };
-   
-   // 添加鼠标悬停效果
-   const handleMouseEnter = (e) => {
-     if (chartRef.current) {
-       chartRef.current.style.cursor = 'grab';
-     }
-   };
-   
-   const handleMouseLeave = (e) => {
-     if (chartRef.current && !isDragging) {
-       chartRef.current.style.cursor = 'default';
-     }
-   };
-  
-  // 添加键盘快捷键
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        switch (e.key) {
-          case '=':
-          case '+':
-            e.preventDefault();
-            zoomIn();
-            break;
-          case '-':
-            e.preventDefault();
-            zoomOut();
-            break;
-          case '0':
-            e.preventDefault();
-            resetZoom();
-            break;
-        }
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
-  
-  // 增强的容器样式
-  const containerStyle = {
-    position: 'relative',
-    background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
-    border: '2px solid #e2e8f0',
-    borderRadius: '16px',
-    padding: '24px',
-    margin: '24px 0',
-    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05)',
-    minHeight: '350px',
-    overflow: 'hidden',
-    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-    backdropFilter: 'blur(10px)'
-  };
-  
-  // 增强的控件样式
-  const controlsStyle = {
-    position: 'absolute',
-    top: '12px',
-    right: '12px',
-    display: 'flex',
-    gap: '8px',
-    zIndex: 20,
-    background: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(10px)',
-    padding: '10px',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-    border: '1px solid rgba(226, 232, 240, 0.8)',
-    transition: 'all 0.3s ease'
-  };
-  
-  // 增强的按钮样式
-  const buttonStyle = {
-    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-    border: 'none',
-    borderRadius: '8px',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    color: 'white',
-    fontSize: '14px',
-    fontWeight: '600',
-    minWidth: '36px',
-    height: '36px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.3s ease',
-    boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)'
-  };
-  
-  // 增强的图表样式
-  const chartStyle = {
-    width: '100%',
-    height: 'auto',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
-    transformOrigin: 'center center',
-    transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    padding: '30px 0',
-    minHeight: '300px',
-    cursor: isDragging ? 'grabbing' : 'grab'
-  };
-  
-  // 缩放指示器样式
-  const scaleIndicatorStyle = {
-    position: 'absolute',
-    bottom: '12px',
-    left: '12px',
-    background: 'rgba(0, 0, 0, 0.7)',
-    color: 'white',
-    padding: '6px 12px',
-    borderRadius: '20px',
-    fontSize: '12px',
-    fontWeight: '500',
-    zIndex: 10
-  };
-  
-  return (
-    <div ref={containerRef} style={containerStyle}>
-      {/* 控制按钮 */}
-      {showControls && (
-        <div style={controlsStyle}>
-          <button 
-            style={{ ...buttonStyle, background: 'linear-gradient(135deg, #10b981 0%, #047857 100%)' }}
-            onClick={zoomIn}
-            title="放大 (Ctrl+)"
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <span style={{ fontSize: '16px', fontWeight: 'bold' }}>+</span>
-          </button>
-          <button 
-            style={{ ...buttonStyle, background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}
-            onClick={zoomOut}
-            title="缩小 (Ctrl-)"
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <span style={{ fontSize: '16px', fontWeight: 'bold' }}>-</span>
-          </button>
-          <button 
-            style={{ ...buttonStyle, background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' }}
-            onClick={resetZoom}
-            title="重置 (Ctrl+0)"
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <span style={{ fontSize: '14px' }}>⟳</span>
-          </button>
-        </div>
-      )}
-      
-      {/* 缩放指示器 */}
-      <div style={scaleIndicatorStyle}>
-        缩放: {Math.round(scale * 100)}%
-      </div>
-      
-      {/* 图表容器 */}
-       <div 
-         ref={chartRef}
-         style={chartStyle}
-         onMouseDown={handleMouseDown}
-         onMouseMove={handleMouseMove}
-         onMouseUp={handleMouseUp}
-         onMouseLeave={handleMouseLeave}
-         onDoubleClick={handleDoubleClick}
-         onClick={handleNodeClick}
-         onMouseEnter={handleMouseEnter}
-         dangerouslySetInnerHTML={{ __html: isRendering ? 
-           '<div style="text-align: center; padding: 60px; color: #64748b; font-size: 16px;">' +
-           '<div style="margin-bottom: 16px;">🔄</div>' +
-           '图表加载中...</div>' : 
-           svg 
-         }}
-       />
-    </div>
-  );
-}
 
 // Preview component for different file types
 const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchKeywords }) => {
@@ -338,7 +15,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
   const [textOnly, setTextOnly] = useState(false);
   
   // Highlight keywords in text
-  const highlightKeywords = (text) => {
+  const highlightKeywords = useCallback((text) => {
     if (!searchKeywords || !text || typeof text !== 'string') {
       return text;
     }
@@ -353,225 +30,10 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     
     // Replace keywords with highlight tags
     return text.replace(pattern, '<em class="highlight">$1</em>');
-  };
+  }, [searchKeywords]);
   
-  const fetchPreview = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // 确保文件路径使用正确的格式 - 去除可能的前导斜杠，使路径相对于文档根目录
-      let formattedFilePath = filePath;
-      if (formattedFilePath && formattedFilePath.startsWith('/')) {
-        formattedFilePath = formattedFilePath.substring(1);
-      }
-      
-      const ext = (formattedFilePath || '').split('.').pop().toLowerCase();
-      let previewContent = null;
-      
-      if (ext === 'html' || ext === 'htm') {
-        const fsUrl = `/api/v1/fs/${encodeURIComponent(formattedFilePath)}`;
-        if (textOnly) {
-          const resp = await fetch(fsUrl);
-          if (!resp.ok) throw new Error(`Failed to fetch HTML: ${resp.statusText}`);
-          const htmlText = await resp.text();
-          const plain = extractPlainText(htmlText);
-          setContent(plain);
-        } else {
-          // Fetch HTML content, add highlights, then create Blob URL
-          const resp = await fetch(fsUrl);
-          if (!resp.ok) throw new Error(`Failed to fetch HTML: ${resp.statusText}`);
-          let htmlText = await resp.text();
-          
-          // Add keyword highlights to HTML content
-          if (searchKeywords) {
-            htmlText = highlightHTML(htmlText);
-          }
-          
-          // Create Blob URL for the highlighted HTML
-          const blob = new Blob([htmlText], { type: 'text/html' });
-          previewContent = URL.createObjectURL(blob);
-          setContent(previewContent);
-        }
-        return;
-      }
-      
-      // 确保使用正确的URL编码和文件路径格式
-      const previewUrl = `/api/v1/document/preview?filePath=${encodeURIComponent(formattedFilePath)}`;
-      const response = await fetch(previewUrl);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch preview: ${response.statusText}`);
-      }
-      
-      const contentType = response.headers.get('content-type');
-      
-      if (contentType?.includes('text/html')) {
-        previewContent = await response.text();
-      } else if (contentType?.includes('application/pdf')) {
-        const blob = await response.blob();
-        previewContent = URL.createObjectURL(blob);
-      } else if (contentType?.includes('image/svg+xml')) {
-        previewContent = await response.text();
-      } else if (contentType?.includes('text/csv')) {
-        previewContent = await response.text();
-      } else if (contentType?.includes('text/markdown') || formattedFilePath.endsWith('.md')) {
-        previewContent = await response.text();
-      } else {
-        previewContent = await response.text();
-      }
-      
-      setContent(previewContent);
-    } catch (err) {
-      setError(`Failed to load preview: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
-  }, [filePath, textOnly, searchKeywords]);
-
-  useEffect(() => {
-    if (!filePath) {
-      setContent(null);
-      setError(null);
-      return;
-    }
-    fetchPreview();
-  }, [filePath, fetchPreview]);
-  
-  
-  
-  // Get file extension
-  const getFileExtension = () => {
-    if (!filePath) return '';
-    return filePath.split('.').pop().toLowerCase();
-  };
-  
-  // Render markdown content
-  const renderMarkdown = (mdContent) => {
-    
-    // Custom component to apply highlighting to text content
-    const HighlightText = ({ children }) => {
-      if (typeof children === 'string') {
-        const highlighted = highlightKeywords(children);
-        return <span dangerouslySetInnerHTML={{ __html: highlighted }} />;
-      }
-      return children;
-    };
-    
-    return (
-      <div className="markdown-preview" style={{ padding: '20px' }}>
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw]}
-          components={{
-            code({ inline, className, children, ...props }) {
-              const match = /language-(\w+)/.exec(className || '');
-              if (!inline && match && match[1] === 'mermaid') {
-                return <EnhancedMermaidBlock chart={String(children)} />;
-              }
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  style={tomorrow}
-                  language={match[1]}
-                  PreTag="div"
-                  {...props}
-                >
-                  {String(children).replace(/\n$/, '')}
-                </SyntaxHighlighter>
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              );
-            },
-            // Apply highlighting to all text content
-            p: ({ children, ...props }) => <p {...props}><HighlightText>{children}</HighlightText></p>,
-            h1: ({ children, ...props }) => <h1 {...props}><HighlightText>{children}</HighlightText></h1>,
-            h2: ({ children, ...props }) => <h2 {...props}><HighlightText>{children}</HighlightText></h2>,
-            h3: ({ children, ...props }) => <h3 {...props}><HighlightText>{children}</HighlightText></h3>,
-            h4: ({ children, ...props }) => <h4 {...props}><HighlightText>{children}</HighlightText></h4>,
-            h5: ({ children, ...props }) => <h5 {...props}><HighlightText>{children}</HighlightText></h5>,
-            h6: ({ children, ...props }) => <h6 {...props}><HighlightText>{children}</HighlightText></h6>,
-            li: ({ children, ...props }) => <li {...props}><HighlightText>{children}</HighlightText></li>,
-            span: ({ children, ...props }) => <span {...props}><HighlightText>{children}</HighlightText></span>,
-            strong: ({ children, ...props }) => <strong {...props}><HighlightText>{children}</HighlightText></strong>,
-            em: ({ children, ...props }) => <em {...props}><HighlightText>{children}</HighlightText></em>,
-          }}
-        >
-          {mdContent}
-        </ReactMarkdown>
-      </div>
-    );
-  };
-  
-  // Render PDF content
-  const renderPDF = (pdfUrl) => {
-    return (
-      <div className="pdf-preview" style={{ width: '100%', height: '80vh' }}>
-        <iframe
-          src={pdfUrl}
-          width="100%"
-          height="100%"
-          title="PDF Preview"
-          style={{ border: 'none' }}
-        />
-      </div>
-    );
-  };
-  
-  // Render CSV content as table
-  const renderCSV = (csvContent) => {
-    const lines = csvContent.split('\n').filter(line => line.trim());
-    if (lines.length === 0) return <Empty description="CSV file is empty" />;
-    
-    const headers = lines[0].split(',').map(h => h.trim());
-    const rows = lines.slice(1).map((line, index) => {
-      const cells = line.split(',').map(cell => cell.trim());
-      return (
-        <tr key={index}>
-          {cells.map((cell, cellIndex) => (
-            <td key={cellIndex} style={{ padding: '8px', border: '1px solid #e8e8e8' }}>
-              <div dangerouslySetInnerHTML={{ __html: highlightKeywords(cell) }} />
-            </td>
-          ))}
-        </tr>
-      );
-    });
-    
-    return (
-      <div className="csv-preview" style={{ padding: '20px', overflowX: 'auto' }}>
-        <table style={{ borderCollapse: 'collapse', width: '100%', border: '1px solid #e8e8e8' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#fafafa' }}>
-              {headers.map((header, index) => (
-                <th key={index} style={{ padding: '12px 8px', border: '1px solid #e8e8e8', textAlign: 'left', fontWeight: 'bold' }}>
-                  <div dangerouslySetInnerHTML={{ __html: highlightKeywords(header) }} />
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
-  
-  // Render SVG content
-  const renderSVG = (svgContent) => {
-    return (
-      <div className="svg-preview" style={{ padding: '20px', textAlign: 'center' }}>
-        <div dangerouslySetInnerHTML={{ __html: svgContent }} />
-      </div>
-    );
-  };
-  
-  // Extract plain text from HTML
-
-
   // Highlight keywords in HTML content
-  const highlightHTML = (html) => {
+  const highlightHTML = useCallback((html) => {
     if (!searchKeywords || !html || typeof html !== 'string') {
       return html;
     }
@@ -634,40 +96,10 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     }
     
     return highlightedHtml;
-  };
+  }, [searchKeywords, highlightKeywords]);
 
-  // Render HTML content
-  const HTMLPreview = ({ html }) => {
-    const needsAssets = false;
-    const containerRef = React.useRef(null);
-    
-    // Apply highlighting to HTML content
-    const highlightedHtml = highlightHTML(html);
-    
-    useEffect(() => {
-      if (needsAssets) return;
-      const el = containerRef.current;
-      if (!el) return;
-      const blocks = el.querySelectorAll('pre code.language-mermaid, code.language-mermaid');
-      blocks.forEach((codeEl) => {
-        const chart = codeEl.textContent || '';
-        const wrapper = document.createElement('div');
-        wrapper.className = 'mermaid';
-        codeEl.parentElement.replaceWith(wrapper);
-        mermaid.render(`mmd-${Math.random().toString(36).slice(2)}`, chart).then(({ svg }) => {
-          wrapper.innerHTML = svg;
-        }).catch(() => {
-          wrapper.innerHTML = '<pre>Mermaid 渲染失败</pre>';
-        });
-      });
-    }, [html, needsAssets]);
-    if (needsAssets) {
-      return <div className="html-preview" ref={containerRef} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
-    }
-    return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
-  };
-
-  const extractPlainText = (html) => {
+  // Extract plain text from HTML
+  const extractPlainText = useCallback((html) => {
     try {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       const bodyText = doc.body && doc.body.innerText ? doc.body.innerText : '';
@@ -675,44 +107,455 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     } catch (e) {
       return html.replace(/<[^>]+>/g, ' ');
     }
-  };
+  }, []);
 
-  const renderHTML = (htmlContent) => {
-    return (
-      <div className="html-preview" style={{ padding: '20px' }}>
-        <div className="table-wrap">
-          <HTMLPreview html={htmlContent} />
-        </div>
-      </div>
-    );
-  };
+  // 预览内容缓存，避免重复请求相同的内容
+  const previewCacheRef = useRef({
+    filePath: null,
+    textOnly: null,
+    searchKeywords: null,
+    content: null
+  });
+  
+  // 存储上一个内容引用，用于清理blob URL
+  const prevContentRef = useRef(null);
+  // 跟踪当前正在使用的blob URLs，避免过早清理
+  const activeBlobUrlsRef = useRef(new Set());
+  
+  const fetchPreview = useCallback(async () => {
+    // 检查缓存，如果请求参数相同，直接使用缓存的内容
+    if (previewCacheRef.current.filePath === filePath &&
+        previewCacheRef.current.textOnly === textOnly &&
+        previewCacheRef.current.searchKeywords === searchKeywords &&
+        previewCacheRef.current.content) {
+      setContent(previewCacheRef.current.content);
+      return;
+    }
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // 确保文件路径使用正确的格式 - 去除可能的前导斜杠，使路径相对于文档根目录
+      let formattedFilePath = filePath;
+      if (formattedFilePath && formattedFilePath.startsWith('/')) {
+        formattedFilePath = formattedFilePath.substring(1);
+      }
+      
+      const ext = (formattedFilePath || '').split('.').pop().toLowerCase();
+      let previewContent = null;
+      
+      if (ext === 'html' || ext === 'htm') {
+        const fsUrl = `/api/v1/fs/${encodeURIComponent(formattedFilePath)}`;
+        if (textOnly) {
+          const resp = await fetch(fsUrl);
+          if (!resp.ok) throw new Error(`获取HTML文件失败: ${resp.statusText}`);
+          const htmlText = await resp.text();
+          const plain = extractPlainText(htmlText);
+          setContent(plain);
+          // 更新缓存
+          previewCacheRef.current = {
+            filePath,
+            textOnly,
+            searchKeywords,
+            content: plain
+          };
+        } else {
+          try {
+            // Fetch HTML content, add highlights, then create Blob URL
+            const resp = await fetch(fsUrl);
+            if (!resp.ok) throw new Error(`获取HTML文件失败: ${resp.statusText}`);
+            let htmlText = await resp.text();
+            
+            // Add keyword highlights to HTML content
+            if (searchKeywords) {
+              htmlText = highlightHTML(htmlText);
+            }
+            
+            // Create Blob URL for the highlighted HTML
+            const blob = new Blob([htmlText], { type: 'text/html' });
+            previewContent = URL.createObjectURL(blob);
+            
+            // 记录活动的blob URL
+            activeBlobUrlsRef.current.add(previewContent);
+            
+            setContent(previewContent);
+            // 更新缓存
+            previewCacheRef.current = {
+              filePath,
+              textOnly,
+              searchKeywords,
+              content: previewContent,
+              blobObject: blob // 可选：存储原始blob对象以避免重复创建
+            };
+          } catch (err) {
+            console.error('Failed to create HTML preview:', err);
+            // 提供降级方案 - 尝试使用纯文本模式作为后备
+            try {
+              const resp = await fetch(fsUrl);
+              if (resp.ok) {
+                const htmlText = await resp.text();
+                const plain = extractPlainText(htmlText);
+                setContent(plain);
+                previewCacheRef.current = {
+                  filePath,
+                  textOnly: true, // 标记为已切换到纯文本模式
+                  searchKeywords,
+                  content: plain
+                };
+                console.log('Fallback to plain text preview for HTML');
+              }
+            } catch (fallbackErr) {
+              throw err; // 如果降级也失败，抛出原始错误
+            }
+          }
+        }
+        return;
+      }
+      
+      // 确保使用正确的URL编码和文件路径格式
+      const previewUrl = `/api/v1/document/preview?filePath=${encodeURIComponent(formattedFilePath)}`;
+      const response = await fetch(previewUrl);
+      
+      if (!response.ok) {
+        throw new Error(`获取预览失败: ${response.statusText}`);
+      }
+      
+      const contentType = response.headers.get('content-type');
+      
+      if (contentType?.includes('text/html')) {
+        previewContent = await response.text();
+      } else if (contentType?.includes('application/pdf')) {
+        const blob = await response.blob();
+        previewContent = URL.createObjectURL(blob);
+        // 记录活动的PDF blob URL
+        activeBlobUrlsRef.current.add(previewContent);
+      } else if (contentType?.includes('image/svg+xml')) {
+        previewContent = await response.text();
+      } else if (contentType?.includes('text/csv')) {
+        previewContent = await response.text();
+      } else if (contentType?.includes('text/markdown') || formattedFilePath.endsWith('.md')) {
+        previewContent = await response.text();
+      } else {
+        previewContent = await response.text();
+      }
+      
+      setContent(previewContent);
+      // 更新缓存
+      previewCacheRef.current = {
+        filePath,
+        textOnly,
+        searchKeywords,
+        content: previewContent
+      };
+    } catch (err) {
+      let errorMessage = err.message;
+      // 检查是否是连接错误
+      if (err.message.includes('Failed to fetch') || err.message.includes('ECONNREFUSED') || err.message.includes('获取失败')) {
+        errorMessage = '无法连接到后端服务，正在使用模拟数据';
+        // 使用模拟数据
+        const ext = (filePath || '').split('.').pop().toLowerCase();
+        if (ext === 'md' || ext === 'markdown') {
+          const mockContent = mockMarkdownContent;
+          setContent(mockContent);
+          // 更新缓存
+          previewCacheRef.current = {
+            filePath,
+            textOnly,
+            searchKeywords,
+            content: mockContent
+          };
+        } else {
+          setError(errorMessage);
+        }
+      } else {
+        setError(errorMessage);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [filePath, textOnly, searchKeywords, highlightHTML, extractPlainText]);
 
-  const renderHTMLPage = (url) => {
+  // 清理blob URL的辅助函数
+  const revokeBlobUrlIfNeeded = useCallback((url) => {
+    if (url && typeof url === 'string' && url.startsWith('blob:')) {
+      // 检查URL是否仍在活动使用中
+      if (activeBlobUrlsRef.current.has(url)) {
+        // 延迟清理，确保组件有足够时间卸载
+        setTimeout(() => {
+          try {
+            URL.revokeObjectURL(url);
+            // 从活动集合中移除
+            activeBlobUrlsRef.current.delete(url);
+          } catch (e) {
+            console.warn('Failed to revoke blob URL:', e);
+          }
+        }, 1000); // 1秒延迟
+      } else {
+        // 直接清理不在活动集合中的URL
+        try {
+          URL.revokeObjectURL(url);
+          activeBlobUrlsRef.current.delete(url);
+        } catch (e) {
+          console.warn('Failed to revoke blob URL:', e);
+        }
+      }
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (!filePath) {
+      setContent(null);
+      setError(null);
+      return;
+    }
+    fetchPreview();
+  }, [filePath, fetchPreview]);
+  
+  // 监听内容变化，清理之前的blob URL
+  useEffect(() => {
+    // 清理之前的blob URL
+    if (prevContentRef.current && prevContentRef.current !== content) {
+      // 标记为不再活动
+      activeBlobUrlsRef.current.delete(prevContentRef.current);
+      // 延迟清理，给组件卸载留出时间
+      setTimeout(() => {
+        revokeBlobUrlIfNeeded(prevContentRef.current);
+      }, 500);
+    }
+    // 更新之前的内容引用
+    prevContentRef.current = content;
+  }, [content, revokeBlobUrlIfNeeded]);
+  
+  // 组件卸载时清理所有blob URLs
+  useEffect(() => {
+    return () => {
+      // 清理当前内容的blob URL
+      if (content && typeof content === 'string' && content.startsWith('blob:')) {
+        try {
+          URL.revokeObjectURL(content);
+        } catch (e) {
+          console.warn('Failed to revoke content blob URL on unmount:', e);
+        }
+      }
+      
+      // 清理缓存中的blob URL
+      if (previewCacheRef.current?.content && 
+          typeof previewCacheRef.current.content === 'string' && 
+          previewCacheRef.current.content.startsWith('blob:')) {
+        try {
+          URL.revokeObjectURL(previewCacheRef.current.content);
+        } catch (e) {
+          console.warn('Failed to revoke cached blob URL on unmount:', e);
+        }
+      }
+      
+      // 清理所有活动的blob URLs
+      activeBlobUrlsRef.current.forEach(url => {
+        try {
+          URL.revokeObjectURL(url);
+        } catch (e) {
+          console.warn('Failed to revoke active blob URL on unmount:', e);
+        }
+      });
+      
+      // 清空活动URL集合
+      activeBlobUrlsRef.current.clear();
+    };
+  }, []);
+  
+  
+  
+  // Get file extension
+  const getFileExtension = useCallback(() => {
+    if (!filePath) return '';
+    return filePath.split('.').pop().toLowerCase();
+  }, [filePath]);
+  
+  // Render markdown content
+  const renderMarkdown = useCallback((mdContent) => {
+    return <MarkdownPreview content={mdContent} searchKeywords={searchKeywords} />;
+  }, [searchKeywords]);
+  
+  // Render PDF content
+  const renderPDF = useCallback((pdfUrl) => {
     return (
-      <div className="html-preview" style={{ width: '100%', height: '80vh' }}>
+      <div className="pdf-preview" style={{ width: '100%', height: '80vh' }}>
         <iframe
-          src={url}
+          src={pdfUrl}
           width="100%"
           height="100%"
-          title="HTML Preview"
+          title="PDF Preview"
           style={{ border: 'none' }}
         />
       </div>
     );
-  };
+  }, []);
   
+  // Render CSV content as table
+  const renderCSV = useCallback((csvContent) => {
+    const lines = csvContent.split('\n').filter(line => line.trim());
+    if (lines.length === 0) return <Empty description="CSV file is empty" />;
+    
+    const headers = lines[0].split(',').map(h => h.trim());
+    const rows = lines.slice(1).map((line, index) => {
+      const cells = line.split(',').map(cell => cell.trim());
+      return (
+        <tr key={index}>
+          {cells.map((cell, cellIndex) => (
+            <td key={cellIndex} style={{ padding: '8px', border: '1px solid #e8e8e8' }}>
+              <div dangerouslySetInnerHTML={{ __html: highlightKeywords(cell) }} />
+            </td>
+          ))}
+        </tr>
+      );
+    });
+    
+    return (
+      <div className="csv-preview" style={{ padding: '20px', overflowX: 'auto' }}>
+        <table style={{ borderCollapse: 'collapse', width: '100%', border: '1px solid #e8e8e8' }}>
+          <thead>
+            <tr style={{ backgroundColor: '#fafafa' }}>
+              {headers.map((header, index) => (
+                <th key={index} style={{ padding: '12px 8px', border: '1px solid #e8e8e8', textAlign: 'left', fontWeight: 'bold' }}>
+                  <div dangerouslySetInnerHTML={{ __html: highlightKeywords(header) }} />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
+    );
+  }, [highlightKeywords]);
+  
+  // Render SVG content
+  const renderSVG = useCallback((svgContent) => {
+    return (
+      <div className="svg-preview" style={{ padding: '20px', textAlign: 'center' }}>
+        <div dangerouslySetInnerHTML={{ __html: svgContent }} />
+      </div>
+    );
+  }, []);
+  
+  // HTMLPreview组件使用React.memo优化，减少不必要的重渲染
+  const HTMLPreview = React.memo(({ html }) => {
+    const needsAssets = false;
+    const containerRef = React.useRef(null);
+    const iframeRef = React.useRef(null);
+    const blobUrlRef = React.useRef(null);
+    
+    // Apply highlighting to HTML content
+    const highlightedHtml = useMemo(() => {
+      // 直接使用传入的html，已经在外部处理过高亮
+      return html;
+    }, [html]);
+    
+    useEffect(() => {
+      if (needsAssets) return;
+      
+      const el = containerRef.current;
+      if (!el) return;
+      
+      // 使用requestAnimationFrame优化渲染时序，减少闪烁
+      const renderMermaidBlocks = () => {
+        const blocks = el.querySelectorAll('pre code.language-mermaid, code.language-mermaid');
+        blocks.forEach((codeEl) => {
+          const chart = codeEl.textContent || '';
+          const wrapper = document.createElement('div');
+          wrapper.className = 'enhanced-mermaid-wrapper';
+          wrapper.style.width = '100%';
+          wrapper.style.height = 'auto';
+          
+          // Create a unique ID for this wrapper
+          const wrapperId = `mermaid-wrapper-${Math.random().toString(36).slice(2)}`;
+          wrapper.id = wrapperId;
+          
+          codeEl.parentElement.replaceWith(wrapper);
+          
+          // Create a new div for React component mounting
+          const reactMountDiv = document.createElement('div');
+          reactMountDiv.id = `react-mount-${wrapperId}`;
+          wrapper.appendChild(reactMountDiv);
+          
+          // Create a root for each mermaid block
+          const root = createRoot(reactMountDiv);
+          // Render the EnhancedMermaidBlock component
+          root.render(
+            React.createElement(EnhancedMermaidBlock, { chart })
+          );
+        });
+      };
+      
+      // 使用requestAnimationFrame确保HTML渲染完成后再处理Mermaid图表
+      requestAnimationFrame(() => {
+        renderMermaidBlocks();
+      });
+    }, [html, needsAssets]);
+    
+    if (needsAssets) {
+      return <div className="html-preview" ref={containerRef} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
+    }
+    
+    return (
+      <div ref={containerRef} className="html-preview">
+        <div dangerouslySetInnerHTML={{ __html: highlightedHtml }} />
+      </div>
+    );
+  });
+
+  const renderHTML = useCallback((htmlContent) => {
+    // 处理HTML内容，区分blob URL和直接HTML
+    const isBlobUrl = typeof htmlContent === 'string' && htmlContent.startsWith('blob:');
+    
+    if (isBlobUrl) {
+      return (
+        <div className="html-preview" style={{ padding: '20px', height: 'calc(100vh - 150px)' }}>
+          <div className="table-wrap" style={{ height: '100%', overflow: 'auto' }}>
+            <iframe
+              src={htmlContent}
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              title="HTML Preview"
+              onError={(e) => {
+                console.error('Error loading HTML preview:', e);
+                // 尝试重新加载
+                setTimeout(() => {
+                  if (e.target) {
+                    e.target.src = htmlContent;
+                  }
+                }, 300);
+              }}
+            />
+          </div>
+        </div>
+      );
+    } else {
+      // 直接HTML内容
+      return (
+        <div className="html-preview" style={{ padding: '20px' }}>
+          <div className="table-wrap">
+            <HTMLPreview html={htmlContent} />
+          </div>
+        </div>
+      );
+    }
+  }, []);
+
+
   // Render plain text
-  const renderText = (textContent) => {
+  const renderText = useCallback((textContent) => {
     const highlightedContent = highlightKeywords(textContent);
     return (
       <div className="text-preview" style={{ padding: '20px', backgroundColor: '#f0f0f0' }}>
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: '#000' }} dangerouslySetInnerHTML={{ __html: highlightedContent }} />
       </div>
     );
-  };
+  }, [highlightKeywords]);
   
-  // Determine which renderer to use based on file extension and content type
-  const renderContent = () => {
+  // 优化渲染内容，使用useMemo缓存渲染结果，避免重复渲染
+  const contentToRender = useMemo(() => {
     if (!content) return null;
     
     const ext = getFileExtension();
@@ -739,7 +582,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         return renderHTML(content);
       case 'html':
       case 'htm':
-        return textOnly ? renderText(content) : renderHTMLPage(content);
+        return textOnly ? renderText(content) : renderHTML(content);
       default:
         // Check if content is HTML
         if (typeof content === 'string' && content.startsWith('<')) {
@@ -747,7 +590,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         }
         return renderText(content);
     }
-  };
+  }, [content, textOnly, getFileExtension, renderMarkdown, renderHTML, renderPDF, renderCSV, renderSVG, renderText]);
   
   // Show loading state
   if (propLoading || loading) {
@@ -798,7 +641,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         )}
       </div>
       <div style={{ padding: '20px', overflowY: 'auto', flex: '1 1 auto', width: '100%', overflowX: 'hidden' }}>
-        {renderContent()}
+        {contentToRender}
       </div>
     </div>
   );
