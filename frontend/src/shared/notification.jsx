@@ -52,5 +52,5 @@ export const notifyTreeLoaded = (notification, paths, opts = {}) => {
       )
     : null;
 
-  notification.success({ key: NOTIFY_KEYS.treeLoaded, message: '文件树已加载', description: desc, btn });
+  notification.success({ key: NOTIFY_KEYS.treeLoaded, message: '文件树已加载', description: desc, actions: btn });
 };
