@@ -18,12 +18,14 @@ cd ..
 
 # 2. 复制前端构建文件到 Spring Boot 静态目录
 echo "\n2. 复制前端构建文件..."
-rm -rf src/main/resources/static/*
-cp -r frontend/dist/* src/main/resources/static/
+rm -rf backend/src/main/resources/static/*
+cp -r frontend/dist/* backend/src/main/resources/static/
 
 # 3. 使用 Maven 打包 Spring Boot 应用
 echo "\n3. 打包 Spring Boot 应用..."
+cd backend
 mvn clean package -DskipTests
+cd ..
 
 # 4. 运行测试套件（可选，默认跳过）
 if [ "$1" == "--run-tests" ]; then
@@ -33,9 +35,9 @@ fi
 
 echo "\n========================================"
 echo "打包完成！"
-echo "最终 JAR 文件：target/nexus-lite-1.0.0-SNAPSHOT.jar"
+echo "最终 JAR 文件：backend/target/nexus-lite-1.0.0-SNAPSHOT.jar"
 echo "\n运行命令："
-echo "  java -jar target/nexus-lite-1.0.0-SNAPSHOT.jar"
+echo "  java -jar backend/target/nexus-lite-1.0.0-SNAPSHOT.jar"
 echo "\n带自定义配置运行："
-echo "  java -jar target/nexus-lite-1.0.0-SNAPSHOT.jar --app.scan.root-dirs=/custom/path"
+echo "  java -jar backend/target/nexus-lite-1.0.0-SNAPSHOT.jar --app.scan.root-dirs=/custom/path"
 echo "========================================"
