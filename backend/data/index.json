@@ -4,86 +4,74 @@
     "type" : "directory",
     "name" : "docs"
   }, {
-    "path" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf",
+    "path" : "Web预览系统产品设计.md",
     "type" : "file",
-    "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
-  }, {
-    "path" : "nexus-lite-vibe-coding-final.md",
-    "type" : "file",
-    "name" : "nexus-lite-vibe-coding-final.md"
-  }, {
-    "path" : "sample.csv",
-    "type" : "file",
-    "name" : "sample.csv"
-  }, {
-    "path" : "专业前景分析.html",
-    "type" : "file",
-    "name" : "专业前景分析.html"
+    "name" : "Web预览系统产品设计.md"
   }, {
     "path" : "售前资料/",
     "type" : "directory",
     "name" : "售前资料"
   }, {
-    "path" : "售前资料/Individual_项目实施方案.md",
+    "path" : "售前资料/壮壮作息时间安排.xlsx",
     "type" : "file",
-    "name" : "Individual_项目实施方案.md"
+    "name" : "壮壮作息时间安排.xlsx"
+  }, {
+    "path" : "售前资料/1.0科创基地二期智慧园区系统投标技术方案.docx",
+    "type" : "file",
+    "name" : "1.0科创基地二期智慧园区系统投标技术方案.docx"
   }, {
     "path" : "售前资料/test.md",
     "type" : "file",
     "name" : "test.md"
   }, {
-    "path" : "售前资料/goal.md",
-    "type" : "file",
-    "name" : "goal.md"
-  }, {
-    "path" : "售前资料/作息时间安排.xlsx",
-    "type" : "file",
-    "name" : "作息时间安排.xlsx"
-  }, {
     "path" : "技术案例/",
     "type" : "directory",
     "name" : "技术案例"
   }, {
-    "path" : "技术案例/Web预览系统产品设计.md",
+    "path" : "技术案例/产品需求设计.md",
     "type" : "file",
-    "name" : "Web预览系统产品设计.md"
+    "name" : "产品需求设计.md"
   }, {
-    "path" : "技术案例/全文检索技术设计.md",
+    "path" : "技术案例/清华大学本科专业介绍.md",
     "type" : "file",
-    "name" : "全文检索技术设计.md"
+    "name" : "清华大学本科专业介绍.md"
   }, {
-    "path" : "技术案例/full-text-search-implementation.md",
+    "path" : "技术案例/mermaid-test.md",
     "type" : "file",
-    "name" : "full-text-search-implementation.md"
+    "name" : "mermaid-test.md"
+  }, {
+    "path" : "技术案例/test-table.md",
+    "type" : "file",
+    "name" : "test-table.md"
   }, {
     "path" : "技术案例/华为研发IPD流程介绍.docx",
     "type" : "file",
     "name" : "华为研发IPD流程介绍.docx"
   }, {
-    "path" : "Web预览系统产品设计.md",
+    "path" : "技术案例/2025年本科专业清单.xlsx",
     "type" : "file",
-    "name" : "Web预览系统产品设计.md"
+    "name" : "2025年本科专业清单.xlsx"
   }, {
-    "path" : "README.md",
+    "path" : "技术案例/系统概要设计.md",
     "type" : "file",
-    "name" : "README.md"
+    "name" : "系统概要设计.md"
   }, {
-    "path" : "sample.md",
+    "path" : "nexus-lite-vibe-coding-final.md",
     "type" : "file",
-    "name" : "sample.md"
+    "name" : "nexus-lite-vibe-coding-final.md"
   }, {
-    "path" : "深度调研报告.html",
+    "path" : "专业前景分析.html",
     "type" : "file",
-    "name" : "深度调研报告.html"
+    "name" : "专业前景分析.html"
   }, {
-    "path" : "mermaid-test.md",
+    "path" : "sample.csv",
     "type" : "file",
-    "name" : "mermaid-test.md"
+    "name" : "sample.csv"
   }, {
-    "path" : "mermaid-test-plan.md",
+    "path" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf",
     "type" : "file",
-    "name" : "mermaid-test-plan.md"
+    "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
   } ],
-  "rootDir" : "/home/agentic/lite-webviewer/docs",
-  "lastUpdated" : 1764765948481
+  "rootDir" : "/root/lite-webviewer/docs",
+  "lastUpdated" : 1764844662688
 }

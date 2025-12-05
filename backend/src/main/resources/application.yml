@@ -30,7 +30,7 @@ spring:
 app:
   # Scan Configuration
   scan:
-    root-dirs: /home/agentic/lite-webviewer/docs
+    root-dirs: /root/lite-webviewer/docs
     cron: 60  # minutes
   
   # Preview Configuration
