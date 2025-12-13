@@ -52,6 +52,18 @@ target/
 frontend/node_modules/
 frontend/dist/
 frontend/dist-ssr/
+
+# Python编译文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
 target/classes/com/documentpreview/NexusLiteApplication.class
 target/classes/com/documentpreview/infra/cache/CacheConfig.class
 target/classes/com/documentpreview/modules/document/domain/DirectoryTree.class
