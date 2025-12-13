@@ -7,6 +7,7 @@ from app.services.embedding_service import embedding_service
 from app.infrastructure.milvus import milvus_client
 from app.infrastructure.elasticsearch import es_client
 from app.infrastructure.nebula import nebula_client
+from app.services.kg_service import kg_service
 
 @celery_app.task
 def index_chunks(doc_id: str, chunks: List[Dict[str, Any]]):
@@ -31,6 +32,10 @@ def index_chunks(doc_id: str, chunks: List[Dict[str, Any]]):
         
         # 4. Construct Graph & Index into Nebula
         nebula_client.insert_structure(doc_id, chunks)
+        
+        # 5. Build Knowledge Graph
+        logger.info("Building knowledge graph...")
+        kg_service.build_knowledge_graph(doc_id, chunks)
         
         logger.info(f"Indexing completed for document {doc_id}")
         return {"status": "indexed", "doc_id": doc_id, "chunk_count": len(chunks)}

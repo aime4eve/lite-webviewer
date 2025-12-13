@@ -5,10 +5,9 @@ from app.services.embedding_service import embedding_service
 from app.infrastructure.milvus import milvus_client
 from app.infrastructure.elasticsearch import es_client
 import time
-import asyncio
 
 class SearchService:
-    async def search(self, query: SearchQuery) -> SearchResponse:
+    def search(self, query: SearchQuery) -> SearchResponse:
         """
         执行混合检索
         """
@@ -52,10 +51,36 @@ class SearchService:
                 logger.error(f"Fulltext search failed: {e}")
 
         # 3. Deduplicate and Sort
-        # Simple strategy: prioritize vector scores if hybrid, or normalize scores
-        # For now, just sort by score descending
-        results.sort(key=lambda x: x.score, reverse=True)
-        results = results[:query.top_k]
+        # Use Reciprocal Rank Fusion (RRF) for hybrid search
+        if query.mode == SearchMode.HYBRID and len(results) > query.top_k:
+            # Implement RRF fusion
+            result_map = {}
+            for i, item in enumerate(results):
+                if item.id not in result_map:
+                    result_map[item.id] = {
+                        'item': item,
+                        'ranks': {
+                            item.source: i + 1  # Rank starts from 1
+                        }
+                    }
+                else:
+                    result_map[item.id]['ranks'][item.source] = i + 1
+            
+            # Calculate RRF scores
+            rrf_results = []
+            for item_id, data in result_map.items():
+                # RRF formula: score = sum(1/(rank + k)) where k is typically 60
+                k = 60
+                rrf_score = sum(1/(rank + k) for rank in data['ranks'].values())
+                rrf_results.append((data['item'], rrf_score))
+            
+            # Sort by RRF score descending
+            rrf_results.sort(key=lambda x: x[1], reverse=True)
+            results = [item for item, score in rrf_results[:query.top_k]]
+        else:
+            # Simple strategy: sort by score descending
+            results.sort(key=lambda x: x.score, reverse=True)
+            results = results[:query.top_k]
         
         took = (time.time() - start_time) * 1000
         
