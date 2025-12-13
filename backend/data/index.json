@@ -4,22 +4,6 @@
     "type" : "directory",
     "name" : "docs"
   }, {
-    "path" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf",
-    "type" : "file",
-    "name" : "Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf"
-  }, {
-    "path" : "nexus-lite-vibe-coding-final.md",
-    "type" : "file",
-    "name" : "nexus-lite-vibe-coding-final.md"
-  }, {
-    "path" : "sample.csv",
-    "type" : "file",
-    "name" : "sample.csv"
-  }, {
-    "path" : "专业前景分析.html",
-    "type" : "file",
-    "name" : "专业前景分析.html"
-  }, {
     "path" : "售前资料/",
     "type" : "directory",
     "name" : "售前资料"
@@ -27,10 +11,6 @@
     "path" : "售前资料/Individual_项目实施方案.md",
     "type" : "file",
     "name" : "Individual_项目实施方案.md"
-  }, {
-    "path" : "售前资料/test.md",
-    "type" : "file",
-    "name" : "test.md"
   }, {
     "path" : "售前资料/goal.md",
     "type" : "file",
@@ -56,13 +36,13 @@
     "type" : "file",
     "name" : "full-text-search-implementation.md"
   }, {
-    "path" : "技术案例/华为研发IPD流程介绍.docx",
+    "path" : "技术案例/TDD-数据资产管理平台-详细设计.md",
     "type" : "file",
-    "name" : "华为研发IPD流程介绍.docx"
+    "name" : "TDD-数据资产管理平台-详细设计.md"
   }, {
-    "path" : "Web预览系统产品设计.md",
+    "path" : "技术案例/TDD-数据资产管理平台-详细设计评审报告.md",
     "type" : "file",
-    "name" : "Web预览系统产品设计.md"
+    "name" : "TDD-数据资产管理平台-详细设计评审报告.md"
   }, {
     "path" : "README.md",
     "type" : "file",
@@ -83,7 +63,11 @@
     "path" : "mermaid-test-plan.md",
     "type" : "file",
     "name" : "mermaid-test-plan.md"
+  }, {
+    "path" : "HKT Company Profile EN.pdf",
+    "type" : "file",
+    "name" : "HKT Company Profile EN.pdf"
   } ],
   "rootDir" : "/home/agentic/lite-webviewer/docs",
-  "lastUpdated" : 1764765948481
+  "lastUpdated" : 1765532832573
 }

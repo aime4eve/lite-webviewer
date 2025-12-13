@@ -43,8 +43,8 @@ temp_dir=$(mktemp -d 2>/dev/null || echo "/tmp/nexus-lite-dev-$(date +%s)")
 mkdir -p "$temp_dir"
 frontend_pid_file="$temp_dir/frontend.pid"
 backend_pid_file="$temp_dir/backend.pid"
-es_container_name="es814"
-#docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" e29a1f876ffd
+es_container_name="kg-agent-eddlasticsearch-1"
+#docker run -d --nadddeme elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" e29a1f876ffd
     
 # 清理函数，用于停止服务和清理临时文件
 cleanup() {
@@ -85,7 +85,10 @@ fi
 # 启动前端开发服务器
 start_frontend() {
     echo "\n启动前端开发服务器..."
-    
+
+    # 确保logs目录存在
+    mkdir -p ./logs
+
     # 创建临时文件来存储前端端口
     frontend_port_file="$temp_dir/frontend_port"
     
@@ -99,20 +102,20 @@ start_frontend() {
         echo "正在启动 React 开发服务器 (Vite)..."
         # 使用Vite的自动端口选择功能
         npm run dev
-    ) > >(tee -a frontend.log) 2>&1 &
+    ) > >(tee -a logs/frontend.log) 2>&1 &
     
     frontend_pid=$!
     echo $frontend_pid > "$frontend_pid_file"
     echo "前端服务已启动，PID: $frontend_pid"
-    echo "前端日志: frontend.log"
+    echo "前端日志: logs/frontend.log"
     
     # 等待前端启动并获取实际端口
     echo "等待前端服务器启动..."
     sleep 5
     
     # 从日志中提取实际使用的端口
-    if grep -q "Local:" frontend.log 2>/dev/null; then
-        frontend_port=$(grep "Local:" frontend.log | head -1 | grep -oE ':[0-9]+' | cut -d: -f2)
+    if grep -q "Local:" logs/frontend.log 2>/dev/null; then
+        frontend_port=$(grep "Local:" logs/frontend.log | head -1 | grep -oE ':[0-9]+' | cut -d: -f2)
         if [ -n "$frontend_port" ]; then
             echo "前端实际端口: $frontend_port"
             echo $frontend_port > "$frontend_port_file"
@@ -296,7 +299,10 @@ build_project() {
 # 启动后端 Spring Boot 应用
 start_backend() {
     echo "\n启动后端 Spring Boot 应用..."
-    
+
+    # 确保logs目录存在
+    mkdir -p ./logs
+
     # 使用智能端口选择，避免冲突
     local backend_port=$(find_available_port 8090)
     echo "使用端口: $backend_port"
@@ -307,12 +313,12 @@ start_backend() {
         # 先打包生成jar文件，然后使用java命令启动Spring Boot应用
         mvn clean package -DskipTests
         java -Dserver.port=$backend_port -jar target/nexus-lite-1.0.0-SNAPSHOT.jar
-    ) > >(tee -a backend.log) 2>&1 &
+    ) > >(tee -a logs/backend.log) 2>&1 &
     
     backend_pid=$!
     echo $backend_pid > "$backend_pid_file"
     echo "后端服务已启动，PID: $backend_pid，端口: $backend_port"
-    echo "后端日志: backend.log"
+    echo "后端日志: logs/backend.log"
     
     # 返回后端端口号
     echo $backend_port > "$temp_dir/backend_port"

@@ -1,0 +1,4 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:9.2.2
+
+# 安装IK分词器
+RUN elasticsearch-plugin install --batch https://release.infinilabs.com/analysis-ik/stable/elasticsearch-analysis-ik-9.2.2.zip

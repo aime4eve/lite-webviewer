@@ -1,6 +1,0 @@
-files[4]{path,type,name}:
-logs/,directory,logs
-nexus-lite.log.2025-11-30.0.gz,file,nexus-lite.log.2025-11-30.0.gz
-nexus-lite.log,file,nexus-lite.log
-nexus-lite.log.2025-12-01.0.gz,file,nexus-lite.log.2025-12-01.0.gz
-metadata{total,last_updated,root}: 4,2025-12-02T17:32:22+08:00,/root/lite-webviewer/logs

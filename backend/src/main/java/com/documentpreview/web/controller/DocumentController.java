@@ -127,7 +127,15 @@ public class DocumentController {
         PreviewContent previewContent = previewResult.getValue().get();
 
         HttpHeaders headers = new HttpHeaders();
+        // 对于PDF，我们需要返回正确的Content-Type，并且不使用Content-Disposition: inline
+        // 这样浏览器会尝试在iframe中直接显示PDF
         headers.setContentType(org.springframework.http.MediaType.parseMediaType(previewContent.getContentType()));
+        
+        if (previewContent.isPdf()) {
+            // PDF特殊处理：不设置Content-Disposition，或者设置为inline但不带filename
+            // 这有助于解决某些浏览器/iframe组合下的加载问题
+            headers.set("Content-Disposition", "inline");
+        }
 
         Object body = previewContent.getContent();
         if (previewContent.isPdf() && body instanceof byte[]) {

@@ -1,0 +1,37 @@
+# Core dependencies for kg-agent
+# For development, use Poetry and pyproject.toml
+# This file is for quick setup only
+
+flask>=3.0.0
+celery[redis]>=5.3.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+redis>=5.0.0
+elasticsearch>=8.12.0
+pymilvus>=2.3.0
+nebula3-python>=3.6.0
+httpx>=0.26.0
+python-dotenv>=1.0.0
+structlog>=24.1.0
+flasgger>=0.9.7.1
+flask-cors>=1.0.1
+
+# NLP and ML
+transformers>=4.36.0
+torch>=2.1.0
+sentencepiece>=0.1.99
+protobuf>=4.25.0
+jieba>=0.42.1
+
+# File processing
+pypdf2>=3.0.0
+python-docx>=1.1.0
+markdown>=3.5.0
+openpyxl>=3.1.2
+pandas>=2.1.0
+
+# Development (optional)
+pytest>=7.4.0
+black>=23.11.0
+flake8>=6.1.0
+mypy>=1.7.0
