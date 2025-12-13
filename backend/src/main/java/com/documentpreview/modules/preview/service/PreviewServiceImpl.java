@@ -101,8 +101,50 @@ public class PreviewServiceImpl implements PreviewService {
         // Resolve relative paths against the root directory
         File file = new File(filePath);
         if (!file.isAbsolute()) {
-            // If it's a relative path, prepend the root directory
-            file = new File(configService.getRootDirs(), filePath);
+            // Check if filePath already contains the root directory path
+            // This happens when the frontend sends a relative path that is actually part of the indexed path
+            // The file scan service stores relative paths from root, but sometimes we might get partial paths
+            
+            // Try resolving against configured root dirs
+            // ConfigService might return comma-separated paths, we should try each
+            String rootDirs = configService.getRootDirs();
+            if (rootDirs != null && !rootDirs.isEmpty()) {
+                String[] roots = rootDirs.split(",");
+                boolean found = false;
+                for (String root : roots) {
+                    File candidate = new File(root.trim(), filePath);
+                    if (candidate.exists()) {
+                        file = candidate;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                // If not found in any root, try using the first root as default base
+                if (!found && roots.length > 0) {
+                     file = new File(roots[0].trim(), filePath);
+                }
+            }
+        } else {
+             // Even if it is absolute, double check if it exists. 
+             // If not, it might be a concatenation error or path mismatch from DB
+             if (!file.exists()) {
+                 // Try to strip the root dir if it's duplicated in the path
+                 String rootDirs = configService.getRootDirs();
+                 if (rootDirs != null) {
+                     for (String root : rootDirs.split(",")) {
+                         String rootPath = root.trim();
+                         if (filePath.startsWith(rootPath + "/" + rootPath)) {
+                             // Fix double root path issue: /root/root/file -> /root/file
+                             File fixed = new File(filePath.replace(rootPath + "/" + rootPath, rootPath));
+                             if (fixed.exists()) {
+                                 file = fixed;
+                                 break;
+                             }
+                         }
+                     }
+                 }
+             }
         }
         
         return generatePreview(file);
@@ -139,6 +181,8 @@ public class PreviewServiceImpl implements PreviewService {
             // Generate preview based on file extension without enum switch to avoid synthetic class issues
             if ("md".equals(fileExtension)) {
                 return generateMarkdownPreview(file);
+            } else if ("doc".equals(fileExtension)) {
+                return generateDocPreview(file);
             } else if ("docx".equals(fileExtension)) {
                 return generateDocxPreview(file);
             } else if ("pdf".equals(fileExtension)) {
@@ -149,10 +193,12 @@ public class PreviewServiceImpl implements PreviewService {
                 return generateSvgPreview(file);
             } else if ("html".equals(fileExtension) || "htm".equals(fileExtension)) {
                 return generateHtmlPreview(file);
-            } else if ("xlsx".equals(fileExtension)) {
+            } else if ("xlsx".equals(fileExtension) || "xls".equals(fileExtension)) {
                 return generateXlsxPreview(file);
             } else if ("log".equals(fileExtension) || "txt".equals(fileExtension)) {
                 return generateTextPreview(file);
+            } else if ("jpg".equals(fileExtension) || "jpeg".equals(fileExtension) || "png".equals(fileExtension) || "gif".equals(fileExtension) || "bmp".equals(fileExtension) || "webp".equals(fileExtension)) {
+                return generateImagePreview(file);
             } else {
                 return Result.failure(String.format("Preview not supported for file type: %s", fileExtension));
             }
@@ -211,6 +257,73 @@ public class PreviewServiceImpl implements PreviewService {
         return maxFileSizeMB * 1024 * 1024;
     }
     
+    /**
+     * Generates preview content for a DOC file using Apache POI HWPF.
+     * 
+     * @param file The DOC file to generate preview for.
+     * @return A Result containing the generated PreviewContent if successful, or an error message otherwise.
+     */
+    private Result<PreviewContent> generateDocPreview(File file) {
+        logger.debug("Generating DOC preview for file: {}", file.getAbsolutePath());
+        try (InputStream fis = new FileInputStream(file);
+             org.apache.poi.hwpf.HWPFDocument doc = new org.apache.poi.hwpf.HWPFDocument(fis);
+             org.apache.poi.hwpf.extractor.WordExtractor extractor = new org.apache.poi.hwpf.extractor.WordExtractor(doc)) {
+            
+            String text = extractor.getText();
+            // Convert text to simple HTML (preserving paragraphs)
+            String html = "<html><body><pre style='white-space: pre-wrap; font-family: serif;'>" + 
+                         org.springframework.web.util.HtmlUtils.htmlEscape(text) + 
+                         "</pre></body></html>";
+            
+            PreviewContent previewContent = new PreviewContent(
+                    "text/html",
+                    html,
+                    true
+            );
+            return Result.success(previewContent);
+        } catch (org.apache.poi.OldFileFormatException e) {
+            // Handle Word 6.0/95 files which HWPF might not support well
+            logger.warn("Old Word format detected for file: {}", file.getName());
+            return Result.failure("Format too old: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Failed to generate DOC preview for file: " + file.getAbsolutePath(), e);
+            return Result.failure("Failed to generate DOC preview: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Generates preview content for an image file.
+     * 
+     * @param file The image file to generate preview for.
+     * @return A Result containing the generated PreviewContent if successful, or an error message otherwise.
+     */
+    private Result<PreviewContent> generateImagePreview(File file) throws IOException {
+        logger.debug("Generating image preview for file: {}", file.getAbsolutePath());
+        
+        byte[] imageBytes = Files.readAllBytes(file.toPath());
+        String mimeType = Files.probeContentType(file.toPath());
+        if (mimeType == null) {
+            String ext = FilenameUtils.getExtension(file.getName()).toLowerCase();
+            switch (ext) {
+                case "jpg":
+                case "jpeg": mimeType = "image/jpeg"; break;
+                case "png": mimeType = "image/png"; break;
+                case "gif": mimeType = "image/gif"; break;
+                case "bmp": mimeType = "image/bmp"; break;
+                case "webp": mimeType = "image/webp"; break;
+                default: mimeType = "application/octet-stream";
+            }
+        }
+        
+        PreviewContent previewContent = new PreviewContent(
+                mimeType,
+                imageBytes,
+                true
+        );
+        
+        return Result.success(previewContent);
+    }
+
     /**
      * Generates preview content for a Markdown file.
      * 
@@ -435,7 +548,9 @@ public class PreviewServiceImpl implements PreviewService {
                                         java.util.Date date = cell.getDateCellValue();
                                         text = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                                     } else {
-                                        text = String.valueOf(cell.getNumericCellValue());
+                                        // 使用DataFormatter来获取格式化后的值，避免科学计数法
+                                        org.apache.poi.ss.usermodel.DataFormatter formatter = new org.apache.poi.ss.usermodel.DataFormatter();
+                                        text = formatter.formatCellValue(cell);
                                     }
                                     break;
                                 case BOOLEAN:
@@ -443,7 +558,22 @@ public class PreviewServiceImpl implements PreviewService {
                                     break;
                                 case FORMULA:
                                     try {
-                                        text = String.valueOf(cell.getNumericCellValue());
+                                        // 尝试获取计算后的值
+                                        org.apache.poi.ss.usermodel.FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                                        org.apache.poi.ss.usermodel.CellValue cellValue = evaluator.evaluate(cell);
+                                        switch (cellValue.getCellType()) {
+                                            case BOOLEAN:
+                                                text = String.valueOf(cellValue.getBooleanValue());
+                                                break;
+                                            case NUMERIC:
+                                                text = String.valueOf(cellValue.getNumberValue());
+                                                break;
+                                            case STRING:
+                                                text = cellValue.getStringValue();
+                                                break;
+                                            default:
+                                                text = "";
+                                        }
                                     } catch (Exception e) {
                                         text = cell.getCellFormula();
                                     }
@@ -476,6 +606,9 @@ public class PreviewServiceImpl implements PreviewService {
                     true
             );
             return Result.success(previewContent);
+        } catch (Exception e) {
+            logger.error("Failed to generate XLSX preview", e);
+            return Result.failure("Failed to generate XLSX preview: " + e.getMessage());
         }
     }
     

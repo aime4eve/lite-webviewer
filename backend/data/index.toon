@@ -1,23 +1,19 @@
-files[21]{path,type,name}:
+files[17]{path,type,name}:
 docs/,directory,docs
-Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf,file,Hands-on Wireless Sensing with Wi-Fi_A Tutorial(OCR).pdf
-nexus-lite-vibe-coding-final.md,file,nexus-lite-vibe-coding-final.md
-sample.csv,file,sample.csv
-专业前景分析.html,file,专业前景分析.html
 售前资料/,directory,售前资料
 售前资料/Individual_项目实施方案.md,file,Individual_项目实施方案.md
-售前资料/test.md,file,test.md
 售前资料/goal.md,file,goal.md
 售前资料/作息时间安排.xlsx,file,作息时间安排.xlsx
 技术案例/,directory,技术案例
 技术案例/Web预览系统产品设计.md,file,Web预览系统产品设计.md
 技术案例/全文检索技术设计.md,file,全文检索技术设计.md
 技术案例/full-text-search-implementation.md,file,full-text-search-implementation.md
-技术案例/华为研发IPD流程介绍.docx,file,华为研发IPD流程介绍.docx
-Web预览系统产品设计.md,file,Web预览系统产品设计.md
+技术案例/TDD-数据资产管理平台-详细设计.md,file,TDD-数据资产管理平台-详细设计.md
+技术案例/TDD-数据资产管理平台-详细设计评审报告.md,file,TDD-数据资产管理平台-详细设计评审报告.md
 README.md,file,README.md
 sample.md,file,sample.md
 深度调研报告.html,file,深度调研报告.html
 mermaid-test.md,file,mermaid-test.md
 mermaid-test-plan.md,file,mermaid-test-plan.md
-metadata{total,last_updated,root}: 21,2025-12-03T20:45:48+08:00,/home/agentic/lite-webviewer/docs
+HKT Company Profile EN.pdf,file,HKT Company Profile EN.pdf
+metadata{total,last_updated,root}: 17,2025-12-12T17:47:12+08:00,/home/agentic/lite-webviewer/docs

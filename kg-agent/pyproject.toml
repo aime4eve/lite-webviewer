@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "kg-agent"
+version = "0.1.0"
+description = "Knowledge Graph Enhanced Retrieval-Augmented Generation System"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "backend", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^3.0.0"
+flask-cors = "^4.0.0"
+flasgger = "^0.9.17"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+celery = {extras = ["redis"], version = "^5.3.6"}
+redis = "^5.0.1"
+elasticsearch = "^8.11.0"
+nebula3-python = "^3.6.0"
+pymilvus = "^2.3.4"
+langchain = "^0.1.0"
+langchain-community = "^0.0.10"
+sentence-transformers = "^2.2.2"
+torch = "^2.1.0"
+python-dotenv = "^1.0.0"
+gunicorn = "^21.2.0"
+uvicorn = "^0.24.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-flask = "^1.3.0"
+pytest-cov = "^4.1.0"
+black = "^23.11.0"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+mypy = "^1.7.0"
+pre-commit = "^3.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

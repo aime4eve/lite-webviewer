@@ -253,7 +253,7 @@ function App() {
   return (
     <Layout style={{ minHeight: '100vh' }} className="app-root">
       <Header className="header">
-        <div className="logo">Nexus-Lite 知识预览系统</div>
+        <div className="logo">知识库智能检索系统</div>
         <div className="header-actions">
           {/* 根目录配置 */}
           <Space style={{ marginRight: 16 }}>

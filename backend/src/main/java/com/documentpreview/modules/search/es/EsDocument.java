@@ -4,6 +4,8 @@ import com.documentpreview.modules.document.domain.FileType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * 简单的文档实体类，不再依赖Elasticsearch
@@ -15,11 +17,19 @@ public class EsDocument {
     private String id;
     
     private String filePath;
+    
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String fileName;
+    
     private String parentDir;
     private FileType fileType;
+    
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String title;
+    
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_smart")
     private String content;
+    
     private Long size;
     private Long modifiedAt;
     

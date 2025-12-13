@@ -340,3 +340,25 @@ Error: connect ECONNREFUSED 127.0.0.1:8080
 11:52:01 PM [vite] http proxy error: /api/v1/document/scan?force=true
 Error: connect ECONNREFUSED 127.0.0.1:8080
     at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16)
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 232 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/
+正在启动 React 开发服务器 (Vite)...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 254 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.29.18.7:5173/
+  ➜  Network: http://172.17.0.1:5173/

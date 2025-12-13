@@ -30,7 +30,7 @@ spring:
 app:
   # Scan Configuration
   scan:
-    root-dirs: /home/agentic/lite-webviewer/docs
+    root-dirs: /home/hkt/cold-kg/档案管理
     cron: 60  # minutes
   
   # Preview Configuration

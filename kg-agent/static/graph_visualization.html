@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识图谱可视化</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: #45a049;
+        }
+        .graph-container {
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            position: relative;
+        }
+        .node-info {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 10;
+            max-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .node-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .node-info h4 {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .node-info ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        .node-info button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .node-info button:hover {
+            background-color: #45a049;
+        }
+        .search-results {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .search-results h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .result-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+        .result-item:hover {
+            background-color: #f0f0f0;
+        }
+        .result-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .result-type {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .result-relevance {
+            float: right;
+            color: #4CAF50;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>知识图谱可视化</h1>
+        
+        <div class="search-container">
+            <input type="text" id="keywords" class="search-input" placeholder="输入关键词，多个关键词用逗号分隔" value="人工智能,机器学习">
+            <button id="search" class="search-button">查询</button>
+            <button id="search-nodes" class="search-button">搜索节点</button>
+        </div>
+        
+        <div class="search-results" id="search-results" style="display: none;">
+            <h3>搜索结果</h3>
+            <div id="results-list"></div>
+        </div>
+        
+        <div class="loading" id="loading">正在加载知识图谱...</div>
+        <div class="error" id="error"></div>
+        
+        <div class="graph-container">
+            <canvas id="graph-canvas"></canvas>
+        </div>
+        
+        <div class="node-info" id="node-info"></div>
+    </div>
+
+    <script>
+        // 简单的知识图谱可视化
+        class KnowledgeGraphVisualizer {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.nodes = [];
+                this.edges = [];
+                this.selectedNode = null;
+                
+                this.setupCanvas();
+                this.setupEventListeners();
+            }
+            
+            setupCanvas() {
+                const container = this.canvas.parentElement;
+                this.canvas.width = container.clientWidth;
+                this.canvas.height = container.clientHeight;
+                
+                // 响应式调整
+                window.addEventListener('resize', () => {
+                    this.canvas.width = container.clientWidth;
+                    this.canvas.height = container.clientHeight;
+                    this.draw();
+                });
+            }
+            
+            setupEventListeners() {
+                this.canvas.addEventListener('mousemove', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.selectedNode = null;
+                    for (const node of this.nodes) {
+                        const dx = x - node.x;
+                        const dy = y - node.y;
+                        if (Math.sqrt(dx * dx + dy * dy) < node.radius) {
+                            this.selectedNode = node;
+                            this.showNodeInfo(node, e.clientX, e.clientY);
+                            break;
+                        }
+                    }
+                    
+                    if (!this.selectedNode) {
+                        this.hideNodeInfo();
+                    }
+                    
+                    this.draw();
+                });
+                
+                this.canvas.addEventListener('click', (e) => {
+                    if (this.selectedNode) {
+                        this.highlightConnectedNodes(this.selectedNode);
+                    }
+                });
+            }
+            
+            showNodeInfo(node, x, y) {
+                const info = document.getElementById('node-info');
+                info.innerHTML = `
+                    <h3>${node.name}</h3>
+                    <p>类型: ${node.type}</p>
+                    <p>ID: ${node.id}</p>
+                    <button id="node-detail-btn">查看详情</button>
+                `;
+                info.style.left = `${x + 10}px`;
+                info.style.top = `${y + 10}px`;
+                info.style.display = 'block';
+                
+                // 绑定查看详情按钮
+                document.getElementById('node-detail-btn').addEventListener('click', () => {
+                    this.showNodeDetail(node.id);
+                });
+            }
+            
+            async showNodeDetail(nodeId) {
+                const info = document.getElementById('node-info');
+                info.innerHTML = '<p>加载中...</p>';
+                
+                try {
+                    // 对节点ID进行URL编码
+                    const encodedNodeId = encodeURIComponent(nodeId);
+                    const response = await fetch(`/api/kg/node/${encodedNodeId}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`查询失败: ${response.status}`);
+                    }
+                    
+                    const nodeDetail = await response.json();
+                    
+                    if (nodeDetail.error) {
+                        info.innerHTML = `<p>错误: ${nodeDetail.error}</p>`;
+                        return;
+                    }
+                    
+                    // 显示节点详情
+                    let propertiesHtml = '';
+                    if (nodeDetail.properties) {
+                        propertiesHtml = '<h4>属性:</h4><ul>';
+                        for (const [key, value] of Object.entries(nodeDetail.properties)) {
+                            propertiesHtml += `<li><strong>${key}:</strong> ${value}</li>`;
+                        }
+                        propertiesHtml += '</ul>';
+                    }
+                    
+                    info.innerHTML = `
+                        <h3>${nodeDetail.name}</h3>
+                        <p><strong>类型:</strong> ${nodeDetail.type}</p>
+                        <p><strong>ID:</strong> ${nodeDetail.id}</p>
+                        <p><strong>描述:</strong> ${nodeDetail.description || '无'}</p>
+                        ${propertiesHtml}
+                    `;
+                } catch (err) {
+                    info.innerHTML = `<p>错误: ${err.message}</p>`;
+                }
+            }
+            
+            hideNodeInfo() {
+                document.getElementById('node-info').style.display = 'none';
+            }
+            
+            highlightConnectedNodes(node) {
+                // 重置所有节点高亮
+                this.nodes.forEach(n => n.highlighted = false);
+                
+                // 高亮选中的节点
+                node.highlighted = true;
+                
+                // 高亮相连的节点
+                this.edges.forEach(edge => {
+                    if (edge.source === node.id) {
+                        const targetNode = this.nodes.find(n => n.id === edge.target);
+                        if (targetNode) targetNode.highlighted = true;
+                    } else if (edge.target === node.id) {
+                        const sourceNode = this.nodes.find(n => n.id === edge.source);
+                        if (sourceNode) sourceNode.highlighted = true;
+                    }
+                });
+                
+                this.draw();
+            }
+            
+            loadData(data) {
+                this.nodes = data.nodes.map(node => ({
+                    ...node,
+                    x: Math.random() * (this.canvas.width - 100) + 50,
+                    y: Math.random() * (this.canvas.height - 100) + 50,
+                    radius: 20,
+                    color: this.getNodeColor(node.type),
+                    highlighted: false
+                }));
+                
+                this.edges = data.edges;
+                
+                // 简单的力导向布局
+                this.applyForceDirectedLayout();
+                this.draw();
+            }
+            
+            getNodeColor(type) {
+                const colors = {
+                    '概念': '#FF6B6B',
+                    '技术': '#4ECDC4',
+                    '人物': '#45B7D1',
+                    '组织': '#96CEB4',
+                    '产品': '#FECA57'
+                };
+                return colors[type] || '#7986CB';
+            }
+            
+            applyForceDirectedLayout() {
+                const iterations = 100;
+                const k = Math.sqrt((this.canvas.width * this.canvas.height) / this.nodes.length) * 0.5;
+                
+                for (let i = 0; i < iterations; i++) {
+                    // 计算斥力
+                    for (let j = 0; j < this.nodes.length; j++) {
+                        for (let l = j + 1; l < this.nodes.length; l++) {
+                            const dx = this.nodes[l].x - this.nodes[j].x;
+                            const dy = this.nodes[l].y - this.nodes[j].y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance > 0) {
+                                const force = k * k / distance;
+                                const fx = (dx / distance) * force;
+                                const fy = (dy / distance) * force;
+                                
+                                this.nodes[j].x -= fx;
+                                this.nodes[j].y -= fy;
+                                this.nodes[l].x += fx;
+                                this.nodes[l].y += fy;
+                            }
+                        }
+                    }
+                    
+                    // 计算引力
+                    for (const edge of this.edges) {
+                        const sourceNode = this.nodes.find(n => n.id === edge.source);
+                        const targetNode = this.nodes.find(n => n.id === edge.target);
+                        
+                        if (sourceNode && targetNode) {
+                            const dx = targetNode.x - sourceNode.x;
+                            const dy = targetNode.y - sourceNode.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance > 0) {
+                                const force = distance * distance / k;
+                                const fx = (dx / distance) * force * 0.01;
+                                const fy = (dy / distance) * force * 0.01;
+                                
+                                sourceNode.x += fx;
+                                sourceNode.y += fy;
+                                targetNode.x -= fx;
+                                targetNode.y -= fy;
+                            }
+                        }
+                    }
+                    
+                    // 确保节点在画布内
+                    for (const node of this.nodes) {
+                        node.x = Math.max(node.radius, Math.min(this.canvas.width - node.radius, node.x));
+                        node.y = Math.max(node.radius, Math.min(this.canvas.height - node.radius, node.y));
+                    }
+                }
+            }
+            
+            draw() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // 绘制边
+                this.ctx.strokeStyle = '#ddd';
+                this.ctx.lineWidth = 1;
+                for (const edge of this.edges) {
+                    const sourceNode = this.nodes.find(n => n.id === edge.source);
+                    const targetNode = this.nodes.find(n => n.id === edge.target);
+                    
+                    if (sourceNode && targetNode) {
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(sourceNode.x, sourceNode.y);
+                        this.ctx.lineTo(targetNode.x, targetNode.y);
+                        this.ctx.stroke();
+                        
+                        // 绘制边的标签
+                        const midX = (sourceNode.x + targetNode.x) / 2;
+                        const midY = (sourceNode.y + targetNode.y) / 2;
+                        this.ctx.fillStyle = '#666';
+                        this.ctx.font = '12px Arial';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(edge.type, midX, midY);
+                    }
+                }
+                
+                // 绘制节点
+                for (const node of this.nodes) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI);
+                    this.ctx.fillStyle = node.highlighted ? node.color : this.adjustColor(node.color, 0.7);
+                    this.ctx.fill();
+                    this.ctx.strokeStyle = node.highlighted ? '#333' : '#ddd';
+                    this.ctx.lineWidth = node.highlighted ? 2 : 1;
+                    this.ctx.stroke();
+                    
+                    // 绘制节点标签
+                    this.ctx.fillStyle = '#fff';
+                    this.ctx.font = 'bold 12px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.textBaseline = 'middle';
+                    this.ctx.fillText(node.name, node.x, node.y);
+                }
+            }
+            
+            adjustColor(color, opacity) {
+                // 简单的颜色调整，降低不透明度
+                if (color.startsWith('#')) {
+                    const hex = color.substring(1);
+                    const r = parseInt(hex.substring(0, 2), 16);
+                    const g = parseInt(hex.substring(2, 4), 16);
+                    const b = parseInt(hex.substring(4, 6), 16);
+                    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+                }
+                return color;
+            }
+        }
+        
+        // 初始化可视化
+        const visualizer = new KnowledgeGraphVisualizer('graph-canvas');
+        
+        // 查询知识图谱
+        async function queryKnowledgeGraph() {
+            const keywords = document.getElementById('keywords').value;
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            
+            if (!keywords.trim()) {
+                error.textContent = '请输入关键词';
+                return;
+            }
+            
+            loading.style.display = 'block';
+            error.textContent = '';
+            document.getElementById('search-results').style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/kg/explore', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        keywords: keywords.split(',').map(k => k.trim()),
+                        depth: 2
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`查询失败: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                visualizer.loadData(data);
+            } catch (err) {
+                error.textContent = err.message;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        // 搜索节点
+        async function searchNodes() {
+            const query = document.getElementById('keywords').value;
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const searchResults = document.getElementById('search-results');
+            const resultsList = document.getElementById('results-list');
+            
+            if (!query.trim()) {
+                error.textContent = '请输入搜索关键词';
+                return;
+            }
+            
+            loading.style.display = 'block';
+            error.textContent = '';
+            
+            try {
+                const response = await fetch('/api/kg/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: query.trim()
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`搜索失败: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // 显示搜索结果
+                resultsList.innerHTML = '';
+                
+                if (data.results && data.results.length > 0) {
+                    data.results.forEach(result => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'result-item';
+                        resultItem.innerHTML = `
+                            <div class="result-name">${result.name}</div>
+                            <div class="result-type">类型: ${result.type}</div>
+                            <div class="result-relevance">相关度: ${(result.relevance * 100).toFixed(0)}%</div>
+                        `;
+                        
+                        // 点击搜索结果时查询相关节点
+                        resultItem.addEventListener('click', () => {
+                            document.getElementById('keywords').value = result.name;
+                            queryKnowledgeGraph();
+                        });
+                        
+                        resultsList.appendChild(resultItem);
+                    });
+                    
+                    searchResults.style.display = 'block';
+                } else {
+                    resultsList.innerHTML = '<p>没有找到相关结果</p>';
+                    searchResults.style.display = 'block';
+                }
+            } catch (err) {
+                error.textContent = err.message;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        // 绑定查询按钮
+        document.getElementById('search').addEventListener('click', queryKnowledgeGraph);
+        document.getElementById('search-nodes').addEventListener('click', searchNodes);
+        
+        // 页面加载时自动查询
+        window.addEventListener('load', queryKnowledgeGraph);
+    </script>
+</body>
+</html>

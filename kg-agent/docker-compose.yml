@@ -1,0 +1,160 @@
+version: '3.8'
+
+networks:
+  nebula-net:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/kg-agent-docker-data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  elasticsearch:
+    build:
+      context: .
+      dockerfile: Dockerfile.elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=0.0.0.0
+    ports:
+      - "9200:9200"
+    volumes:
+      - /data/kg-agent-docker-data/elasticsearch:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.5
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+    volumes:
+      - /data/kg-agent-docker-data/etcd:/etcd
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+    command: etcd -advertise-client-urls=http://etcd:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio:
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - /data/kg-agent-docker-data/minio:/data
+    command: minio server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  milvus-standalone:
+    image: milvusdb/milvus:v2.3.3
+    command: ["milvus", "run", "standalone"]
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+    volumes:
+      - /data/kg-agent-docker-data/milvus:/var/lib/milvus
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    depends_on:
+      - "etcd"
+      - "minio"
+
+  # Nebula Graph - Query Service
+  nebula-graphd:
+    image: vesoft/nebula-graphd:v3.6.0
+    environment:
+      - TZ=UTC
+      - USER=root
+    network_mode: host
+    depends_on:
+      - nebula-metad
+      - nebula-storaged
+    volumes:
+      - /data/kg-agent-docker-data/nebula-graphd:/data/meta
+      - /data/kg-agent-docker-data/nebula-graphd/logs:/logs
+    command:
+      - --meta_server_addrs=127.0.0.1:9559
+      - --local_ip=127.0.0.1
+      - --ws_ip=127.0.0.1
+      - --port=9669
+      - --ws_http_port=19669
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    restart: on-failure
+
+  # Nebula Graph - Meta Service
+  nebula-metad:
+    image: vesoft/nebula-metad:v3.6.0
+    environment:
+      - TZ=UTC
+      - USER=root
+    network_mode: host
+    volumes:
+      - /data/kg-agent-docker-data/nebula-metad:/data/meta
+      - /data/kg-agent-docker-data/nebula-metad/logs:/logs
+    command:
+      - --local_ip=127.0.0.1
+      - --ws_ip=127.0.0.1
+      - --port=9559
+      - --ws_http_port=19559
+      - --data_path=/data/meta
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+      - --default_parts_num=10
+      - --default_replica_factor=1
+    restart: on-failure
+
+  # Nebula Graph - Storage Service
+  nebula-storaged:
+    image: vesoft/nebula-storaged:v3.6.0
+    environment:
+      - TZ=UTC
+      - USER=root
+    network_mode: host
+    depends_on:
+      - nebula-metad
+    volumes:
+      - /data/kg-agent-docker-data/nebula-storaged:/data/meta
+      - /data/kg-agent-docker-data/nebula-storaged/logs:/logs
+    command:
+      - --meta_server_addrs=127.0.0.1:9559
+      - --local_ip=127.0.0.1
+      - --ws_ip=127.0.0.1
+      - --port=9779
+      - --ws_http_port=19779
+      - --data_path=/data/meta
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+      - --heartbeat_interval_secs=10
+    restart: on-failure
