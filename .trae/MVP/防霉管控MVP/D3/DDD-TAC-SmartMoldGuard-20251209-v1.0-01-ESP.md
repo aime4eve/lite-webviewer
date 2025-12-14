@@ -1,0 +1,302 @@
+# 防霉管控MVP —— 事件风暴规划 (Event Storming Planning)
+
+> 版本：V1.0 (2025-12-09)
+> 依据：D1/产品设计和用户故事 & D2/实现战略设计
+> 目标：将战略意图转化为战术设计蓝图，识别领域事件、命令与聚合根
+
+## 1. 风暴图例 (Legend)
+
+在阅读本文档时，请对应以下颜色/符号理解：
+
+*   **🟧 领域事件 (Domain Event)**: 过去发生的、对业务有价值的事实（动词过去式）。*例：RiskDetected*
+*   **🟦 命令 (Command)**: 触发事件的动作/意图。*例：DetectRisk*
+*   **🟨 聚合/实体 (Aggregate)**: 执行命令、产生事件的业务对象。*例：RiskModel*
+*   **🟩 读模型 (Read Model)**: 用于展示的数据视图。*例：RiskDashboard*
+*   **🟪 策略/规则 (Policy)**: "当...时，就..."的自动化业务规则。*例：If risk > 0.8 then start fan*
+*   **🟥 外部系统 (External System)**: 第三方服务或硬件。*例：LoRaWAN Network*
+*   **👤 角色 (Actor)**: 触发命令的人。*例：User*
+
+---
+
+## 2. 核心流程风暴 (Process Modeling)
+
+### 流程一：环境感知与风险预测 (Sensing & Prediction)
+> **业务价值**：将原本无意义的温湿度数据转化为具备业务含义的“霉菌风险”。
+
+```mermaid
+graph TD
+    %% Actors & External
+    Ext_Sensor["🟥 传感器"]
+    Ext_Weather["🟥 天气服务"]
+
+    %% Flow
+    Ext_Sensor -->|上报数据| Cmd_Report["🟦 上报遥测数据<br>ReportTelemetry"]
+    Cmd_Report --> Agg_Device["🟨 设备\nDevice"]
+    Agg_Device --> Evt_EnvChanged["🟧 环境数据已变更<br>EnvironmentChanged"]
+    
+    Evt_EnvChanged --> Pol_RiskCheck["🟪 风险检测策略<br>(每10min或波动>5%)"]
+    Pol_RiskCheck --> Cmd_Assess["🟦 评估霉菌风险<br>AssessMoldRisk"]
+    
+    Cmd_Assess --> Agg_RiskModel["🟨 风险模型<br>RiskModel"]
+    Ext_Weather -.->|提供外部湿度| Agg_RiskModel
+    
+    Agg_RiskModel --> Evt_RiskDetected["🟧 霉菌风险已检出<br>MoldRiskDetected"]
+    Agg_RiskModel --> Evt_Safe["🟧 环境安全<br>EnvironmentSafe"]
+
+    %% Read Model
+    Evt_RiskDetected --> View_App["🟩 小程序首页/健康卡片"]
+
+```
+流程描述：智能家居环境健康监测系统的核心流程。
+1、外部传感器上报数据，触发一个上报遥测数据的命令。
+2、该命令更新设备聚合的状态，并产生一个环境数据已变更的领域事件。
+3、该事件触发一个风险检测策略（定时10分钟或数据波动大于5%时执行）。
+4、策略执行评估霉菌风险的命令。
+5、该命令由风险模型聚合处理，它结合外部天气服务提供的湿度数据，进行综合风险评估。
+6、风险模型根据计算结果，发布霉菌风险已检出或环境安全的领域事件。
+7、最后，霉菌风险已检出事件会更新小程序前端的视图（如首页的健康状态卡片），通知用户。
+
+### 流程二：智能控制闭环 (Smart Control Loop)
+> **业务价值**：基于风险和用户偏好，实现“无感”且“节能”的自动干预（先排风，后加热）。
+
+```mermaid
+graph TD
+    %% Triggers
+    Evt_RiskDetected["🟧 霉菌风险已检出"]
+    
+    %% Decision
+    Evt_RiskDetected --> Pol_AutoIntervention["🟪 自动干预策略<br>(Check: 勿扰模式 & 极端天气)"]
+    Pol_AutoIntervention --> Cmd_GenPlan["🟦 生成干预计划<br>GenerateInterventionPlan"]
+    
+    Cmd_GenPlan --> Agg_Plan["🟨 干预计划<br>InterventionPlan"]
+    Agg_Plan --> Evt_PlanCreated["🟧 干预计划已生成<br>InterventionPlanCreated"]
+    
+    Evt_PlanCreated --> Pol_Dispatch["🟪 调度策略<br>(Step 1: Fan)"]
+    Pol_Dispatch --> Cmd_SendCmd["🟦 下发排风指令<br>SendCommand"]
+    
+    %% Execution
+    Cmd_SendCmd --> Agg_Device["🟨 设备<br>Device"]
+    Agg_Device --> Ext_Hardware["🟥 3位开关(风)"]
+    Ext_Hardware -->|ACK| Evt_CmdExecuted["🟧 排风已执行<br>CommandExecuted"]
+    
+    %% Step 2 Check
+    Evt_CmdExecuted --> Agg_Plan
+    Agg_Plan -->|Wait 30min & Check| Pol_CheckRisk["🟪 风险复核策略"]
+    
+    Pol_CheckRisk -->|Risk High| Cmd_Heat["🟦 下发加热指令<br>SendCommand(Heater)"]
+    Pol_CheckRisk -->|Risk Low| Evt_Success["🟧 风险已解除<br>RiskCleared"]
+    
+    Cmd_Heat --> Agg_Device
+    Agg_Device --> Ext_Heater["🟥 3位开关(暖)"]
+    
+    %% Feedback Loop
+    Ext_Heater -->|ACK| Agg_Plan
+    Agg_Plan -->|Monitor| Evt_Success
+    Agg_Plan -->|Timeout| Evt_Failed["🟧 干预失败/超时<br>InterventionFailed"]
+    
+    %% Value
+    Evt_Success --> Cmd_CalSave["🟦 计算节能收益<br>CalculateSavings"]
+    Cmd_CalSave --> Evt_Saved["🟧 节能收益已记录<br>EnergySaved"]
+    
+    Evt_Saved --> Pol_Reward["🟪 积分奖励策略"]
+    Pol_Reward --> Cmd_Award["🟦 发放积分<br>AwardPoints"]
+    Cmd_Award --> Agg_Points["🟨 积分账户<br>LoyaltyPoints"]
+    Agg_Points --> Evt_Awarded["🟧 积分已发放<br>PointsAwarded"]
+
+```
+
+流程描述：**智能家居自动干预系统**的流程图，展示了从风险检测到自动干预的完整闭环。
+
+- **触发阶段**：由`霉菌风险已检出`事件触发整个流程。
+- **决策阶段**：
+  - `自动干预策略`会检查条件（如勿扰模式、极端天气），决定是否执行自动干预。
+  - 策略通过后，系统`生成干预计划`，创建`干预计划`聚合。
+  - 计划生成后触发`干预计划已生成`事件，由`调度策略`决定如何执行。
+- **执行阶段 (分步执行)**：
+  - **Step 1**: 系统优先下发指令开启`排风扇`。
+  - **Step 2**: 30分钟后复核风险，若仍未解除，则下发指令开启`加热器`进行烘干。
+- **反馈循环**：
+  - 执行结果反馈给`干预计划`聚合进行监控。
+  - 最终产生`节能收益已记录`事件，并触发`积分奖励策略`，为用户发放防霉积分。
+
+### 流程三：酒店轻量化风险监测 (Lightweight Risk Monitoring)
+
+> **业务价值**：帮助民宿/酒店业主通过"风险清单"精准调度保洁，替代盲目巡检。
+
+```mermaid
+graph TD
+    %% Triggers
+    Timer_Daily["🕒 每日定时 (08:00 & 20:00)"]
+    
+    %% Process
+    Timer_Daily --> Cmd_GenReport["🟦 生成风险清单<br>GenerateRiskReport"]
+    Cmd_GenReport --> Agg_Report["🟨 风险报告<br>RiskReport"]
+    Agg_Report --> Evt_ReportReady["🟧 风险清单已生成<br>RiskListGenerated"]
+    
+    %% View & Action
+    Evt_ReportReady --> View_Manager["🟩 经理小程序/风险排行"]
+    View_Manager --> Actor_Manager["👤 经理"]
+    Actor_Manager --> Cmd_Dispatch["🟦 转发任务<br>DispatchTask"]
+    Cmd_Dispatch --> View_Staff["🟩 保洁小程序/任务卡片"]
+    
+    %% Feedback
+    Actor_Staff["👤 保洁员"] --> Cmd_Feedback["🟦 反馈处理结果<br>CompleteTask"]
+    Cmd_Feedback --> Agg_Report
+    Agg_Report --> Evt_TaskDone["🟧 风险已处理<br>RiskHandled"]
+
+```
+流程描述：**酒店轻量化风险监测**流程，服务于 Story 2。
+- **触发**：每日固定时间（**早8点 & 晚8点**）触发。
+- **生成**：系统基于过去12小时湿度数据，生成《高风险房间清单》。
+- **触达**：推送给经理端小程序，经理无需登录PC即可查看。
+- **调度**：经理一键转发高风险房间给保洁员。
+- **闭环**：保洁员现场处理（通风/除湿）后拍照反馈，系统记录处理结果以修正模型。
+
+### 流程四：资产保全闭环 (Asset Protection Loop)
+
+> **业务价值**：自动处理设备被拆除/损坏场景，实现资产零流失与零上门。
+
+```mermaid
+graph TD
+    %% Triggers
+    Ext_Device["🟥 设备"] -->|防拆开关弹起| Evt_Tampered["🟧 设备被拆除<br>DeviceTampered"]
+    
+    %% Ops Process
+    Evt_Tampered --> Pol_Asset["🟪 资产保全策略"]
+    Pol_Asset --> Cmd_Calc["🟦 计算赔付金<br>CalculateCompensation"]
+    Cmd_Calc --> Agg_Asset["🟨 资产赔付<br>AssetCompensate"]
+    Agg_Asset --> Evt_Pending["🟧 赔付待确认<br>CompensationPending"]
+    
+    %% Interaction
+    Evt_Pending --> View_User["🟩 用户小程序/异常告警"]
+    View_User --> Actor_User["👤 用户"]
+    
+    %% Branch
+    Actor_User -->|确认赔付| Cmd_Pay["🟦 支付赔偿<br>PayCompensation"]
+    Actor_User -->|申请返修| Cmd_Mail["🟦 邮寄返修<br>MailBackDevice"]
+    Actor_User -->|误触恢复| Cmd_Restore["🟦 恢复设备<br>RestoreDevice"]
+    
+    %% Result
+    Cmd_Pay --> Agg_Asset
+    Agg_Asset --> Evt_Paid["🟧 赔付已完成<br>CompensationPaid"]
+    
+    Cmd_Mail --> Agg_Asset
+    Agg_Asset --> Evt_Mailed["🟧 设备已寄回<br>DeviceMailed"]
+    
+    Cmd_Restore --> Agg_Device["🟨 设备"]
+    Agg_Device --> Evt_Online["🟧 设备已恢复<br>DeviceRecovered"]
+    Evt_Online --> Agg_Asset
+    Agg_Asset --> Evt_Closed["🟧 工单自动关闭<br>TicketClosed"]
+
+```
+流程描述：**资产保全闭环**流程，服务于 Story 1。
+- **触发**：设备防拆开关触发或长期异常离线。
+- **计算**：运维上下文自动计算剩余租期价值与违约金。
+- **触达**：直接推送给用户，告知"设备异常需赔付"。
+- **分支**：
+  - 用户承认损坏：在线支付赔偿金，流程结束。
+  - **用户申请返修**：系统生成寄件码，用户寄回设备。
+  - 用户误触：重新安装设备，设备上线后工单自动关闭，无需人工介入。
+
+### 流程五：首次配置自动配网 (Auto Provisioning)
+
+> **业务价值**：实现设备上电即用，零技术门槛，支撑"零上门"愿景。
+
+```mermaid
+graph TD
+    %% Trigger
+    Actor_User["👤 用户"] -->|通电| Ext_Device["🟥 设备"]
+    Ext_Device -->|Join Request| Cmd_Join["🟦 请求入网<br>JoinNetwork"]
+    
+    %% IoT Platform
+    Cmd_Join --> Agg_Device["🟨 设备<br>Device"]
+    Agg_Device -->|Auth Check| Pol_Auth["🟪 鉴权策略"]
+    Pol_Auth -->|Valid| Evt_Joined["🟧 设备已入网<br>DeviceJoined"]
+    
+    %% Provisioning
+    Evt_Joined --> Cmd_Prov["🟦 自动配置<br>AutoProvision"]
+    Cmd_Prov --> Agg_Device
+    Agg_Device --> Evt_Ready["🟧 设备已就绪<br>DeviceProvisioned"]
+    
+    %% Notification
+    Evt_Ready --> View_App["🟩 用户小程序/发现设备"]
+    View_App --> Actor_User
+    Actor_User --> Cmd_Bind["🟦 确认绑定<br>BindDevice"]
+    Cmd_Bind --> Agg_Device
+    Agg_Device --> Evt_Bound["🟧 设备已绑定<br>DeviceBound"]
+    
+    %% Linkage Config
+    Evt_Bound --> View_Config["🟩 联动配置页"]
+    View_Config --> Actor_User
+    Actor_User --> Cmd_Config["🟦 配置按键映射<br>ConfigureLinkage"]
+    Cmd_Config --> Agg_Device
+    Agg_Device --> Evt_Configured["🟧 联动已配置<br>LinkageConfigured"]
+
+```
+流程描述：**首次配置自动配网**流程，服务于 Story 4。
+- **触发**：用户给设备通电。
+- **入网**：设备自动发送 LoRaWAN Join Request，平台自动鉴权并接受。
+- **配置**：平台下发初始配置（上报频率、默认策略），设备进入就绪状态。
+- **绑定**：小程序收到"新设备上线"通知，用户仅需确认并命名，即可完成绑定。
+
+---
+
+## 3. 聚合根与命令映射 (Aggregate & Command Mapping)
+
+### 3.1 核心域：防霉预测 (Mold Prediction Context)
+
+| 聚合根 (Aggregate) | 命令 (Command) | 产生事件 (Domain Event) | 业务规则/不变量 (Invariant) |
+| :--- | :--- | :--- | :--- |
+| **RiskModel**<br>(风险模型) | `AssessMoldRisk`<br>(评估风险) | `MoldRiskDetected`<br>`EnvironmentSafe` | 1. 必须结合最近24h历史趋势计算<br>2. 必须加载该设备所在气候带参数 |
+| **Microclimate**<br>(微气候档案) | `UpdateProfile`<br>(更新档案) | `ProfileOptimized` | 1. 档案数据至少每月更新一次 |
+| **RiskReport**<br>(风险报告) | `GenerateRiskReport`<br>(生成报告) | `RiskListGenerated` | 1. 报告必须包含过去12小时的最高湿度和平均湿度 |
+
+### 3.2 核心域：智能控制 (Smart Control Context)
+
+| 聚合根 (Aggregate) | 命令 (Command) | 产生事件 (Domain Event) | 业务规则/不变量 (Invariant) |
+| :--- | :--- | :--- | :--- |
+| **InterventionPlan**<br>(干预计划) | `GeneratePlan`<br>`CompletePlan`<br>`CalculateEnergy` | `PlanCreated`<br>`RiskCleared`<br>`EnergySaved` | 1. 同一设备不能同时存在两个活跃计划<br>2. 勿扰时段禁止生成高噪音计划 |
+| **UserPreference**<br>(用户偏好) | `UpdatePreference` | `PreferenceChanged` | 1. 舒适度阈值不能低于 40% (防过干) |
+
+### 3.3 支撑域：设备连接 (Connectivity Context)
+
+| 聚合根 (Aggregate) | 命令 (Command) | 产生事件 (Domain Event) | 业务规则/不变量 (Invariant) |
+| :--- | :--- | :--- | :--- |
+| **Device**<br>(设备) | `RegisterDevice`<br>`ReportTelemetry`<br>`ReportEvent`<br>`JoinNetwork`<br>`AutoProvision` | `DeviceRegistered`<br>`EnvironmentChanged`<br>`DeviceTampered`<br>`DeviceRecovered`<br>`DeviceJoined`<br>`DeviceBound` | 1. 设备ID全局唯一<br>2. 遥测数据不可篡改<br>3. 入网必须经过 DevEUI+AppKey 强校验 |
+
+### 3.4 支撑域：交付运维 (Delivery & Ops Context)
+
+| 聚合根 (Aggregate) | 命令 (Command) | 产生事件 (Domain Event) | 业务规则/不变量 (Invariant) |
+| :--- | :--- | :--- | :--- |
+| **WorkOrder**<br>(工单) | `CreateTicket`<br>`ResolveTicket` | `TicketCreated`<br>`HazardResolved` | 1. 只有"进行中"的工单才能被关闭<br>2. 必须关联有效的设备ID或房间号 |
+| **DiagnosticReport**<br>(诊断报告) | `AutoDiagnose`<br>`ReportHealth` | `DiagnosticCompleted` | 1. 报告必须包含最近24小时的信号强度数据 |
+| **AssetCompensate**<br>(资产赔付) | `CalculateCompensation`<br>`PayCompensation` | `CompensationPending`<br>`CompensationPaid` | 1. 赔付金额必须基于剩余租期计算<br>2. 只有 Pending 状态可支付 |
+
+### 3.5 通用域：客户与订阅 (Customer & Subscription Context)
+
+| 聚合根 (Aggregate) | 命令 (Command) | 产生事件 (Domain Event) | 业务规则/不变量 (Invariant) |
+| :--- | :--- | :--- | :--- |
+| **Subscription**<br>(订阅) | `Subscribe`<br>`PaySubscription` | `SubscriptionCreated`<br>`PaymentSuccess` | 1. 支付必须通过第三方支付网关回调确认 |
+| **LoyaltyPoints**<br>(积分账户) | `AwardPoints`<br>`RedeemPoints` | `PointsAwarded`<br>`PointsRedeemed` | 1. 积分余额不能为负<br>2. 积分发放必须关联具体的干预记录或任务ID |
+
+---
+
+## 4. 关键热点与待定项 (Hotspots)
+
+*   **🔥 热点 1: 离线状态下的策略执行**
+    *   *问题*: 如果网关断网，设备能否执行本地防霉策略？
+    *   *决策*: MVP阶段**不能**。依赖云端计算。Phase 2 考虑在网关侧部署轻量级 TFLite 模型实现边缘控制。
+*   **🔥 热点 2: “回南天”逻辑冲突**
+    *   *问题*: 室内湿，室外更湿，开排风扇会倒灌。
+    *   *决策*: 引入**外部天气服务 (External Weather Service)** 作为策略的必要输入。若 `OutHum > InHum`，禁止启动排风，仅推送建议。
+*   **🔥 热点 3: 传感器漂移**
+    *   *问题*: 廉价传感器用久了数据不准。
+    *   *决策*: 在 `Microclimate` 聚合中维护校准系数，通过云端算法（对比临近设备或天气数据）定期下发 `CalibrateSensor` 命令。
+
+---
+
+## 5. 下一步行动 (Next Steps)
+
+1.  **战术建模**: 基于上述聚合根，设计详细的类图和数据库 Schema。
+2.  **API 定义**: 为每个蓝色命令 (Command) 定义 REST/gRPC 接口。
+3.  **消息契约**: 为每个橙色事件 (Event) 定义 Avro/JSON Schema。
