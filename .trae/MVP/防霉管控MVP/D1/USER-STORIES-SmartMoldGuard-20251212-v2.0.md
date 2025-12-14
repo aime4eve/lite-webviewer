@@ -1,8 +1,10 @@
 # 防霉管控MVP —— 「用户故事 & 用户旅程」
 
-> 版本：V2R1
-> 依据：防霉管控MVP_产品愿景V2R1
-> 状态：已修正 (Aligned with Vision V2R1)
+> **编号**: USER-STORIES-SmartMoldGuard-20251212-v2.0
+> **状态**: Final
+> **版本说明**: 基于产品愿景v2.0深化，包含完整用户旅程时序图
+> **依据**: PROD-VISION-SmartMoldGuard-20251212-v2.0
+> **术语引用**: 本文档使用《SmartMoldGuard-统一术语表》（v1.0）定义的标准术语
 
 ## 一、核心用户故事 (Core User Stories)
 
