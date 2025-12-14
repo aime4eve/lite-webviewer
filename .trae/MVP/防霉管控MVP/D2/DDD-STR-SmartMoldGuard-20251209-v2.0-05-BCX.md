@@ -3,6 +3,7 @@
 > 编号：DDD-STR-SmartMoldGuard-20251209-v2.0
 > 状态：Final
 > 版本说明：深化版，包含核心聚合定义与上下文映射模式详解
+> **术语引用**: 本文档使用《SmartMoldGuard-统一术语表》（v1.0）定义的标准术语
 
 ## 1. 限界上下文拓扑 (Context Topology)
 
@@ -82,6 +83,7 @@ graph TD
     *   `Subscription` (订阅): 聚合根。包含有效期、套餐类型。
     *   `Tenant` (租户): 实体。支持层级结构 (集团 -> 门店 -> 房间)，实现 B 端批量授权。
     *   `LoyaltyPoints` (积分账户): 聚合根。管理用户防霉积分的发放与核销。
+*   **关键领域事件**: `SubscriptionActivated`, `SubscriptionExpired`, `SubscriptionUpgraded`, `PointsEarned`。这些事件会驱动智能控制上下文调整权限边界，并为防霉报告上下文提供续费与升级的价值证明依据。
 
 ### 2.5 设备连接上下文 (Connectivity) [Supporting]
 *   **职责**: 屏蔽底层硬件差异，负责 LoRaWAN + 4G 网关接入与指令下发。

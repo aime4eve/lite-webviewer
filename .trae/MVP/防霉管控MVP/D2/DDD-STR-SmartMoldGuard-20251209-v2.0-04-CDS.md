@@ -3,6 +3,7 @@
 > 编号：DDD-STR-SmartMoldGuard-20251209-v2.0
 > 状态：Final
 > 版本说明：深化版，包含异常流程、统一语言与Given-When-Then验收标准
+> **术语引用**: 本文档使用《SmartMoldGuard-统一术语表》（v1.0）定义的标准术语
 
 ## 1. 统一语言 (Ubiquitous Language)
 
@@ -16,7 +17,7 @@
 
 ## 2. 核心场景 (Core Scenarios)
 
-### 场景 1：夜间自动霉菌阻断 (Nighttime Auto-Intervention) [C端]
+### SCEN-001：夜间自动霉菌阻断 (Nighttime Auto-Intervention) [C端]
 
 #### 2.1 业务背景
 用户在睡前洗澡后忘记开窗/排风，浴室湿度维持在90%+。系统需在用户熟睡时自动检测风险并进行"静音干预"：**通过3位开关面板先开启排风扇，30分钟后若风险未解除则联动加热器烘干**，确保次日清晨浴室干爽，能耗控制在0.8度以内。
@@ -71,7 +72,7 @@ sequenceDiagram
     Control->>User: PushNotification("昨夜已阻断霉菌，耗电0.5度，积分+10")
 ```
 
-### 场景 2：设备防拆与资产保全闭环 (Device Tamper & Asset Protection Loop) [运维端]
+### SCEN-002：设备防拆与资产保全闭环 (Device Tamper & Asset Protection Loop) [运维端]
 
 #### 2.3 业务背景
 当设备被非法拆除（防拆开关触发）或异常离线时，系统需自动识别为"资产流失风险"，并立即推送告警至用户与运维端。用户可选择**自助确认赔付**或**邮寄返修**，实现资产保全零人工上门。
@@ -112,7 +113,7 @@ sequenceDiagram
     end
 ```
 
-### 场景 3：酒店轻量化风险监测 (Hotel Lightweight Monitoring) [B端]
+### SCEN-003：酒店轻量化风险监测 (Hotel Lightweight Monitoring) [B端]
 
 #### 2.5 业务背景
 针对仅安装传感器的酒店/民宿场景（无控制面板），系统**每日早晚两次 (8:00 & 20:00)** 自动生成按风险排序的房间清单，指导保洁人员进行针对性通风或除湿，替代人工逐个巡检。
@@ -125,7 +126,7 @@ sequenceDiagram
     3.  推送到经理的**微信小程序管理端**。
     4.  经理一键转发任务给保洁员小程序。
 
-### 场景 4：首次配置与自动配网 (Auto Provisioning) [用户端]
+### SCEN-004：首次配置与自动配网 (Auto Provisioning) [用户端]
 
 #### 2.7 业务背景
 首次使用防霉系统的家庭用户，将设备通电后，系统应在 **5分钟内** 自动完成入网、鉴权、配置下发与绑定流程，无需用户进行复杂操作，实现"零上门"安装。
@@ -166,6 +167,34 @@ sequenceDiagram
     IoT->>User: PushMsg("配置完成，开始工作")
 ```
 
+### SCEN-005：试用到期与权限降级 (Trial Expiry & Graceful Degradation) [订阅]
+
+#### 2.9 业务背景
+家庭用户在完成首月免费试用后未立即付款。系统需要在保护用户安全的前提下，对智能控制能力进行平滑降级：继续保留风险预警与基础监测，但停止自动干预，并通过小程序与消息渠道引导用户完成订阅。
+
+#### 2.10 流程交互
+
+```mermaid
+sequenceDiagram
+    participant Sub as 订阅服务(Subscription)
+    participant Control as 控制服务(Control)
+    participant Predict as 预测服务(Prediction)
+    participant User as 用户小程序(MiniProgram)
+
+    Note over Sub, User: 试用到期前3天
+    Sub->>User: PushMsg("试用即将到期，请选择套餐")
+
+    Note over Sub, User: 试用到期当日
+    Sub->>Sub: MarkSubscriptionStatus(Expired)
+    Sub->>Control: Publish(SubscriptionExpired)
+    Control->>Control: UpdateEntitlements(Mode=AlertOnly)
+
+    Note over Predict, User: 后续仍有高风险事件
+    Predict->>Control: Publish(MoldRiskDetected)
+    Control->>Control: CheckEntitlements()
+    Control->>User: PushNotification("检测到高风险，但当前为预警模式，自动干预已关闭")
+```
+
 ## 3. 验收标准 (Acceptance Criteria)
 
 ### AC1: 风险识别准确性
@@ -188,3 +217,13 @@ sequenceDiagram
 *   **When**: 发起入网请求。
 *   **Then**: 从通电到小程序收到"新设备已发现"通知，耗时应 < 5分钟。
 *   **And**: 入网成功率应 ≥ 99.99%。
+
+### AC5: 试用到期降级策略
+*   **Given**: 用户订阅状态变更为 `Expired`。
+*   **When**: 控制服务接收到 `SubscriptionExpired` 事件。
+*   **Then**: 后续由防霉预测触发的干预请求，应全部转化为"仅预警不干预"模式，并在通知文案中明确当前状态。
+
+### AC6: 订阅状态一致性
+*   **Given**: 支付网关完成扣款并回调成功。
+*   **When**: 订阅服务将状态更新为 `Active`。
+*   **Then**: 控制服务在 1分钟 内完成权益刷新，并允许用户享受对应套餐的全部自动干预功能。
