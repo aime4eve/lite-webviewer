@@ -52,6 +52,7 @@ target/
 frontend/node_modules/
 frontend/dist/
 frontend/dist-ssr/
+.trae/MVP/防霉管控MVP/D4/uni-app-ui-demo/node_modules
 
 # Python编译文件
 __pycache__/

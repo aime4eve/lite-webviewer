@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@dcloudio/uni-app": "^2.0.2-4080720251210002",
+    "@dcloudio/uni-cli-shared": "^2.0.2-4080720251210002",
+    "@dcloudio/uni-h5": "^2.0.2-4080720251210002",
+    "@dcloudio/uni-mp-weixin": "^2.0.2-4080720251210002"
+  }
+}

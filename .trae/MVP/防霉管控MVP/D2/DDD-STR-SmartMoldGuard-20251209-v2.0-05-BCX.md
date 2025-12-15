@@ -59,7 +59,7 @@ graph TD
 *   **职责**: 接收环境数据，计算霉菌生长风险，维护微气候模型。
 *   **核心聚合 (Aggregates)**:
     *   `RiskAssessment` (风险评估): 聚合根。包含风险等级、预测因子、置信度。
-    *   `MicroclimateProfile` (微气候档案): 实体。记录浴室的长期温湿度特征（如保温性、通风效率）。
+    *   `MicroclimateProfile` (微气候档案): 聚合根。记录浴室的长期温湿度特征（如保温性、通风效率）。
 *   **领域服务**: `MoldGrowthModelService` (计算核心)。
 
 ### 2.2 智能控制上下文 (Smart Control)
