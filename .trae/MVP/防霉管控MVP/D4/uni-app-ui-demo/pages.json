@@ -1,0 +1,78 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "防霉守护 · 家庭版"
+      }
+    },
+    {
+      "path": "pages/device/detail",
+      "style": {
+        "navigationBarTitleText": "设备详情"
+      }
+    },
+    {
+      "path": "pages/subscription/index",
+      "style": {
+        "navigationBarTitleText": "云订阅与权益中心"
+      }
+    },
+    {
+      "path": "pages/risk/rooms",
+      "style": {
+        "navigationBarTitleText": "高风险房间清单"
+      }
+    },
+    {
+      "path": "pages/ops/dashboard",
+      "style": {
+        "navigationBarTitleText": "运维控制台"
+      }
+    },
+    {
+      "path": "pages/device/bind",
+      "style": {
+        "navigationBarTitleText": "添加设备"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "SmartMoldGuard",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#7a7e83",
+    "selectedColor": "#007aff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home-selected.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/device/index",
+        "iconPath": "static/device.png",
+        "selectedIconPath": "static/device-selected.png",
+        "text": "设备"
+      },
+      {
+        "pagePath": "pages/subscription/index",
+        "iconPath": "static/subscription.png",
+        "selectedIconPath": "static/subscription-selected.png",
+        "text": "订阅"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "iconPath": "static/profile.png",
+        "selectedIconPath": "static/profile-selected.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SmartMoldGuard 防霉管控系统</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    #app {
+      min-height: 100vh;
+    }
+    .preview-container {
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .preview-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .preview-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .preview-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      background: linear-gradient(135deg, #007aff 0%, #00c6ff 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+    }
+    .preview-btn:hover {
+      opacity: 0.9;
+    }
+    .preview-info {
+      text-align: center;
+      color: #666;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="preview-container">
+      <div class="preview-title">🛡️ SmartMoldGuard</div>
+      
+      <div class="preview-card">
+        <h2>防霉管控系统演示</h2>
+        <p>这是一个基于uni-app框架开发的防霉管控系统前端应用。</p>
+        <p>该项目展示了以下功能：</p>
+        <ul>
+          <li>🏠 家庭设备管理</li>
+          <li>🌡️ 实时环境监测</li>
+          <li>🚨 霉菌风险预警</li>
+          <li>🤖 智能联动控制</li>
+          <li>💎 云订阅服务</li>
+          <li>📊 数据报告分析</li>
+        </ul>
+      </div>
+      
+      <div class="preview-card">
+        <h3>页面预览</h3>
+        <a href="pages/index/index.vue" class="preview-btn" target="_blank">🏠 首页控制面板</a>
+        <a href="pages/device/detail.vue" class="preview-btn" target="_blank">📱 设备详情页</a>
+        <a href="pages/subscription/index.vue" class="preview-btn" target="_blank">💎 订阅中心</a>
+        <a href="pages/risk/rooms.vue" class="preview-btn" target="_blank">📋 风险房间清单</a>
+        <a href="pages/ops/dashboard.vue" class="preview-btn" target="_blank">💻 运维控制台</a>
+      </div>
+      
+      <div class="preview-card">
+        <h3>项目说明</h3>
+        <p>完整的项目代码在以下目录中：</p>
+        <pre style="background: #f8f8f8; padding: 15px; border-radius: 8px; overflow-x: auto;">D4/uni-app-ui-demo/</pre>
+        <p>要运行完整的uni-app项目，请使用：</p>
+        <pre style="background: #f8f8f8; padding: 15px; border-radius: 8px;">npm install</pre>
+        <pre style="background: #f8f8f8; padding: 15px; border-radius: 8px;">npm run dev:h5</pre>
+      </div>
+      
+      <div class="preview-info">
+        <p>SmartMoldGuard 防霉管控系统</p>
+        <p>演示项目，仅用于展示UI界面</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

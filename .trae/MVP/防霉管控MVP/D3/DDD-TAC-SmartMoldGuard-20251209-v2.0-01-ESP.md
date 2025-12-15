@@ -195,16 +195,16 @@ graph TD
 ```
 流程描述：**资产保全闭环**流程，服务于 Story 1。
 - **触发**：设备防拆开关触发或长期异常离线。
-- **计算**：运维上下文自动计算剩余租期价值与违约金。
+- **计算**：运维上下文自动计算剩余租期价值与违约金；对于押金式租赁设备，系统需在 `CalculateCompensation` 中优先使用押金余额抵扣应付赔偿金，仅在押金不足时才生成补差支付请求。
 - **触达**：直接推送给用户，告知"设备异常需赔付"。
 - **分支**：
-  - 用户承认损坏：在线支付赔偿金，流程结束。
-  - **用户申请返修**：系统生成寄件码，用户寄回设备。
-  - 用户误触：重新安装设备，设备上线后工单自动关闭，无需人工介入。
+  - 用户承认损坏：系统先自动扣减押金，再引导用户支付超出押金部分，完成赔付后工单自动关闭。
+  - **用户申请返修**：系统生成寄件码，用户寄回设备；设备验收正常后，系统根据结果退还部分或全部押金。
+  - 用户误触：重新安装设备，设备上线后工单自动关闭，押金状态不发生变更。
 
-### 流程五：首次配置自动配网 (Auto Provisioning)
+### 流程五：首次配置与服务订阅 (Provisioning & Subscription)
 
-> **业务价值**：实现设备上电即用，零技术门槛，支撑"零上门"愿景。
+> **业务价值**：实现设备上电即用，零技术门槛，并快速激活服务订阅，支撑"零上门"愿景。
 
 ```mermaid
 graph TD
@@ -222,26 +222,67 @@ graph TD
     Cmd_Prov --> Agg_Device
     Agg_Device --> Evt_Ready["🟧 设备已就绪<br>DeviceProvisioned"]
     
-    %% Notification
+    %% Binding & Subscription
     Evt_Ready --> View_App["🟩 用户小程序/发现设备"]
     View_App --> Actor_User
-    Actor_User --> Cmd_Bind["🟦 确认绑定<br>BindDevice"]
+    Actor_User -->|输入SN码| Cmd_Bind["🟦 绑定设备<br>BindDevice"]
     Cmd_Bind --> Agg_Device
     Agg_Device --> Evt_Bound["🟧 设备已绑定<br>DeviceBound"]
+
+    Evt_Bound --> Cmd_ActivateSub["🟦 激活试用订阅<br>ActivateTrialSubscription"]
+    Cmd_ActivateSub --> Agg_Sub["🟨 订阅<br>Subscription"]
+    Agg_Sub --> Evt_SubActive["🟧 订阅已激活<br>SubscriptionActivated"]
     
     %% Linkage Config
-    Evt_Bound --> View_Config["🟩 联动配置页"]
+    Evt_SubActive --> View_Config["🟩 联动配置页"]
     View_Config --> Actor_User
-    Actor_User --> Cmd_Config["🟦 配置按键映射<br>ConfigureLinkage"]
+    Actor_User --> Cmd_Config["🟦 配置按键映射<br>ConfigureButtonMapping"]
     Cmd_Config --> Agg_Device
     Agg_Device --> Evt_Configured["🟧 联动已配置<br>LinkageConfigured"]
 
+    %% First Value
+    Evt_Configured --> Timer_24h["🕒 24小时定时器"]
+    Timer_24h --> Cmd_GenFirstReport["🟦 生成首份报告<br>GenerateFirstReport"]
+    Cmd_GenFirstReport --> Agg_Report["🟨 风险报告"]
+    Agg_Report --> Evt_ReportReady["🟧 首份报告已生成<br>FirstReportGenerated"]
+    Evt_ReportReady --> View_Report["🟩 小程序/首份体验报告"]
+
 ```
-流程描述：**首次配置自动配网**流程，服务于 Story 4。
+流程描述：**首次配置与服务订阅**流程，服务于 Story 1 & 2。
 - **触发**：用户给设备通电。
 - **入网**：设备自动发送 LoRaWAN Join Request，平台自动鉴权并接受。
 - **配置**：平台下发初始配置（上报频率、默认策略），设备进入就绪状态。
-- **绑定**：小程序收到"新设备上线"通知，用户仅需确认并命名，即可完成绑定。
+- **绑定**：用户打开小程序，**输入设备SN码**，完成绑定。
+- **订阅**：绑定成功后，系统自动激活“首月免费试用订阅”。
+- **配置**：用户在线配置LoRa开关面板的3个物理按键与排风扇/加热器的映射关系。
+- **价值交付**：
+    - 绑定后5分钟内（通过入网流程），用户可见实时温湿度。
+    - 绑定24小时后，系统自动生成首份《霉菌风险评估报告》，展示服务价值。
+
+### 流程六：异常与容错处理 (Exception Handling)
+
+> **业务价值**：在网络或设备故障时保障系统鲁棒性，实现 CIT 定义的失败策略。
+
+```mermaid
+graph TD
+    %% Scenario 1: Command Failure
+    Cmd_Ctrl["🟦 下发控制指令<br>SendCommand"] --> Agg_Device["🟨 设备"]
+    Agg_Device -.->|Timeout/NACK| Pol_Retry["🟪 重试策略<br>(Exp Backoff x3)"]
+    Pol_Retry -->|Retry 1..3| Cmd_Ctrl
+    Pol_Retry -->|Max Retries| Evt_Fail["🟧 指令执行失败<br>CommandFailed"]
+    Evt_Fail --> Cmd_DLQ["🟦 进入死信队列<br>EnqueueDLQ"]
+    Cmd_DLQ --> View_Ops["🟩 运维告警面板"]
+
+    %% Scenario 2: Heartbeat Loss
+    Timer_HB["🕒 心跳检测定时器"] --> Cmd_Check["🟦 检查在线状态<br>CheckConnectivity"]
+    Cmd_Check --> Agg_Device
+    Agg_Device -->|LastSeen > 1h| Evt_Offline["🟧 设备离线<br>DeviceOffline"]
+    Evt_Offline --> Pol_Notify["🟪 通知策略<br>(User + Ops)"]
+    Pol_Notify --> View_User["🟩 用户小程序/离线提示"]
+```
+流程描述：**异常处理**流程。
+- **指令失败**：控制指令下发后若无 ACK 或超时，触发指数退避重试（最多3次）。若仍失败，产生 `CommandFailed` 事件进入死信队列，人工介入。
+- **心跳丢失**：系统定时检查设备 `LastSeen` 时间，若超过阈值（如1小时），产生 `DeviceOffline` 事件，通知用户检查电源或网络。
 
 ---
 
@@ -266,7 +307,7 @@ graph TD
 
 | 聚合根 (Aggregate) | 命令 (Command) | 产生事件 (Domain Event) | 业务规则/不变量 (Invariant) |
 | :--- | :--- | :--- | :--- |
-| **Device**<br>(设备) | `RegisterDevice`<br>`ReportTelemetry`<br>`ReportEvent`<br>`JoinNetwork`<br>`AutoProvision` | `DeviceRegistered`<br>`EnvironmentChanged`<br>`DeviceTampered`<br>`DeviceRecovered`<br>`DeviceJoined`<br>`DeviceBound` | 1. 设备ID全局唯一<br>2. 遥测数据不可篡改<br>3. 入网必须经过 DevEUI+AppKey 强校验 |
+| **Device**<br>(设备) | `RegisterDevice`<br>`ReportTelemetry`<br>`ReportEvent`<br>`JoinNetwork`<br>`AutoProvision`<br>`BindDevice`<br>`ConfigureButtonMapping` | `DeviceRegistered`<br>`EnvironmentChanged`<br>`DeviceTampered`<br>`DeviceRecovered`<br>`DeviceJoined`<br>`DeviceBound`<br>`LinkageConfigured`<br>`CommandFailed`<br>`DeviceOffline` | 1. 设备ID全局唯一<br>2. 遥测数据不可篡改<br>3. 入网必须经过 DevEUI+AppKey 强校验 |
 
 ### 3.4 支撑域：交付运维 (Delivery & Ops Context)
 
@@ -274,7 +315,7 @@ graph TD
 | :--- | :--- | :--- | :--- |
 | **WorkOrder**<br>(工单) | `CreateTicket`<br>`ResolveTicket` | `TicketCreated`<br>`HazardResolved` | 1. 只有"进行中"的工单才能被关闭<br>2. 必须关联有效的设备ID或房间号 |
 | **DiagnosticReport**<br>(诊断报告) | `AutoDiagnose`<br>`ReportHealth` | `DiagnosticCompleted` | 1. 报告必须包含最近24小时的信号强度数据 |
-| **AssetCompensate**<br>(资产赔付) | `CalculateCompensation`<br>`PayCompensation` | `CompensationPending`<br>`CompensationPaid` | 1. 赔付金额必须基于剩余租期计算<br>2. 只有 Pending 状态可支付 |
+| **AssetCompensate**<br>(资产赔付) | `CalculateCompensation`<br>`PayCompensation` | `CompensationPending`<br>`CompensationPaid` | 1. 赔付金额必须基于剩余租期或设备残值计算<br>2. 押金租赁场景下，赔付时必须优先扣减押金余额，并记录押金抵扣金额<br>3. 若押金不足以覆盖应付金额，必须生成补差支付请求，超出部分由用户支付<br>4. 只有 Pending 状态可支付 |
 
 ### 3.5 通用域：客户与订阅 (Customer & Subscription Context)
 

@@ -1,0 +1,169 @@
+/* 全局公共样式 */
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20rpx;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.status-safe {
+  color: #52c41a;
+}
+
+.status-warning {
+  color: #faad14;
+}
+
+.status-danger {
+  color: #ff4d4f;
+}
+
+.device-online {
+  color: #52c41a;
+}
+
+.device-offline {
+  color: #bfbfbf;
+}
+
+.device-warning {
+  color: #faad14;
+}
+
+.btn-primary {
+  background-color: #007aff;
+  color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  text-align: center;
+  font-size: 32rpx;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.badge-success {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.badge-warning {
+  background-color: #fff7e6;
+  color: #fa8c16;
+}
+
+.badge-danger {
+  background-color: #fff2f0;
+  color: #ff4d4f;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12rpx;
+  background-color: #f0f0f0;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #1890ff;
+  border-radius: 6rpx;
+}
+
+/* 通用列表样式 */
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item-title {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.list-item-subtitle {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10rpx solid transparent;
+  border-left: 16rpx solid #ccc;
+  border-bottom: 10rpx solid transparent;
+}
+
+/* 表单样式 */
+.form-group {
+  margin-bottom: 40rpx;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 12rpx;
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 10rpx;
+  padding: 0 20rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
