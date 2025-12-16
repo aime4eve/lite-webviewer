@@ -1,0 +1,1549 @@
+<template>
+  <OperatorLayout pageTitle="🔔 设备故障监控" activeNav="alarms">
+    <div class="device-fault-monitoring-container">
+      <!-- 页面操作栏 -->
+      <div class="page-actions">
+        <select class="filter-select" v-model="faultFilter.type">
+          <option value="all">所有故障类型</option>
+          <option value="tamper">🛠️ 防拆告警</option>
+          <option value="offline">🔌 心跳丢失</option>
+          <option value="malfunction">⚠️ 设备故障</option>
+        </select>
+      </div>
+
+    <!-- 故障统计信息 -->
+    <section class="faults-stats-section">
+      <div class="stats-card">
+        <div class="stat-item">
+          <span class="stat-label">今日故障总数</span>
+          <span class="stat-value">{{ todayFaults }}</span>
+        </div>
+        <div class="stat-item unhandled">
+          <span class="stat-label">未处理故障</span>
+          <span class="stat-value">{{ unhandledFaults }}</span>
+        </div>
+        <div class="stat-item handled">
+          <span class="stat-label">已处理故障</span>
+          <span class="stat-value">{{ handledFaults }}</span>
+        </div>
+        <div class="stat-item resolved">
+          <span class="stat-label">已解决故障</span>
+          <span class="stat-value">{{ resolvedFaults }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 故障设备列表 -->
+    <section class="faults-list-section">
+      <div class="section-header">
+        <h2 class="section-title">故障设备列表</h2>
+        <div class="search-bar">
+          <input type="text" placeholder="搜索设备名称、SN码或位置" v-model="searchKeyword" @input="searchFaults">
+          <button class="search-btn">🔍</button>
+        </div>
+      </div>
+
+      <div class="faults-list">
+        <div class="faults-header">
+          <div class="fault-column device-name">设备名称</div>
+          <div class="fault-column device-sn">SN码</div>
+          <div class="fault-column fault-type">故障类型</div>
+          <div class="fault-column fault-location">位置</div>
+          <div class="fault-column fault-time">故障时间</div>
+          <div class="fault-column fault-status">处理状态</div>
+          <div class="fault-column fault-actions">操作</div>
+        </div>
+        <div 
+          class="fault-item" 
+          v-for="fault in filteredFaults" 
+          :key="fault.id"
+          :class="fault.status"
+        >
+          <div class="fault-column device-name">{{ fault.deviceName }}</div>
+          <div class="fault-column device-sn">{{ fault.deviceSn }}</div>
+          <div class="fault-column fault-type">
+            {{ fault.type === 'tamper' ? '🛠️ 防拆告警' : 
+               fault.type === 'offline' ? '🔌 心跳丢失' : '⚠️ 设备故障' }}
+          </div>
+          <div class="fault-column fault-location">{{ fault.location || '未分配' }}</div>
+          <div class="fault-column fault-time">{{ fault.time }}</div>
+          <div class="fault-column fault-status">
+            <span :class="fault.status === 'unhandled' ? 'status-unhandled' : 
+                     fault.status === 'handling' ? 'status-handling' : 'status-resolved'">
+              {{ fault.status === 'unhandled' ? '❌ 未处理' : 
+                 fault.status === 'handling' ? '⏳ 处理中' : '✅ 已解决' }}
+            </span>
+          </div>
+          <div class="fault-column fault-actions">
+            <button class="view-btn" @click="viewFault(fault)">查看</button>
+            <button class="diagnose-btn" @click="remoteDiagnose(fault)">远程诊断</button>
+            <button class="handle-btn" @click="handleFault(fault)">
+              {{ fault.status === 'unhandled' ? '处理' : '重新处理' }}
+            </button>
+            <button class="resolve-btn" @click="resolveFault(fault)">解决</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分页 -->
+      <div class="pagination" v-if="totalPages > 1">
+        <button class="page-btn" :disabled="currentPage === 1" @click="prevPage">上一页</button>
+        <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+        <button class="page-btn" :disabled="currentPage === totalPages" @click="nextPage">下一页</button>
+      </div>
+    </section>
+    
+    <!-- 远程诊断弹窗 -->
+    <div class="modal" v-if="showDiagnoseModal">
+      <div class="modal-content diagnose-modal">
+        <h3 class="modal-title">🔧 设备远程诊断</h3>
+        <div class="modal-header-info">
+          <div class="device-info">
+            <div class="device-name">{{ currentFault.deviceName }}</div>
+            <div class="device-sn">SN: {{ currentFault.deviceSn }}</div>
+            <div class="device-location">位置: {{ currentFault.location }}</div>
+          </div>
+        </div>
+        
+        <div v-if="diagnoseStatus === 'idle'" class="diagnose-idle">
+          <div class="diagnose-description">
+            远程诊断将检测设备的网络连接、电池状态、传感器数据等信息，帮助您快速定位问题。
+          </div>
+          <div class="diagnose-actions">
+            <button class="start-diagnose-btn" @click="startDiagnose">开始诊断</button>
+            <button class="cancel-btn" @click="closeDiagnoseModal">取消</button>
+          </div>
+        </div>
+        
+        <div v-else-if="diagnoseStatus === 'diagnosing'" class="diagnose-progress">
+          <div class="progress-content">
+            <div class="progress-spinner"></div>
+            <div class="progress-text">正在进行远程诊断...请稍候</div>
+          </div>
+          <div class="diagnose-actions">
+            <button class="cancel-btn" @click="cancelDiagnose">取消诊断</button>
+          </div>
+        </div>
+        
+        <div v-else-if="diagnoseStatus === 'completed'" class="diagnose-result">
+          <div class="result-header">
+            <h4 class="result-title">诊断结果</h4>
+          </div>
+          
+          <div class="diagnose-metrics">
+            <div class="metric-item">
+              <span class="metric-label">信号强度</span>
+              <span class="metric-value">{{ diagnoseResult.signalStrength }} dBm</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">电池电量</span>
+              <span class="metric-value">{{ diagnoseResult.batteryLevel }}%</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">丢包率</span>
+              <span class="metric-value">{{ diagnoseResult.packetLoss }}%</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">最后心跳</span>
+              <span class="metric-value">{{ diagnoseResult.lastHeartbeat }}</span>
+            </div>
+          </div>
+          
+          <div class="diagnostics-list">
+            <h5 class="list-title">详细诊断项</h5>
+            <div 
+              class="diagnostic-item" 
+              v-for="(diagnostic, index) in diagnoseResult.diagnostics" 
+              :key="index"
+              :class="diagnostic.status === '正常' ? 'success' : 'error'"
+            >
+              <div class="diagnostic-info">
+                <span class="diagnostic-item-name">{{ diagnostic.item }}</span>
+                <span class="diagnostic-status">{{ diagnostic.status }}</span>
+              </div>
+              <div class="diagnostic-message">{{ diagnostic.message }}</div>
+            </div>
+          </div>
+          
+          <div class="recommendations">
+            <h5 class="list-title">修复建议</h5>
+            <ul class="recommendation-list">
+              <li 
+                class="recommendation-item" 
+                v-for="(recommendation, index) in diagnoseResult.recommendations" 
+                :key="index"
+              >
+                {{ recommendation }}
+              </li>
+            </ul>
+          </div>
+          
+          <div class="diagnose-actions">
+            <button class="start-diagnose-btn" @click="startDiagnose">重新诊断</button>
+            <button class="close-btn" @click="closeDiagnoseModal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 告警处理流程弹窗 -->
+    <div class="modal" v-if="showAlertProcessModal">
+      <div class="modal-content alert-process-modal">
+        <h3 class="modal-title">🚨 告警处理流程</h3>
+        
+        <div class="alert-info">
+          <div class="alert-title">告警信息</div>
+          <div class="alert-detail">
+            <div class="alert-item">
+              <span class="alert-label">设备名称:</span>
+              <span class="alert-value">{{ currentAlert.deviceName }}</span>
+            </div>
+            <div class="alert-item">
+              <span class="alert-label">告警类型:</span>
+              <span class="alert-value">{{ currentAlert.type === 'tamper' ? '🛠️ 防拆告警' : 
+                     currentAlert.type === 'offline' ? '🔌 心跳丢失' : '⚠️ 设备故障' }}</span>
+            </div>
+            <div class="alert-item">
+              <span class="alert-label">告警时间:</span>
+              <span class="alert-value">{{ currentAlert.time }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="process-steps">
+          <div class="step-indicator">
+            <div 
+              class="step" 
+              v-for="step in maxProcessSteps" 
+              :key="step"
+              :class="{ 'active': step <= alertProcessStep, 'completed': step < alertProcessStep }"
+            >
+              <span class="step-number">{{ step }}</span>
+              <span class="step-line" v-if="step < maxProcessSteps"></span>
+            </div>
+          </div>
+          
+          <div class="step-content">
+            <div v-if="alertProcessStep === 1" class="step-item">
+              <h4 class="step-title">1. 确认告警</h4>
+              <div class="step-description">
+                请确认告警的真实性和紧急程度
+              </div>
+              <div class="step-form">
+                <div class="form-group">
+                  <label class="form-label">告警确认</label>
+                  <div class="confirmation-options">
+                    <label class="option-item">
+                      <input type="radio" name="confirmation" value="true">
+                      ✅ 确认告警真实
+                    </label>
+                    <label class="option-item">
+                      <input type="radio" name="confirmation" value="false">
+                      ❌ 误报，忽略告警
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">紧急程度</label>
+                  <select class="emergency-level">
+                    <option value="low">🟢 低</option>
+                    <option value="medium">🟠 中</option>
+                    <option value="high">🔴 高</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div v-else-if="alertProcessStep === 2" class="step-item">
+              <h4 class="step-title">2. 分析问题</h4>
+              <div class="step-description">
+                请分析告警产生的原因和可能的解决方案
+              </div>
+              <div class="step-form">
+                <div class="form-group">
+                  <label class="form-label">问题分析</label>
+                  <textarea 
+                    class="analysis-textarea" 
+                    placeholder="请输入问题分析..."
+                    v-model="alertProcessNotes"
+                    rows="4"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">建议解决方案</label>
+                  <textarea 
+                    class="solution-textarea" 
+                    placeholder="请输入建议解决方案..."
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            
+            <div v-else-if="alertProcessStep === 3" class="step-item">
+              <h4 class="step-title">3. 处理结果</h4>
+              <div class="step-description">
+                请记录告警处理的结果和后续跟进事项
+              </div>
+              <div class="step-form">
+                <div class="form-group">
+                  <label class="form-label">处理结果</label>
+                  <div class="result-options">
+                    <label class="option-item">
+                      <input type="radio" name="result" value="resolved">
+                      ✅ 已解决
+                    </label>
+                    <label class="option-item">
+                      <input type="radio" name="result" value="handling">
+                      ⏳ 处理中
+                    </label>
+                    <label class="option-item">
+                      <input type="radio" name="result" value="unresolved">
+                      ❌ 未解决
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">备注信息</label>
+                  <textarea 
+                    class="notes-textarea" 
+                    placeholder="请输入备注信息..."
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="process-actions">
+          <button 
+            class="prev-step-btn" 
+            @click="prevProcessStep"
+            :disabled="alertProcessStep === 1"
+          >
+            上一步
+          </button>
+          <button 
+            class="next-step-btn" 
+            @click="alertProcessStep < maxProcessSteps ? nextProcessStep : completeAlertProcess"
+          >
+            {{ alertProcessStep < maxProcessSteps ? '下一步' : '完成处理' }}
+          </button>
+          <button class="cancel-btn" @click="closeAlertProcessModal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </OperatorLayout>
+</template>
+
+<script>
+import OperatorLayout from '../../components/OperatorLayout.vue'
+
+export default {
+  name: 'DeviceFaultMonitoringView',
+  components: {
+    OperatorLayout
+  },
+  data() {
+    return {
+      // 故障列表数据
+      faults: [
+        {
+          id: 1,
+          deviceName: '温湿度传感器',
+          deviceSn: 'SN123456',
+          type: 'tamper',
+          location: '金南家园三期 3502',
+          time: '2025-12-15 14:30',
+          status: 'unhandled',
+          description: '设备防拆开关触发，可能被非法拆除'
+        },
+        {
+          id: 2,
+          deviceName: 'LoRa开关面板',
+          deviceSn: 'SN789012',
+          type: 'offline',
+          location: 'XX公寓 1201',
+          time: '2025-12-15 14:25',
+          status: 'handling',
+          description: '设备心跳丢失，已超过3次未上报'
+        },
+        {
+          id: 3,
+          deviceName: '温湿度传感器',
+          deviceSn: 'SN345678',
+          type: 'malfunction',
+          location: '阳光花园 708',
+          time: '2025-12-15 14:20',
+          status: 'resolved',
+          description: '设备数据异常，湿度值持续超过100%'
+        },
+        {
+          id: 4,
+          deviceName: '温湿度传感器',
+          deviceSn: 'SN901234',
+          type: 'tamper',
+          location: '金南家园一期 102',
+          time: '2025-12-15 14:15',
+          status: 'resolved',
+          description: '设备防拆开关触发，已确认用户自行拆装'
+        },
+        {
+          id: 5,
+          deviceName: 'LoRa开关面板',
+          deviceSn: 'SN567890',
+          type: 'offline',
+          location: 'XX小区 503',
+          time: '2025-12-15 14:10',
+          status: 'unhandled',
+          description: '设备心跳丢失，可能是网络问题'
+        },
+        {
+          id: 6,
+          deviceName: '温湿度传感器',
+          deviceSn: 'SN112233',
+          type: 'malfunction',
+          location: '蓝天小区 305',
+          time: '2025-12-15 14:05',
+          status: 'handling',
+          description: '设备温度值异常，持续显示-20°C'
+        }
+      ],
+      // 搜索关键词
+      searchKeyword: '',
+      // 过滤后的故障列表
+      filteredFaults: [],
+      // 分页信息
+      currentPage: 1,
+      pageSize: 5,
+      totalPages: 1,
+      // 故障过滤器
+      faultFilter: {
+        type: 'all'
+      },
+      // 远程诊断相关
+      showDiagnoseModal: false,
+      currentFault: null,
+      diagnoseStatus: 'idle', // idle, diagnosing, completed
+      diagnoseResult: null,
+      // 告警处理流程相关
+      showAlertProcessModal: false,
+      currentAlert: null,
+      alertProcessNotes: '',
+      alertProcessStep: 1,
+      maxProcessSteps: 3
+    }
+  },
+  mounted() {
+    this.searchFaults();
+  },
+  methods: {
+    // 搜索故障
+    searchFaults() {
+      let filtered = [...this.faults]
+      
+      // 根据类型过滤
+      if (this.faultFilter.type !== 'all') {
+        filtered = filtered.filter(fault => fault.type === this.faultFilter.type)
+      }
+      
+      // 根据关键词搜索
+      if (this.searchKeyword) {
+        const keyword = this.searchKeyword.toLowerCase()
+        filtered = filtered.filter(fault => 
+          fault.deviceName.toLowerCase().includes(keyword) || 
+          fault.deviceSn.toLowerCase().includes(keyword) || 
+          (fault.location && fault.location.toLowerCase().includes(keyword))
+        )
+      }
+      
+      // 计算分页
+      this.totalPages = Math.ceil(filtered.length / this.pageSize)
+      this.currentPage = 1
+      this.updateFilteredFaults(filtered)
+    },
+    
+    // 更新过滤后的故障列表
+    updateFilteredFaults(filtered) {
+      const start = (this.currentPage - 1) * this.pageSize
+      const end = start + this.pageSize
+      this.filteredFaults = filtered.slice(start, end)
+    },
+    
+    // 上一页
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--
+        this.searchFaults()
+      }
+    },
+    
+    // 下一页
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++
+        this.searchFaults()
+      }
+    },
+    
+    // 查看故障
+    viewFault(fault) {
+      alert(`查看故障：${fault.deviceName}\n故障类型：${fault.type === 'tamper' ? '防拆告警' : 
+                 fault.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${fault.description}`)
+    },
+    
+    // 处理故障
+    handleFault(fault) {
+      if (fault.status === 'unhandled') {
+        fault.status = 'handling'
+        alert(`已开始处理故障：${fault.deviceName}`)
+      } else {
+        fault.status = 'unhandled'
+        alert(`故障${fault.deviceName}已重新标记为未处理`)
+      }
+    },
+    
+    // 解决故障
+    resolveFault(fault) {
+      fault.status = 'resolved'
+      alert(`故障${fault.deviceName}已标记为解决`)
+    },
+    
+    // 远程诊断相关方法
+    remoteDiagnose(fault) {
+      this.currentFault = fault
+      this.diagnoseStatus = 'idle'
+      this.diagnoseResult = null
+      this.showDiagnoseModal = true
+    },
+    
+    startDiagnose() {
+      this.diagnoseStatus = 'diagnosing'
+      
+      // 模拟远程诊断过程
+      setTimeout(() => {
+        this.diagnoseResult = {
+          deviceSn: this.currentFault.deviceSn,
+          deviceName: this.currentFault.deviceName,
+          signalStrength: -55, // dBm
+          batteryLevel: 78, // %
+          packetLoss: 2, // %
+          lastHeartbeat: '2025-12-15 14:29:30',
+          diagnostics: [
+            {
+              item: '设备状态',
+              status: '异常',
+              message: '设备防拆开关触发'
+            },
+            {
+              item: '网络连接',
+              status: '正常',
+              message: '信号强度良好'
+            },
+            {
+              item: '电池电量',
+              status: '正常',
+              message: '电量充足'
+            },
+            {
+              item: '传感器数据',
+              status: '异常',
+              message: '温度传感器数据异常'
+            }
+          ],
+          recommendations: [
+            '检查设备安装情况，确认防拆开关是否被触发',
+            '重新校准温度传感器',
+            '考虑更换设备外壳'
+          ]
+        }
+        this.diagnoseStatus = 'completed'
+      }, 2000)
+    },
+    
+    cancelDiagnose() {
+      this.diagnoseStatus = 'idle'
+      this.diagnoseResult = null
+    },
+    
+    closeDiagnoseModal() {
+      this.showDiagnoseModal = false
+      this.currentFault = null
+      this.diagnoseStatus = 'idle'
+      this.diagnoseResult = null
+    },
+    
+    // 告警处理流程相关方法
+    openAlertProcessModal(fault) {
+      this.currentAlert = fault
+      this.alertProcessNotes = ''
+      this.alertProcessStep = 1
+      this.showAlertProcessModal = true
+    },
+    
+    nextProcessStep() {
+      if (this.alertProcessStep < this.maxProcessSteps) {
+        this.alertProcessStep++
+      }
+    },
+    
+    prevProcessStep() {
+      if (this.alertProcessStep > 1) {
+        this.alertProcessStep--
+      }
+    },
+    
+    completeAlertProcess() {
+      // 模拟完成告警处理流程
+      console.log('告警处理完成:', {
+        alert: this.currentAlert,
+        notes: this.alertProcessNotes,
+        stepsCompleted: this.alertProcessStep,
+        timestamp: new Date().toISOString()
+      })
+      
+      // 更新故障状态
+      this.currentAlert.status = 'handling'
+      
+      // 关闭弹窗
+      this.showAlertProcessModal = false
+      this.currentAlert = null
+      this.alertProcessNotes = ''
+      this.alertProcessStep = 1
+      
+      alert('告警处理流程已完成，故障已标记为处理中')
+    },
+    
+    closeAlertProcessModal() {
+      this.showAlertProcessModal = false
+      this.currentAlert = null
+      this.alertProcessNotes = ''
+      this.alertProcessStep = 1
+    }
+  },
+  computed: {
+    // 故障统计信息
+    todayFaults() {
+      return this.faults.length
+    },
+    unhandledFaults() {
+      return this.faults.filter(fault => fault.status === 'unhandled').length
+    },
+    handledFaults() {
+      return this.faults.filter(fault => fault.status === 'handling').length
+    },
+    resolvedFaults() {
+      return this.faults.filter(fault => fault.status === 'resolved').length
+    }
+  }
+}
+</script>
+
+<style scoped>
+.device-fault-monitoring-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c3e50;
+  color: white;
+  padding: 16px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+}
+
+.faults-stats-section {
+  padding: 24px;
+}
+
+.stats-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stat-item.unhandled .stat-value {
+  color: #e74c3c;
+}
+
+.stat-item.handled .stat-value {
+  color: #f39c12;
+}
+
+.stat-item.resolved .stat-value {
+  color: #27ae60;
+}
+
+.faults-list-section {
+  padding: 0 24px 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.search-bar input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 300px;
+}
+
+.search-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+  background-color: #2980b9;
+}
+
+.faults-list {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.faults-header {
+  display: flex;
+  background-color: #f8f9fa;
+  padding: 12px 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.fault-item {
+  display: flex;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s;
+}
+
+.fault-item:hover {
+  background-color: #f8f9fa;
+}
+
+.fault-item.unhandled {
+  background-color: #fff5f5;
+}
+
+.fault-item.handling {
+  background-color: #fff8e1;
+}
+
+.fault-item.resolved {
+  background-color: #f0fff4;
+}
+
+.fault-column {
+  flex: 1;
+}
+
+.device-name {
+  flex: 1.5;
+  font-weight: 500;
+}
+
+.device-sn, .fault-type, .fault-location, .fault-time, .fault-status {
+  flex: 1;
+}
+
+.fault-actions {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.view-btn, .handle-btn, .resolve-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #2980b9;
+}
+
+.handle-btn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.handle-btn:hover {
+  background-color: #e67e22;
+}
+
+.resolve-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.resolve-btn:hover {
+  background-color: #229954;
+}
+
+.status-unhandled {
+  color: #e74c3c;
+}
+
+.status-handling {
+  color: #f39c12;
+}
+
+.status-resolved {
+  color: #27ae60;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.page-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 16px;
+  color: #666;
+}
+
+/* PC端优化样式 */
+/* 增强卡片悬浮效果 */
+.stats-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* 增强故障项悬浮效果 */
+.fault-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  background-color: #f0f4f8;
+}
+
+/* 增强按钮交互效果 */
+.view-btn,
+.handle-btn,
+.resolve-btn {
+  transition: all 0.3s ease;
+}
+
+.view-btn:hover,
+.handle-btn:hover,
+.resolve-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* 增强导航交互 */
+.nav-item {
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  transform: translateY(-1px);
+  background-color: #2980b9;
+}
+
+/* 优化表单元素 */
+.search-bar input:focus,
+.filter-select:focus {
+  outline: 2px solid #1abc9c;
+  border-color: #1abc9c;
+  transition: all 0.2s ease;
+}
+
+/* 增强统计卡片视觉效果 */
+.stat-item:hover .stat-value {
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+.stat-item .stat-value {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 增强分页按钮交互 */
+.page-btn {
+  transition: all 0.3s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #3498db;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 增强状态切换效果 */
+.status-toggle input:checked + label {
+  background-color: #27ae60;
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.3);
+  transition: all 0.3s ease;
+}
+
+.status-toggle input + label {
+  transition: all 0.3s ease;
+}
+
+.status-toggle input:hover + label {
+  background-color: #b0b0b0;
+}
+
+/* 增强故障状态视觉效果 */
+.status-badge {
+  transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 远程诊断和告警处理弹窗样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.modal-header-info {
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.device-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.device-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.device-sn, .device-location {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 远程诊断样式 */
+.diagnose-idle, .diagnose-progress, .diagnose-result {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diagnose-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.diagnose-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.start-diagnose-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-diagnose-btn:hover {
+  background-color: #2980b9;
+}
+
+.cancel-btn {
+  background-color: #f0f0f0;
+  color: #666;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* 诊断进度样式 */
+.progress-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.progress-text {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 诊断结果样式 */
+.result-header {
+  margin-bottom: 16px;
+}
+
+.result-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.diagnose-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.diagnostics-list {
+  margin-bottom: 24px;
+}
+
+.list-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.diagnostic-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.diagnostic-item.success {
+  border-left: 4px solid #27ae60;
+}
+
+.diagnostic-item.error {
+  border-left: 4px solid #e74c3c;
+}
+
+.diagnostic-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.diagnostic-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.diagnostic-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.diagnostic-item.success .diagnostic-status {
+  background-color: #e8f5e9;
+  color: #27ae60;
+}
+
+.diagnostic-item.error .diagnostic-status {
+  background-color: #ffebee;
+  color: #e74c3c;
+}
+
+.diagnostic-message {
+  font-size: 13px;
+  color: #666;
+}
+
+.recommendations {
+  margin-bottom: 24px;
+}
+
+.recommendation-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recommendation-item {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.close-btn {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #27ae60;
+}
+
+/* 告警处理流程样式 */
+.alert-info {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.alert-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.alert-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alert-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.alert-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  width: 80px;
+}
+
+.alert-value {
+  font-size: 14px;
+  color: #333;
+}
+
+.process-steps {
+  margin-bottom: 24px;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.step-line {
+  width: 60px;
+  height: 2px;
+  background-color: #e0e0e0;
+  margin: 0 12px;
+}
+
+.step.active .step-number {
+  background-color: #3498db;
+  color: white;
+}
+
+.step.completed .step-number {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.step.completed .step-line {
+  background-color: #2ecc71;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.step-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.step-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.confirmation-options, .result-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.option-item input {
+  cursor: pointer;
+}
+
+.emergency-level, .analysis-textarea, .solution-textarea, .notes-textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.emergency-level:focus, .analysis-textarea:focus, .solution-textarea:focus, .notes-textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.analysis-textarea, .solution-textarea, .notes-textarea {
+  resize: vertical;
+}
+
+.process-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.prev-step-btn, .next-step-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.prev-step-btn {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.prev-step-btn:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.prev-step-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.next-step-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.next-step-btn:hover {
+  background-color: #2980b9;
+}
+
+/* 诊断按钮样式 */
+.diagnose-btn {
+  background-color: #9b59b6;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.diagnose-btn:hover {
+  background-color: #8e44ad;
+}
+
+/* 弹窗动画 */
+.modal-content {
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .diagnose-metrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .diagnose-actions, .process-actions {
+    flex-direction: column;
+  }
+  
+  .step-indicator {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .step {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .step-line {
+    width: 2px;
+    height: 40px;
+    margin: 0;
+    margin-left: 15px;
+    margin-top: -8px;
+  }
+}
+
+</style>
