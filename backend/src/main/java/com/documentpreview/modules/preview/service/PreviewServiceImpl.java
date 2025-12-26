@@ -40,6 +40,10 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -144,8 +148,10 @@ public class PreviewServiceImpl implements PreviewService {
                          }
                      }
                  }
-             }
+            }
         }
+        
+        logger.info("Resolved file path from '{}' to '{}'. Exists: {}", filePath, file.getAbsolutePath(), file.exists());
         
         return generatePreview(file);
     }
@@ -160,7 +166,8 @@ public class PreviewServiceImpl implements PreviewService {
             
             // Check if file exists
             if (!file.exists() || !file.isFile()) {
-                return Result.failure("File does not exist or is not a file");
+                logger.error("File does not exist or is not a file: {}", file.getAbsolutePath());
+                return Result.failure("File does not exist or is not a file: " + file.getAbsolutePath());
             }
             
             // Check file size
@@ -168,6 +175,11 @@ public class PreviewServiceImpl implements PreviewService {
             long maxFileSizeBytes = maxFileSizeMB * 1024 * 1024;
             if (fileSizeBytes > maxFileSizeBytes) {
                 return Result.failure(String.format("File size exceeds maximum limit of %d MB", maxFileSizeMB));
+            }
+            
+            // Check for encrypted/unsupported file signatures
+            if (isEncryptedOrUnsupported(file)) {
+                return Result.failure("File is encrypted or has an unsupported format (Magic Number: 887D****). Preview not supported.");
             }
             
             // Get file extension
@@ -195,6 +207,10 @@ public class PreviewServiceImpl implements PreviewService {
                 return generateHtmlPreview(file);
             } else if ("xlsx".equals(fileExtension) || "xls".equals(fileExtension)) {
                 return generateXlsxPreview(file);
+            } else if ("dxf".equals(fileExtension)) {
+                return generateDxfPreview(file);
+            } else if ("dwg".equals(fileExtension)) {
+                return Result.failure("该文件为 DWG 格式，暂不支持在线预览。建议转换为 DXF 格式后上传预览。");
             } else if ("log".equals(fileExtension) || "txt".equals(fileExtension)) {
                 return generateTextPreview(file);
             } else if ("jpg".equals(fileExtension) || "jpeg".equals(fileExtension) || "png".equals(fileExtension) || "gif".equals(fileExtension) || "bmp".equals(fileExtension) || "webp".equals(fileExtension)) {
@@ -210,12 +226,35 @@ public class PreviewServiceImpl implements PreviewService {
         }
     }
     
+    /**
+     * Checks if the file is encrypted or has an unsupported format based on magic number.
+     * Currently checks for 88 7D ** **(common in some encrypted files).
+     */
+    private boolean isEncryptedOrUnsupported(File file) {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] header = new byte[4];
+            if (fis.read(header) != 4) {
+                return false;
+            }
+            // Check for 88 7D ** **
+            return header[0] == (byte) 0x88 && header[1] == (byte) 0x7D ;
+        } catch (IOException e) {
+            logger.warn("Failed to read file header for check: {}", file.getAbsolutePath());
+        }
+        return false;
+    }
+
     @Override
     @Cacheable(value = "preview-content", key = "#filePath + '-' + #startPage + '-' + #endPage + '-' + #root.targetClass.simpleName")
     public Result<PreviewContent> generatePdfPreview(String filePath, int startPage, int endPage) {
         Objects.requireNonNull(filePath, "File path cannot be null");
         
         try {
+            File file = new File(filePath);
+            if (isEncryptedOrUnsupported(file)) {
+                return Result.failure("File is encrypted or has an unsupported format (Magic Number: 887D****). Preview not supported.");
+            }
+
             logger.info("Generating PDF preview for file: {}, pages {}-{}", filePath, startPage, endPage);
             
             // Validate page range
@@ -242,6 +281,78 @@ public class PreviewServiceImpl implements PreviewService {
         }
     }
     
+    /**
+     * Generates preview content for a DXF file using python script.
+     *
+     * @param file The DXF file to generate preview for.
+     * @return A Result containing the generated PreviewContent if successful, or an error message otherwise.
+     */
+    private Result<PreviewContent> generateDxfPreview(File file) {
+        logger.debug("Generating DXF preview for file: {}", file.getAbsolutePath());
+        try {
+            // Determine python script path
+            File scriptFile = new File("/home/agentic/lite-webviewer/backend/scripts/dxf_preview.py");
+            if (!scriptFile.exists()) {
+                 // Try relative path
+                 scriptFile = new File("backend/scripts/dxf_preview.py");
+            }
+            
+            if (!scriptFile.exists()) {
+                 logger.error("DXF preview script not found at: {}", scriptFile.getAbsolutePath());
+                 return Result.failure("DXF preview script not found.");
+            }
+
+            ProcessBuilder pb = new ProcessBuilder("python3", scriptFile.getAbsolutePath(), file.getAbsolutePath());
+            
+            Process process = pb.start();
+            
+            // Read output
+            StringBuilder output = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append("\n");
+                }
+            }
+            
+            // Read error
+            StringBuilder errorOutput = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    errorOutput.append(line).append("\n");
+                }
+            }
+
+            boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+            if (!finished) {
+                process.destroy();
+                return Result.failure("DXF preview generation timed out.");
+            }
+            
+            if (process.exitValue() != 0) {
+                logger.error("DXF script failed: {}", errorOutput);
+                return Result.failure("DXF preview generation failed: " + errorOutput.toString());
+            }
+            
+            String svgContent = output.toString();
+            if (svgContent.isEmpty()) {
+                 return Result.failure("DXF preview generated empty content.");
+            }
+
+            PreviewContent previewContent = new PreviewContent(
+                    "image/svg+xml",
+                    svgContent,
+                    true
+            );
+            return Result.success(previewContent);
+
+        } catch (Exception e) {
+            logger.error("Failed to generate DXF preview", e);
+            return Result.failure("Failed to generate DXF preview: " + e.getMessage());
+        }
+    }
+
     @Override
     public boolean isPreviewSupported(String fileType) {
         if (fileType == null) {
@@ -525,15 +636,26 @@ public class PreviewServiceImpl implements PreviewService {
         try (org.apache.poi.ss.usermodel.Workbook workbook = org.apache.poi.ss.usermodel.WorkbookFactory.create(file)) {
             StringBuilder html = new StringBuilder();
             html.append("<html><body>");
-            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            
+            int maxSheets = 5;
+            int maxRows = 1000;
+            int sheetCount = Math.min(workbook.getNumberOfSheets(), maxSheets);
+            
+            for (int i = 0; i < sheetCount; i++) {
                 org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheetAt(i);
                 html.append("<h3>").append(org.springframework.web.util.HtmlUtils.htmlEscape(sheet.getSheetName())).append("</h3>");
                 html.append("<table border='1' style='border-collapse: collapse; margin-bottom: 16px;'>");
+                
                 int maxCols = 0;
+                int rowCount = 0;
                 for (org.apache.poi.ss.usermodel.Row row : sheet) {
+                    if (rowCount++ >= maxRows) break;
                     maxCols = Math.max(maxCols, row.getLastCellNum());
                 }
+                
+                rowCount = 0;
                 for (org.apache.poi.ss.usermodel.Row row : sheet) {
+                    if (rowCount++ >= maxRows) break;
                     html.append("<tr>");
                     for (int c = 0; c < maxCols; c++) {
                         org.apache.poi.ss.usermodel.Cell cell = row.getCell(c);

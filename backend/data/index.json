@@ -67,7 +67,107 @@
     "path" : "HKT Company Profile EN.pdf",
     "type" : "file",
     "name" : "HKT Company Profile EN.pdf"
+  }, {
+    "path" : "防霉管控MVP_产品愿景_V2R1.pdf",
+    "type" : "file",
+    "name" : "防霉管控MVP_产品愿景_V2R1.pdf"
+  }, {
+    "path" : "Deployment_Guide.md",
+    "type" : "file",
+    "name" : "Deployment_Guide.md"
+  }, {
+    "path" : "RELEASE_NOTES.md",
+    "type" : "file",
+    "name" : "RELEASE_NOTES.md"
+  }, {
+    "path" : "docs/",
+    "type" : "directory",
+    "name" : "docs"
+  }, {
+    "path" : "SmartMoldGuard-统一术语表.md",
+    "type" : "file",
+    "name" : "SmartMoldGuard-统一术语表.md"
+  }, {
+    "path" : "战略规划/",
+    "type" : "directory",
+    "name" : "战略规划"
+  }, {
+    "path" : "战略规划/PROD-VISION-SmartMoldGuard-20251212-v2.0.md",
+    "type" : "file",
+    "name" : "PROD-VISION-SmartMoldGuard-20251212-v2.0.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-01-BVC.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-01-BVC.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-02-BCM.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-02-BCM.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-03-SDM.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-03-SDM.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-04-CDS.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-04-CDS.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-05-BCX.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-05-BCX.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-06-CIT.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-06-CIT.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-07-Roadmap.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-07-Roadmap.md"
+  }, {
+    "path" : "战略规划/UX-PROTOTYPES-SmartMoldGuard-20251212-v1.0.md",
+    "type" : "file",
+    "name" : "UX-PROTOTYPES-SmartMoldGuard-20251212-v1.0.md"
+  }, {
+    "path" : "战略规划/readme.md",
+    "type" : "file",
+    "name" : "readme.md"
+  }, {
+    "path" : "战略规划/USER-STORIES-SmartMoldGuard-20251212-v2.0.md",
+    "type" : "file",
+    "name" : "USER-STORIES-SmartMoldGuard-20251212-v2.0.md"
+  }, {
+    "path" : "战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-08-ESP.md",
+    "type" : "file",
+    "name" : "DDD-STR-SmartMoldGuard-20251209-v2.0-08-ESP.md"
+  }, {
+    "path" : "战术规划/",
+    "type" : "directory",
+    "name" : "战术规划"
+  }, {
+    "path" : "战术规划/API-DEFINITIONS-SmartMoldGuard-20251215-v1.0.md",
+    "type" : "file",
+    "name" : "API-DEFINITIONS-SmartMoldGuard-20251215-v1.0.md"
+  }, {
+    "path" : "战术规划/readme.md",
+    "type" : "file",
+    "name" : "readme.md"
+  }, {
+    "path" : "战术规划/DDD-TAC-SmartMoldGuard-20251216-v1.0.md",
+    "type" : "file",
+    "name" : "DDD-TAC-SmartMoldGuard-20251216-v1.0.md"
+  }, {
+    "path" : "战术规划/DDD-TAC-SmartMoldGuard-20231217-v1.0-DevOps规划.md",
+    "type" : "file",
+    "name" : "DDD-TAC-SmartMoldGuard-20231217-v1.0-DevOps规划.md"
+  }, {
+    "path" : "自动化测试/",
+    "type" : "directory",
+    "name" : "自动化测试"
+  }, {
+    "path" : "自动化测试/数据库访问.md",
+    "type" : "file",
+    "name" : "数据库访问.md"
   } ],
   "rootDir" : "/home/agentic/lite-webviewer/docs",
-  "lastUpdated" : 1765532832573
+  "lastUpdated" : 1766735426931
 }

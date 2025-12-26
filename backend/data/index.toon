@@ -1,4 +1,4 @@
-files[17]{path,type,name}:
+files[42]{path,type,name}:
 docs/,directory,docs
 售前资料/,directory,售前资料
 售前资料/Individual_项目实施方案.md,file,Individual_项目实施方案.md
@@ -16,4 +16,29 @@ sample.md,file,sample.md
 mermaid-test.md,file,mermaid-test.md
 mermaid-test-plan.md,file,mermaid-test-plan.md
 HKT Company Profile EN.pdf,file,HKT Company Profile EN.pdf
-metadata{total,last_updated,root}: 17,2025-12-12T17:47:12+08:00,/home/agentic/lite-webviewer/docs
+防霉管控MVP_产品愿景_V2R1.pdf,file,防霉管控MVP_产品愿景_V2R1.pdf
+Deployment_Guide.md,file,Deployment_Guide.md
+RELEASE_NOTES.md,file,RELEASE_NOTES.md
+docs/,directory,docs
+SmartMoldGuard-统一术语表.md,file,SmartMoldGuard-统一术语表.md
+战略规划/,directory,战略规划
+战略规划/PROD-VISION-SmartMoldGuard-20251212-v2.0.md,file,PROD-VISION-SmartMoldGuard-20251212-v2.0.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-01-BVC.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-01-BVC.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-02-BCM.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-02-BCM.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-03-SDM.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-03-SDM.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-04-CDS.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-04-CDS.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-05-BCX.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-05-BCX.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-06-CIT.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-06-CIT.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-07-Roadmap.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-07-Roadmap.md
+战略规划/UX-PROTOTYPES-SmartMoldGuard-20251212-v1.0.md,file,UX-PROTOTYPES-SmartMoldGuard-20251212-v1.0.md
+战略规划/readme.md,file,readme.md
+战略规划/USER-STORIES-SmartMoldGuard-20251212-v2.0.md,file,USER-STORIES-SmartMoldGuard-20251212-v2.0.md
+战略规划/DDD-STR-SmartMoldGuard-20251209-v2.0-08-ESP.md,file,DDD-STR-SmartMoldGuard-20251209-v2.0-08-ESP.md
+战术规划/,directory,战术规划
+战术规划/API-DEFINITIONS-SmartMoldGuard-20251215-v1.0.md,file,API-DEFINITIONS-SmartMoldGuard-20251215-v1.0.md
+战术规划/readme.md,file,readme.md
+战术规划/DDD-TAC-SmartMoldGuard-20251216-v1.0.md,file,DDD-TAC-SmartMoldGuard-20251216-v1.0.md
+战术规划/DDD-TAC-SmartMoldGuard-20231217-v1.0-DevOps规划.md,file,DDD-TAC-SmartMoldGuard-20231217-v1.0-DevOps规划.md
+自动化测试/,directory,自动化测试
+自动化测试/数据库访问.md,file,数据库访问.md
+metadata{total,last_updated,root}: 42,2025-12-26T15:50:26+08:00,/home/agentic/lite-webviewer/docs

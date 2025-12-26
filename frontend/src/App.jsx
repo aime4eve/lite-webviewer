@@ -259,12 +259,13 @@ function App() {
           <Space style={{ marginRight: 16 }}>
             {isEditing ? (
               <>
-                <Input
+                <Input.TextArea
                   size="small"
                   value={tempRootDirs}
                   onChange={(e) => setTempRootDirs(e.target.value)}
-                  placeholder="请输入扫描根目录"
-                  style={{ width: 250 }}
+                  placeholder="请输入扫描根目录（支持多个，逗号分隔）"
+                  style={{ width: 400 }}
+                  autoSize={{ minRows: 1, maxRows: 3 }}
                 />
                 <Space>
                   <Button size="small" onClick={handleUpdateRootDirs}>保存</Button>
@@ -276,7 +277,21 @@ function App() {
               </>
             ) : (
               <Space>
-                <span style={{ color: '#fff', marginRight: 8 }}>根目录: {rootDirs}</span>
+                <span 
+                  style={{ 
+                    color: '#fff', 
+                    marginRight: 8, 
+                    maxWidth: 300, 
+                    overflow: 'hidden', 
+                    textOverflow: 'ellipsis', 
+                    whiteSpace: 'nowrap', 
+                    display: 'inline-block', 
+                    verticalAlign: 'middle' 
+                  }} 
+                  title={rootDirs}
+                >
+                  根目录: {rootDirs}
+                </span>
                 <Button size="small" onClick={() => setIsEditing(true)}>修改</Button>
               </Space>
             )}

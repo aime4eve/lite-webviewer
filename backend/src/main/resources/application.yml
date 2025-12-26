@@ -30,6 +30,7 @@ spring:
 app:
   # Scan Configuration
   scan:
+    # 支持多个目录，使用逗号分隔
     root-dirs: /home/hkt/cold-kg/档案管理
     cron: 60  # minutes
   

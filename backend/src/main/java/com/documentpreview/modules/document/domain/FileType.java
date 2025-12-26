@@ -13,7 +13,15 @@ public enum FileType {
     HTM("htm"),
     XLSX("xlsx"),
     LOG("log"),
-    TXT("txt");
+    TXT("txt"),
+    DWG("dwg"),
+    DXF("dxf"),
+    JPG("jpg"),
+    JPEG("jpeg"),
+    PNG("png"),
+    GIF("gif"),
+    BMP("bmp"),
+    WEBP("webp");
 
     private final String extension;
 
