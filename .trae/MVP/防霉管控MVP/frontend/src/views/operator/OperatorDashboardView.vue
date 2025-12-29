@@ -57,17 +57,8 @@
       <div class="section-header">
         <h2 class="section-title">🔔 告警与工单面板</h2>
         <div class="section-actions">
-          <select class="filter-select" v-model="alarmFilter.type">
-            <option value="all">所有类型</option>
-            <option value="tamper">🛠️ 防拆告警</option>
-            <option value="offline">🔌 心跳丢失</option>
-            <option value="risk">⚠️ 高风险</option>
-          </select>
-          <select class="filter-select" v-model="alarmFilter.status">
-            <option value="all">所有状态</option>
-            <option value="unhandled">❌ 未处理</option>
-            <option value="handled">✅ 已处理</option>
-          </select>
+          <button class="filter-btn" @click="navigateToAlarms">🔍 高级告警管理</button>
+          <button class="filter-btn" @click="navigateToDiagnostics">🛠️ 远程诊断</button>
         </div>
       </div>
 
@@ -88,7 +79,7 @@
           :class="alarm.status"
         >
           <div class="alarm-column alarm-title">{{ alarm.title }}</div>
-          <div class="alarm-column alarm-type">{{ alarm.type }}</div>
+          <div class="alarm-column alarm-type">{{ alarm.typeDisplay || alarm.type }}</div>
           <div class="alarm-column alarm-location">{{ alarm.location }}</div>
           <div class="alarm-column alarm-time">{{ alarm.time }}</div>
           <div class="alarm-column alarm-status">
@@ -134,17 +125,27 @@
         </div>
       </div>
     </section>
+
+    <!-- 资产保全模态框 -->
+    <AssetProtectionModal 
+      v-if="showAssetModal" 
+      :fault="selectedFault" 
+      @close="showAssetModal = false"
+      @resolved="onAssetResolved"
+    />
   </div>
   </OperatorLayout>
 </template>
 
 <script>
 import OperatorLayout from '../../components/OperatorLayout.vue'
+import AssetProtectionModal from '../../components/operator/AssetProtectionModal.vue'
 
 export default {
   name: 'OperatorDashboardView',
   components: {
-    OperatorLayout
+    OperatorLayout,
+    AssetProtectionModal
   },
   data() {
     return {
@@ -169,7 +170,9 @@ export default {
         {
           id: 1,
           title: '金南家园三期 3502 防拆告警',
-          type: '🛠️ 防拆告警',
+          type: 'tamper', // Use code for logic, display mapped in template or computed
+          typeDisplay: '🛠️ 防拆告警',
+          deviceSn: 'SN123456',
           location: '金南家园三期 3502',
           time: '2025-12-15 14:30',
           status: 'unhandled'
@@ -177,7 +180,9 @@ export default {
         {
           id: 2,
           title: 'XX公寓 1201 心跳丢失',
-          type: '🔌 心跳丢失',
+          type: 'offline',
+          typeDisplay: '🔌 心跳丢失',
+          deviceSn: 'SN789012',
           location: 'XX公寓 1201',
           time: '2025-12-15 14:25',
           status: 'unhandled'
@@ -185,7 +190,9 @@ export default {
         {
           id: 3,
           title: '阳光花园 708 高风险告警',
-          type: '⚠️ 高风险',
+          type: 'risk',
+          typeDisplay: '⚠️ 高风险',
+          deviceSn: 'SN345678',
           location: '阳光花园 708',
           time: '2025-12-15 14:20',
           status: 'handled'
@@ -193,7 +200,9 @@ export default {
         {
           id: 4,
           title: '金南家园一期 102 防拆告警',
-          type: '🛠️ 防拆告警',
+          type: 'tamper',
+          typeDisplay: '🛠️ 防拆告警',
+          deviceSn: 'SN901234',
           location: '金南家园一期 102',
           time: '2025-12-15 14:15',
           status: 'handled'
@@ -201,7 +210,9 @@ export default {
         {
           id: 5,
           title: 'XX小区 503 心跳丢失',
-          type: '🔌 心跳丢失',
+          type: 'offline',
+          typeDisplay: '🔌 心跳丢失',
+          deviceSn: 'SN567890',
           location: 'XX小区 503',
           time: '2025-12-15 14:10',
           status: 'unhandled'
@@ -211,7 +222,10 @@ export default {
       alarmFilter: {
         type: 'all',
         status: 'all'
-      }
+      },
+      // 资产保全模态框控制
+      showAssetModal: false,
+      selectedFault: null
     }
   },
   methods: {
@@ -240,26 +254,47 @@ export default {
       this.$router.push('/operator/billing-management')
       this.activeNav = 'billing'
     },
+    navigateToAlarms() {
+      this.$router.push('/operator/alarms')
+    },
+    navigateToDiagnostics() {
+      this.$router.push('/operator/diagnostics')
+    },
     // 查看告警
     viewAlarm(alarm) {
-      alert(`查看告警：${alarm.title}`)
+      if (alarm.type === 'tamper') {
+          this.selectedFault = alarm;
+          this.showAssetModal = true;
+      } else {
+          alert(`查看告警：${alarm.title}`);
+      }
     },
     // 处理告警
     handleAlarm(alarm) {
-      if (alarm.status === 'unhandled') {
+      if (alarm.type === 'tamper') {
+          this.selectedFault = alarm;
+          this.showAssetModal = true;
+      } else if (alarm.status === 'unhandled') {
         alarm.status = 'handled'
         alert(`处理告警：${alarm.title}`)
       } else {
         alarm.status = 'unhandled'
         alert(`重新处理告警：${alarm.title}`)
       }
+    },
+    onAssetResolved(fault) {
+        // Find the alarm and update status
+        const alarm = this.alarms.find(a => a.id === fault.id);
+        if (alarm) {
+            alarm.status = 'handled';
+        }
     }
   },
   computed: {
     // 过滤后的告警列表
     filteredAlarms() {
       return this.alarms.filter(alarm => {
-        const typeMatch = this.alarmFilter.type === 'all' || alarm.type.includes(this.alarmFilter.type)
+        const typeMatch = this.alarmFilter.type === 'all' || alarm.type === this.alarmFilter.type
         const statusMatch = this.alarmFilter.status === 'all' || alarm.status === this.alarmFilter.status
         return typeMatch && statusMatch
       })

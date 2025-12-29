@@ -166,6 +166,9 @@
 </template>
 
 <script>
+import { controlApi } from '@/api/control'
+import { deviceApi } from '@/api/device'
+
 export default {
   name: 'BSpaceManagementView',
   data() {
@@ -258,7 +261,9 @@ export default {
         { id: 4, name: 'LoRa开关面板', sn: 'SN901234', status: 'online' }
       ],
       associatedDevices: [],
-      availableDevices: []
+      availableDevices: [],
+      loading: false,
+      loadingDevices: false
     }
   },
   computed: {
@@ -297,29 +302,44 @@ export default {
     this.loadSpaces();
   },
   methods: {
-    loadSpaces() {
-      // 加载当前层级的空间列表
-      if (this.currentSpaceId === null) {
-        this.currentSpaces = this.spaces;
-        this.currentLevelName = '小区';
-      } else {
-        // 查找当前空间
-        const currentSpace = this.findSpaceById(this.spaces, this.currentSpaceId);
-        if (currentSpace) {
-          this.currentSpaces = currentSpace.children;
-          // 根据当前空间类型确定下一级类型名称
-          const levelNames = {
-            '小区': '楼栋',
-            '楼栋': '单元',
-            '单元': '楼层',
-            '楼层': '房屋',
-            '房屋': '房间',
-            '房间': '房间'
-          };
-          this.currentLevelName = levelNames[currentSpace.type] || '房间';
+    async loadSpaces() {
+      try {
+        this.loading = true
+        
+        const params = {
+          parentId: this.currentSpaceId
         }
+        
+        const response = await controlApi.getSpaceList(params)
+        
+        if (response && response.data) {
+          this.currentSpaces = response.data.list || []
+          
+          if (this.currentSpaceId === null) {
+            this.currentLevelName = '小区'
+          } else {
+            const currentSpace = this.findSpaceById(this.spaces, this.currentSpaceId)
+            if (currentSpace) {
+              const levelNames = {
+                '小区': '楼栋',
+                '楼栋': '单元',
+                '单元': '楼层',
+                '楼层': '房屋',
+                '房屋': '房间',
+                '房间': '房间'
+              }
+              this.currentLevelName = levelNames[currentSpace.type] || '房间'
+            }
+          }
+        }
+      } catch (error) {
+        console.error('加载空间列表失败:', error)
+        this.currentSpaces = []
+      } finally {
+        this.loading = false
       }
-      this.loadAssociatedDevices();
+      
+      this.loadAssociatedDevices()
     },
     findSpaceById(spaces, id) {
       for (const space of spaces) {
@@ -351,117 +371,119 @@ export default {
       this.currentSpaceId = this.currentPath[this.currentPath.length - 1].id;
       this.loadSpaces();
     },
-    addSpace() {
-      // 添加新空间
-      const newSpaceId = Date.now();
-      const newSpace = {
-        id: newSpaceId,
-        name: this.newSpace.name,
-        type: this.newSpace.type,
-        parentId: this.currentSpaceId,
-        children: [],
-        devices: []
-      };
-      
-      // 如果是房间，添加功能属性
-      if (this.newSpace.type === '房间') {
-        newSpace.function = this.newSpace.function;
-      }
-
-      if (this.currentSpaceId === null) {
-        // 添加顶级空间（小区）
-        this.spaces.push(newSpace);
-      } else {
-        // 添加子空间
-        const parentSpace = this.findSpaceById(this.spaces, this.currentSpaceId);
-        if (parentSpace) {
-          parentSpace.children.push(newSpace);
+    async addSpace() {
+      try {
+        const spaceData = {
+          name: this.newSpace.name,
+          type: this.newSpace.type,
+          parentId: this.currentSpaceId
         }
+        
+        if (this.newSpace.type === '房间') {
+          spaceData.function = this.newSpace.function
+        }
+        
+        await controlApi.createSpace(spaceData)
+        
+        this.showAddSpaceModal = false
+        this.newSpace = {
+          name: '',
+          type: '',
+          function: ''
+        }
+        
+        alert('空间添加成功')
+        await this.loadSpaces()
+      } catch (error) {
+        console.error('添加空间失败:', error)
+        alert('添加空间失败，请重试')
       }
-
-      this.showAddSpaceModal = false;
-      // 重置表单
-      this.newSpace = {
-        name: '',
-        type: '',
-        function: ''
-      };
-      this.loadSpaces();
     },
     editSpace(space) {
       // 编辑空间
       alert('编辑空间功能开发中...');
     },
-    deleteSpace(space) {
-      // 删除空间
+    async deleteSpace(space) {
       if (confirm(`确定要删除${space.name}吗？`)) {
-        if (space.parentId === null) {
-          // 删除顶级空间
-          const index = this.spaces.findIndex(s => s.id === space.id);
-          if (index !== -1) {
-            this.spaces.splice(index, 1);
-          }
-        } else {
-          // 删除子空间
-          const parentSpace = this.findSpaceById(this.spaces, space.parentId);
-          if (parentSpace) {
-            const index = parentSpace.children.findIndex(s => s.id === space.id);
-            if (index !== -1) {
-              parentSpace.children.splice(index, 1);
-            }
-          }
+        try {
+          await controlApi.deleteSpace(space.id)
+          alert('空间删除成功')
+          await this.loadSpaces()
+        } catch (error) {
+          console.error('删除空间失败:', error)
+          alert('删除空间失败，请重试')
         }
-        this.loadSpaces();
       }
     },
-    loadAssociatedDevices() {
-      // 加载关联设备
+    async loadAssociatedDevices() {
       if (!this.currentSpaceId) {
-        this.associatedDevices = [];
-        this.availableDevices = [];
-        return;
+        this.associatedDevices = []
+        this.availableDevices = []
+        return
       }
 
-      const currentSpace = this.findSpaceById(this.spaces, this.currentSpaceId);
-      if (currentSpace) {
-        // 获取已关联设备ID列表
-        const associatedDeviceIds = currentSpace.devices;
-        // 过滤出已关联的设备
-        this.associatedDevices = this.devices.filter(device => 
-          associatedDeviceIds.includes(device.id)
-        );
-        // 过滤出可用的未关联设备
-        this.availableDevices = this.devices.filter(device => 
-          !associatedDeviceIds.includes(device.id)
-        );
-      }
-    },
-    associateDevices() {
-      // 关联设备
-      if (this.selectedDevices.length === 0) return;
-
-      const currentSpace = this.findSpaceById(this.spaces, this.currentSpaceId);
-      if (currentSpace) {
-        // 添加新关联的设备ID
-        this.selectedDevices.forEach(device => {
-          if (!currentSpace.devices.includes(device.id)) {
-            currentSpace.devices.push(device.id);
+      try {
+        this.loadingDevices = true
+        
+        const response = await controlApi.getSpaceList({
+          parentId: this.currentSpaceId,
+          includeDevices: true
+        })
+        
+        if (response && response.data) {
+          const currentSpace = response.data.list.find(s => s.id === this.currentSpaceId)
+          if (currentSpace && currentSpace.devices) {
+            this.associatedDevices = currentSpace.devices
+          } else {
+            this.associatedDevices = []
           }
-        });
-        this.loadAssociatedDevices();
-        this.showAddDeviceModal = false;
-        this.selectedDevices = [];
+        }
+        
+        const deviceResponse = await deviceApi.getDeviceList({
+          page: 1,
+          pageSize: 100
+        })
+        
+        if (deviceResponse && deviceResponse.data) {
+          const allDevices = deviceResponse.data.list || []
+          const associatedDeviceIds = this.associatedDevices.map(d => d.id)
+          this.availableDevices = allDevices.filter(device => 
+            !associatedDeviceIds.includes(device.id)
+          )
+        }
+      } catch (error) {
+        console.error('加载关联设备失败:', error)
+        this.associatedDevices = []
+        this.availableDevices = []
+      } finally {
+        this.loadingDevices = false
       }
     },
-    removeDeviceAssociation(deviceId) {
-      // 移除设备关联
-      const currentSpace = this.findSpaceById(this.spaces, this.currentSpaceId);
-      if (currentSpace) {
-        const index = currentSpace.devices.indexOf(deviceId);
-        if (index !== -1) {
-          currentSpace.devices.splice(index, 1);
-          this.loadAssociatedDevices();
+    async associateDevices() {
+      if (this.selectedDevices.length === 0) return
+
+      try {
+        for (const device of this.selectedDevices) {
+          await controlApi.associateDevice(this.currentSpaceId, device.id)
         }
+        
+        this.showAddDeviceModal = false
+        this.selectedDevices = []
+        alert('设备关联成功')
+        await this.loadAssociatedDevices()
+      } catch (error) {
+        console.error('关联设备失败:', error)
+        alert('关联设备失败，请重试')
+      }
+    },
+    async removeDeviceAssociation(deviceId) {
+      try {
+        await controlApi.removeDeviceAssociation(this.currentSpaceId, deviceId)
+        alert('设备关联移除成功')
+        await this.loadAssociatedDevices()
+      } catch (error) {
+        console.error('移除设备关联失败:', error)
+        alert('移除设备关联失败，请重试')
       }
     },
     // 导航方法

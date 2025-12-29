@@ -43,6 +43,13 @@
       </div>
       <div 
         class="nav-item" 
+        :class="{ active: activeNav === 'health' }" 
+        @click="navigateToDeviceHealth"
+      >
+        🏥 设备健康
+      </div>
+      <div 
+        class="nav-item" 
         :class="{ active: activeNav === 'strategies' }" 
         @click="navigateToStrategyManagement"
       >
@@ -100,6 +107,10 @@ export default defineComponent({
       router.push('/operator/device-fault-monitoring')
     }
 
+    const navigateToDeviceHealth = () => {
+      router.push('/operator/device-health')
+    }
+
     const navigateToStrategyManagement = () => {
       router.push('/operator/strategy-management')
     }
@@ -119,6 +130,7 @@ export default defineComponent({
       navigateToUserManagement,
       navigateToDeviceRegistration,
       navigateToFaultMonitoring,
+      navigateToDeviceHealth,
       navigateToStrategyManagement,
       navigateToBillingManagement,
       logout

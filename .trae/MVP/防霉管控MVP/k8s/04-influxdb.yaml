@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb
+  namespace: smartmoldguard
+spec:
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        image: influxdb:2.7-alpine
+        env:
+        - name: DOCKER_INFLUXDB_INIT_MODE
+          value: "setup"
+        - name: DOCKER_INFLUXDB_INIT_USERNAME
+          value: "smg_admin"
+        - name: DOCKER_INFLUXDB_INIT_PASSWORD
+          value: "smg_password_2025"
+        - name: DOCKER_INFLUXDB_INIT_ORG
+          value: "smartmoldguard"
+        - name: DOCKER_INFLUXDB_INIT_BUCKET
+          value: "telemetry"
+        - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+          value: "smg_influx_token_2025"
+        ports:
+        - containerPort: 8086
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb
+  namespace: smartmoldguard
+spec:
+  selector:
+    app: influxdb
+  ports:
+  - port: 8086
+    targetPort: 8086

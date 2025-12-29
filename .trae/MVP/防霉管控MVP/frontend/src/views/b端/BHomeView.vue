@@ -14,9 +14,6 @@
       <div class="modal-content">
         <h3 class="modal-title">批量操作</h3>
         <div class="batch-action-list">
-          <div class="batch-action-item" @click="batchAssignCleaning">
-            🧹 批量指派保洁
-          </div>
           <div class="batch-action-item" @click="batchMarkAsHandled">
             ✅ 标记为已处理
           </div>
@@ -25,88 +22,6 @@
           </div>
         </div>
         <button class="close-btn" @click="showBatchActions = false">关闭</button>
-      </div>
-    </div>
-    
-    <!-- 批量指派保洁弹窗 -->
-    <div class="modal" v-if="showAssignModal">
-      <div class="modal-content">
-        <h3 class="modal-title">指派保洁</h3>
-        <div class="modal-info">
-          即将为 {{ selectedRooms.length }} 个房间指派保洁
-        </div>
-        <div class="assign-content">
-          <div class="form-group">
-            <label class="form-label">选择保洁人员</label>
-            <div class="staff-list">
-              <div 
-                class="staff-item" 
-                v-for="staff in cleaningStaff" 
-                :key="staff.id"
-                :class="{ 'selected': selectedStaffId === staff.id, 'unavailable': !staff.available }"
-                @click="staff.available && (selectedStaffId = staff.id)"
-              >
-                <div class="staff-info">
-                  <div class="staff-name">{{ staff.name }}</div>
-                  <div class="staff-phone">{{ staff.phone }}</div>
-                </div>
-                <div class="staff-status">
-                  {{ staff.available ? '🟢 可用' : '🔴 不可用' }}
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">备注信息（可选）</label>
-            <textarea 
-              v-model="assignNote" 
-              class="note-input" 
-              placeholder="请输入备注信息"
-            ></textarea>
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button class="cancel-btn" @click="showAssignModal = false">取消</button>
-          <button class="confirm-btn" @click="submitAssignCleaning">确认指派</button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 保洁任务反馈弹窗 -->
-    <div class="modal" v-if="showFeedbackModal">
-      <div class="modal-content">
-        <h3 class="modal-title">保洁任务反馈</h3>
-        <div class="feedback-content">
-          <div class="form-group">
-            <label class="form-label">反馈内容</label>
-            <textarea 
-              v-model="feedbackContent" 
-              class="feedback-input" 
-              placeholder="请输入保洁任务反馈内容"
-              rows="4"
-            ></textarea>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">上传照片（可选）</label>
-            <div class="image-upload">
-              <div class="upload-btn">
-                + 添加照片
-              </div>
-              <div class="image-preview" v-for="(image, index) in feedbackImages" :key="index">
-                <div class="preview-item">
-                  <img :src="image" alt="反馈照片">
-                  <button class="remove-image" @click="feedbackImages.splice(index, 1)">×</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button class="cancel-btn" @click="showFeedbackModal = false">取消</button>
-          <button class="confirm-btn" @click="submitFeedback">提交反馈</button>
-        </div>
       </div>
     </div>
 
@@ -173,7 +88,6 @@
           </div>
           <div class="room-actions">
             <button class="detail-btn" @click="navigateToRoomDetail(room.id)">详情</button>
-            <button class="assign-btn" @click="assignCleaning(room.id)">指派保洁</button>
           </div>
         </div>
       </div>
@@ -288,6 +202,9 @@
 </template>
 
 <script>
+import { controlApi } from "@/api/control"
+import { deviceApi } from "@/api/device"
+
 export default {
   name: 'BHomeView',
   data() {
@@ -368,8 +285,7 @@ export default {
           status: 'online'
         }
       ],
-      
-      // 防霉战报数据
+// 防霉战报数据
       moldBlocked: 24,
       costSaved: 360,
       riskReduced: 45,
@@ -403,8 +319,77 @@ export default {
       feedbackImages: []
     }
   },
+  mounted() {
+    this.loadData()
+  },
   methods: {
-    // 导航方法
+  async loadData() {
+      try {
+        await Promise.all([
+          this.loadRiskOverview(),
+          this.loadHighRiskRooms(),
+          this.loadDeviceOverview()
+        ])
+      } catch (error) {
+        console.error("加载数据失败:", error)
+      }
+    },
+
+    async loadRiskOverview() {
+      try {
+        const response = await controlApi.getRiskOverview()
+        if (response && response.data) {
+          this.highRiskCount = response.data.highRiskCount || 0
+          this.mediumRiskCount = response.data.mediumRiskCount || 0
+          this.lowRiskCount = response.data.lowRiskCount || 0
+          this.totalRooms = response.data.totalRooms || 0
+        }
+      } catch (error) {
+        console.error("加载风险概览失败:", error)
+      }
+    },
+
+    async loadHighRiskRooms() {
+      try {
+        const response = await controlApi.getHighRiskRooms({
+          page: 1,
+          pageSize: 10
+        })
+        if (response && response.data && response.data.list) {
+          this.highRiskRooms = response.data.list.map(room => ({
+            ...room,
+            isSelected: false
+          }))
+        }
+      } catch (error) {
+        console.error("加载高风险房间失败:", error)
+      }
+    },
+
+    async loadDeviceOverview() {
+      try {
+        const response = await deviceApi.getDeviceList({
+          page: 1,
+          pageSize: 10
+        })
+        if (response && response.data) {
+          this.totalDevices = response.data.total || 0
+          this.onlineDevices = response.data.onlineCount || 0
+          this.offlineDevices = response.data.offlineCount || 0
+          this.recentDevices = (response.data.list || []).map(device => ({
+            id: device.id,
+            name: device.name,
+            sn: device.sn || "N/A",
+            location: device.location || "未知位置",
+            status: device.status || "offline"
+          }))
+        }
+      } catch (error) {
+        console.error("加载设备概览失败:", error)
+      }
+    },
+
+        // 导航方法
     navigateToPortal() {
       this.$router.push('/portal')
     },
@@ -453,15 +438,6 @@ export default {
     },
     
     // 批量操作方法
-    batchAssignCleaning() {
-      this.showBatchActions = false
-      if (this.selectedRooms.length === 0) {
-        alert('请先选择需要指派保洁的房间')
-        return
-      }
-      this.showAssignModal = true
-    },
-    
     batchMarkAsHandled() {
       this.showBatchActions = false
       if (this.selectedRooms.length === 0) {
@@ -482,80 +458,58 @@ export default {
     
     exportRiskReport() {
       this.showBatchActions = false
-      alert('导出风险报告功能开发中...')
-    },
-    
-    // 单个房间指派保洁
-    assignCleaning(roomId) {
-      // 选择该房间
-      this.highRiskRooms.forEach(room => {
-        room.isSelected = room.id === roomId
-      })
-      this.selectAll = false
-      this.updateSelectedRooms()
-      this.showAssignModal = true
-    },
-    
-    // 提交指派保洁
-    submitAssignCleaning() {
-      if (!this.selectedStaffId) {
-        alert('请选择保洁人员')
-        return
-      }
       
-      // 模拟提交指派
-      console.log('提交指派保洁:', {
-        rooms: this.selectedRooms,
-        staffId: this.selectedStaffId,
-        note: this.assignNote,
-        timestamp: new Date().toISOString()
-      })
+      // 1. 准备数据
+      const headers = ['ID', '房间名称', '位置', '风险等级', '风险值', '湿度(%)', '温度(°C)'];
+      const rows = this.highRiskRooms.map(room => [
+        room.id,
+        room.name,
+        room.location,
+        room.riskLevel === 'high' ? '高危' : room.riskLevel === 'medium' ? '中危' : '低危',
+        room.riskValue,
+        room.humidity,
+        room.temperature
+      ]);
       
-      // 关闭弹窗并重置
-      this.showAssignModal = false
-      this.selectedStaffId = null
-      this.assignNote = ''
+      // 2. 转换为CSV格式
+      const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.join(','))
+      ].join('\n');
       
-      // 显示成功提示
-      alert(`已成功指派保洁人员处理 ${this.selectedRooms.length} 个房间`)
+      // 3. 触发下载
+      const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `risk_report_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       
-      // 重置选择
-      this.selectAll = false
-      this.selectedRooms.forEach(room => {
-        room.isSelected = false
-      })
-      this.selectedRooms = []
+      alert('风险报告导出成功！');
     },
-    
-    // 保洁任务反馈
-    openFeedbackModal(task) {
-      this.currentTask = task
-      this.showFeedbackModal = true
-    },
-    
+
     submitFeedback() {
-      if (!this.feedbackContent.trim()) {
+      if (!this.feedbackContent) {
         alert('请输入反馈内容')
         return
       }
       
-      // 模拟提交反馈
-      console.log('提交保洁反馈:', {
-        task: this.currentTask,
+      console.log('提交反馈:', {
         content: this.feedbackContent,
-        images: this.feedbackImages,
-        timestamp: new Date().toISOString()
+        images: this.feedbackImages
       })
       
-      // 关闭弹窗并重置
+      alert('反馈已提交')
+      
       this.showFeedbackModal = false
-      this.currentTask = null
       this.feedbackContent = ''
       this.feedbackImages = []
-      
-      // 显示成功提示
-      alert('反馈提交成功！')
-    }
+  },
+  mounted() {
+    this.loadData()
+  },
   }
 }
 </script>

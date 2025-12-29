@@ -17,6 +17,10 @@ public class ConfigService {
     // 扫描根目录配置
     private String rootDirs;
     
+    // 最大本地搜索结果数
+    @Value("${app.search.max-local-results:100}")
+    private int maxLocalResults;
+    
     /**
      * Initialize root directories from application properties.
      * 
@@ -45,5 +49,14 @@ public class ConfigService {
     public void updateRootDirs(String newRootDirs) {
         logger.info("Updating root directories from {} to {}", this.rootDirs, newRootDirs);
         this.rootDirs = newRootDirs;
+    }
+    
+    /**
+     * Get the maximum number of local search results.
+     * 
+     * @return The maximum number of results
+     */
+    public int getMaxLocalResults() {
+        return maxLocalResults;
     }
 }

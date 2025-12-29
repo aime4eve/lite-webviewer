@@ -1,12 +1,10 @@
 <template>
   <div class="devices-container">
-    <!-- 顶部标题栏 -->
     <header class="header">
       <h1 class="title">📱 设备管理</h1>
       <button class="add-btn" @click="navigateToAddDevice">➕ 添加</button>
     </header>
 
-    <!-- 设备概览 -->
     <section class="overview-section">
       <div class="overview-card">
         <div class="overview-item">
@@ -24,10 +22,10 @@
       </div>
     </section>
 
-    <!-- 设备列表 -->
     <section class="devices-section">
       <h2 class="section-title">设备列表</h2>
-      <div class="devices-list">
+      <div v-if="loadingDevices" class="loading">加载中...</div>
+      <div v-else-if="devices.length > 0" class="devices-list">
         <div 
           v-for="device in devices" 
           :key="device.id" 
@@ -36,11 +34,11 @@
         >
           <div class="device-icon">
             <span :class="device.status === 'online' ? 'status-dot online' : 'status-dot offline'"></span>
-            <span class="icon">{{ device.icon }}</span>
+            <span class="icon">🏠</span>
           </div>
           <div class="device-info">
-            <div class="device-name">{{ device.name }}</div>
-            <div class="device-desc">{{ device.description }}</div>
+            <div class="device-name">{{ device.name || '未命名设备' }}</div>
+            <div class="device-desc">{{ device.location || '未设置位置' }}</div>
           </div>
           <div class="device-status">
             <span :class="device.status === 'online' ? 'status-text online' : 'status-text offline'">
@@ -50,17 +48,18 @@
           </div>
         </div>
       </div>
+      <div v-else class="no-data">暂无设备，请添加设备</div>
     </section>
 
-    <!-- 底部导航栏 -->
     <FooterNavigation active="devices" />
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import FooterNavigation from '../components/FooterNavigation.vue'
+import { deviceApi } from '../api/device'
 
 export default defineComponent({
   name: 'DevicesView',
@@ -70,53 +69,50 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    // 模拟设备数据
-    const devices = [
-      {
-        id: 1,
-        name: '主卧浴室',
-        description: '温湿度传感器 + 3位开关面板',
-        status: 'online',
-        icon: '🏠'
-      },
-      {
-        id: 2,
-        name: '次卧浴室',
-        description: '仅温湿度传感器',
-        status: 'online',
-        icon: '🏠'
-      },
-      {
-        id: 3,
-        name: '客厅',
-        description: '温湿度传感器',
-        status: 'offline',
-        icon: '🛋️'
+    const devices = ref([])
+    const loadingDevices = ref(false)
+
+    const loadDevices = async () => {
+      try {
+        loadingDevices.value = true
+        const response = await deviceApi.getDeviceList({
+          page: 1,
+          size: 100
+        })
+        if (response && response.data) {
+          devices.value = response.data
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        devices.value = []
+      } finally {
+        loadingDevices.value = false
       }
-    ]
+    }
 
-    // 计算在线设备数量
     const onlineDevicesCount = computed(() => {
-      return devices.filter(device => device.status === 'online').length
+      return devices.value.filter(device => device.status === 'online').length
     })
 
-    // 计算离线设备数量
     const offlineDevicesCount = computed(() => {
-      return devices.filter(device => device.status === 'offline').length
+      return devices.value.filter(device => device.status === 'offline').length
     })
 
-    // 导航到添加设备页面
     const navigateToAddDevice = () => {
       router.push('/c/add-device')
     }
 
-    // 导航到设备详情页面
     const navigateToDeviceDetail = (id) => {
       router.push(`/c/device-detail/${id}`)
     }
 
+    onMounted(() => {
+      loadDevices()
+    })
+
     return {
       devices,
+      loadingDevices,
       onlineDevicesCount,
       offlineDevicesCount,
       navigateToAddDevice,
@@ -132,7 +128,7 @@ export default defineComponent({
   margin: 0 auto;
   background-color: #f5f5f5;
   min-height: 100vh;
-  padding-bottom: 60px; /* 为底部导航栏留出空间 */
+  padding-bottom: 60px;
 }
 
 .header {
@@ -219,6 +215,18 @@ export default defineComponent({
   font-weight: 600;
   margin: 0 0 16px 0;
   color: #333;
+}
+
+.loading {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 20px;
 }
 
 .devices-list {

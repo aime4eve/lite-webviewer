@@ -1,14 +1,25 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  server: {
-    port: process.env.PORT || 6688, // 使用环境变量PORT，默认6688
-    host: true
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
   },
-  // 配置不同环境下的端口
+  server: {
+    port: process.env.PORT || 6688,
+    host: true,
+    proxy: {
+      '/api': { 
+        target: 'http://localhost:9999', 
+        changeOrigin: true 
+      }
+    }
+  },
   define: {
     'process.env.PORT': JSON.stringify(process.env.PORT || 6688)
   }

@@ -1,6 +1,5 @@
 <template>
   <div class="home-container">
-    <!-- 试用到期警告横幅 -->
     <div 
       v-if="subscriptionStatus.isTrial && subscriptionStatus.daysRemaining <= 7" 
       class="trial-warning"
@@ -21,7 +20,6 @@
       <button class="upgrade-btn" @click="navigateToSubscription">立即订阅</button>
     </div>
     
-    <!-- 顶部标题栏 -->
     <header class="header">
       <h1 class="title">🛡️ 防霉守护 · 家庭版</h1>
       <button class="add-device-btn" @click="navigateToAddDevice">
@@ -29,77 +27,77 @@
       </button>
     </header>
 
-    <!-- 浴室防霉状态 -->
     <section class="status-section">
       <h2 class="section-title">🛁 浴室防霉状态 (Today)</h2>
-      <div class="status-content">
+      <div v-if="loadingStatus" class="loading">加载中...</div>
+      <div v-else-if="currentDevice" class="status-content">
         <div class="risk-item">
           <span class="risk-label">🚨 风险指数:</span>
-          <span class="risk-value safe">🟢 18% (安全)</span>
+          <span class="risk-value" :class="getRiskClass(currentRiskPrediction?.riskLevel)">
+            {{ getRiskIcon(currentRiskPrediction?.riskLevel) }} {{ currentRiskPrediction?.riskScore || 0 }}% ({{ getRiskText(currentRiskPrediction?.riskLevel) }})
+          </span>
         </div>
         <div class="env-data">
-          <span class="env-item">🌡️ 温度: 24°C</span>
-          <span class="env-item">💧 湿度: 62%</span>
+          <span class="env-item">🌡️ 温度: {{ currentEnvironment?.temperature || '--' }}°C</span>
+          <span class="env-item">💧 湿度: {{ currentEnvironment?.humidity || '--' }}%</span>
         </div>
         <div class="status-tags">
-          <span class="tag safe">✅ 安全</span>
+          <span class="tag" :class="getRiskClass(currentRiskPrediction?.riskLevel)">
+            {{ getRiskStatusIcon(currentRiskPrediction?.riskLevel) }} {{ getRiskStatusText(currentRiskPrediction?.riskLevel) }}
+          </span>
           <span class="tag auto">🤖 自动防霉已开启</span>
         </div>
       </div>
+      <div v-else class="no-data">暂无设备数据</div>
     </section>
 
-    <!-- 设备概览 -->
     <section class="devices-section">
       <h2 class="section-title">📱 设备概览</h2>
-      <div class="devices-list">
+      <div v-if="loadingDevices" class="loading">加载中...</div>
+      <div v-else-if="devices.length > 0" class="devices-list">
         <div 
+          v-for="device in devices" 
+          :key="device.id"
           class="device-item" 
           :class="{ 'limited-feature': !subscriptionStatus.hasFullAccess }"
-          @click="subscriptionStatus.hasFullAccess ? navigateToDeviceDetail(1) : null"
+          @click="subscriptionStatus.hasFullAccess ? navigateToDeviceDetail(device.id) : null"
         >
           <div class="device-info">
-            <span class="device-name">🏠 主卧浴室</span>
-            <span class="device-status">🟢 在线 · 正常 · {{ subscriptionStatus.hasFullAccess ? '🔗 自动联动已配置' : '<span class=\"permission-tag\">🔒 功能受限</span>' }}</span>
-          </div>
-          <span class="detail-link">详情 ></span>
-          <div v-if="!subscriptionStatus.hasFullAccess" class="limited-overlay">订阅后解锁全部功能</div>
-        </div>
-        <div 
-          class="device-item" 
-          :class="{ 'limited-feature': !subscriptionStatus.hasFullAccess }"
-          @click="subscriptionStatus.hasFullAccess ? navigateToDeviceDetail(2) : null"
-        >
-          <div class="device-info">
-            <span class="device-name">🏠 次卧浴室</span>
-            <span class="device-status">🟢 在线 · 正常 · {{ subscriptionStatus.hasFullAccess ? '⚠️ 仅预警模式' : '<span class=\"permission-tag\">🔒 功能受限</span>' }}</span>
+            <span class="device-name">🏠 {{ device.name || '未命名设备' }}</span>
+            <span class="device-status">
+              {{ device.status === 'online' ? '🟢 在线' : '🔴 离线' }} · 
+              {{ device.status === 'online' ? '正常' : '异常' }} · 
+              <span v-if="subscriptionStatus.hasFullAccess">🔗 自动联动已配置</span>
+              <span v-else class="permission-tag">🔒 功能受限</span>
+            </span>
           </div>
           <span class="detail-link">详情 ></span>
           <div v-if="!subscriptionStatus.hasFullAccess" class="limited-overlay">订阅后解锁全部功能</div>
         </div>
       </div>
+      <div v-else class="no-data">暂无设备，请添加设备</div>
     </section>
 
-    <!-- 本月防霉战报 -->
     <section class="report-section">
       <h2 class="section-title">📊 本月防霉战报</h2>
-      <div class="report-content">
+      <div v-if="loadingReport" class="loading">加载中...</div>
+      <div v-else class="report-content">
         <div class="report-item">
           <span class="report-label">🛡️ 阻断霉变:</span>
-          <span class="report-value">12 次</span>
+          <span class="report-value">{{ monthlyReport?.preventedCount || 0 }} 次</span>
         </div>
         <div class="report-item">
           <span class="report-label">💰 节省电费:</span>
-          <span class="report-value">¥4.8</span>
+          <span class="report-value">¥{{ monthlyReport?.savedCost || 0 }}</span>
         </div>
         <div class="report-item">
           <span class="report-label">🪙 防霉积分:</span>
-          <span class="report-value">180 分</span>
+          <span class="report-value">{{ monthlyReport?.points || 0 }} 分</span>
           <span class="exchange-link" @click="navigateToSubscription">🎁 兑换 ></span>
         </div>
       </div>
     </section>
     
-    <!-- 预测反馈 -->
     <section class="feedback-section">
       <h2 class="section-title">📝 预测反馈</h2>
       <div class="feedback-content">
@@ -129,22 +127,26 @@
             ></textarea>
           </div>
           <div class="feedback-actions">
-            <button class="submit-btn" @click="submitFeedback">提交反馈</button>
+            <button class="submit-btn" @click="submitFeedback" :disabled="submittingFeedback">
+              {{ submittingFeedback ? '提交中...' : '提交反馈' }}
+            </button>
             <button class="cancel-btn" @click="resetFeedback">取消</button>
           </div>
         </template>
       </div>
     </section>
 
-    <!-- 底部导航栏 -->
     <FooterNavigation active="home" />
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import FooterNavigation from '../components/FooterNavigation.vue'
+import { deviceApi } from '../api/device'
+import { environmentApi } from '../api/environment'
+import { alarmApi } from '../api/alarm'
 
 export default defineComponent({
   name: 'HomeView',
@@ -154,7 +156,6 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     
-    // 模拟订阅状态
     const subscriptionStatus = ref({
       isTrial: true,
       daysRemaining: 7,
@@ -162,48 +163,201 @@ export default defineComponent({
       hasFullAccess: true
     })
     
-    // 预测反馈状态
+    const devices = ref([])
+    const loadingDevices = ref(false)
+    
+    const currentEnvironment = ref(null)
+    const currentRiskPrediction = ref(null)
+    const loadingStatus = ref(false)
+    
+    const monthlyReport = ref({
+      preventedCount: 0,
+      savedCost: 0,
+      points: 0
+    })
+    const loadingReport = ref(false)
+    
     const feedbackRating = ref(0)
     const feedbackComment = ref('')
     const feedbackSubmitted = ref(false)
+    const submittingFeedback = ref(false)
     
-    // 检查订阅状态，模拟权限降级
+    const currentDevice = computed(() => {
+      return devices.value.length > 0 ? devices.value[0] : null
+    })
+    
     const checkSubscriptionStatus = () => {
-      // 模拟试用期即将结束的情况
       if (subscriptionStatus.value.daysRemaining <= 7 && subscriptionStatus.value.daysRemaining > 0) {
-        // 显示警告
       } else if (subscriptionStatus.value.daysRemaining <= 0) {
-        // 试用期已过，权限降级
         subscriptionStatus.value.isExpired = true
         subscriptionStatus.value.hasFullAccess = false
       }
     }
     
-    onMounted(() => {
-      checkSubscriptionStatus()
-    })
+    const loadDevices = async () => {
+      try {
+        loadingDevices.value = true
+        const response = await deviceApi.getDeviceList({
+          page: 1,
+          size: 100
+        })
+        if (response && response.data) {
+          devices.value = response.data
+          if (devices.value.length > 0) {
+            await loadDeviceStatus(devices.value[0].id)
+          }
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        devices.value = []
+      } finally {
+        loadingDevices.value = false
+      }
+    }
     
-    // 预测反馈相关函数
+    const loadDeviceStatus = async (deviceId) => {
+      try {
+        loadingStatus.value = true
+        const [envResponse, riskResponse] = await Promise.all([
+          environmentApi.getLatestEnvironmentData(deviceId),
+          deviceApi.getRiskPrediction(deviceId, 24)
+        ])
+        
+        if (envResponse && envResponse.data) {
+          currentEnvironment.value = envResponse.data
+        }
+        
+        if (riskResponse && riskResponse.data) {
+          currentRiskPrediction.value = riskResponse.data
+        }
+      } catch (error) {
+        console.error('加载设备状态失败:', error)
+      } finally {
+        loadingStatus.value = false
+      }
+    }
+    
+    const loadMonthlyReport = async () => {
+      try {
+        loadingReport.value = true
+        const now = new Date()
+        const startDate = new Date(now.getFullYear(), now.getMonth(), 1)
+        const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+        
+        const response = await alarmApi.getAlarmStatistics({
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0]
+        })
+        
+        if (response && response.data) {
+          monthlyReport.value = {
+            preventedCount: response.data.preventedCount || 0,
+            savedCost: response.data.savedCost || 0,
+            points: response.data.points || 0
+          }
+        }
+      } catch (error) {
+        console.error('加载月度报告失败:', error)
+        monthlyReport.value = {
+          preventedCount: 0,
+          savedCost: 0,
+          points: 0
+        }
+      } finally {
+        loadingReport.value = false
+      }
+    }
+    
+    const getRiskClass = (level) => {
+      switch (level) {
+        case 'low':
+          return 'safe'
+        case 'medium':
+          return 'medium'
+        case 'high':
+          return 'high'
+        default:
+          return 'safe'
+      }
+    }
+    
+    const getRiskIcon = (level) => {
+      switch (level) {
+        case 'low':
+          return '🟢'
+        case 'medium':
+          return '🟡'
+        case 'high':
+          return '🔴'
+        default:
+          return '🟢'
+      }
+    }
+    
+    const getRiskText = (level) => {
+      switch (level) {
+        case 'low':
+          return '安全'
+        case 'medium':
+          return '中等'
+        case 'high':
+          return '危险'
+        default:
+          return '安全'
+      }
+    }
+    
+    const getRiskStatusIcon = (level) => {
+      switch (level) {
+        case 'low':
+          return '✅'
+        case 'medium':
+          return '⚠️'
+        case 'high':
+          return '🚨'
+        default:
+          return '✅'
+      }
+    }
+    
+    const getRiskStatusText = (level) => {
+      switch (level) {
+        case 'low':
+          return '安全'
+        case 'medium':
+          return '注意'
+        case 'high':
+          return '危险'
+        default:
+          return '安全'
+      }
+    }
+    
     const setFeedbackRating = (rating) => {
       feedbackRating.value = rating
     }
     
-    const submitFeedback = () => {
-      // 模拟提交反馈
-      console.log('提交反馈:', {
-        rating: feedbackRating.value,
-        comment: feedbackComment.value,
-        timestamp: new Date().toISOString()
-      })
-      
-      // 显示成功提示
-      feedbackSubmitted.value = true
-      
-      // 重置表单
-      setTimeout(() => {
-        resetFeedback()
-        feedbackSubmitted.value = false
-      }, 2000)
+    const submitFeedback = async () => {
+      try {
+        submittingFeedback.value = true
+        if (currentDevice.value) {
+          await deviceApi.submitFeedback(currentDevice.value.id, {
+            rating: feedbackRating.value,
+            comment: feedbackComment.value,
+            timestamp: new Date().toISOString()
+          })
+        }
+        feedbackSubmitted.value = true
+        setTimeout(() => {
+          resetFeedback()
+          feedbackSubmitted.value = false
+        }, 2000)
+      } catch (error) {
+        console.error('提交反馈失败:', error)
+        alert('提交反馈失败，请稍后重试')
+      } finally {
+        submittingFeedback.value = false
+      }
     }
     
     const resetFeedback = () => {
@@ -222,18 +376,40 @@ export default defineComponent({
     const navigateToSubscription = () => {
       router.push('/c/subscription')
     }
+    
+    onMounted(async () => {
+      checkSubscriptionStatus()
+      await Promise.all([
+        loadDevices(),
+        loadMonthlyReport()
+      ])
+    })
 
     return {
       navigateToAddDevice,
       navigateToDeviceDetail,
       navigateToSubscription,
       subscriptionStatus,
+      devices,
+      loadingDevices,
+      currentDevice,
+      currentEnvironment,
+      currentRiskPrediction,
+      loadingStatus,
+      monthlyReport,
+      loadingReport,
       feedbackRating,
       feedbackComment,
       feedbackSubmitted,
+      submittingFeedback,
       setFeedbackRating,
       submitFeedback,
-      resetFeedback
+      resetFeedback,
+      getRiskClass,
+      getRiskIcon,
+      getRiskText,
+      getRiskStatusIcon,
+      getRiskStatusText
     }
   }
 })
@@ -245,10 +421,9 @@ export default defineComponent({
   margin: 0 auto;
   background-color: #f5f5f5;
   min-height: 100vh;
-  padding-bottom: 60px; /* 为底部导航栏留出空间 */
+  padding-bottom: 60px;
 }
 
-/* 试用到期警告样式 */
 .trial-warning {
   background-color: #FFF3E0;
   border: 1px solid #FFE0B2;
@@ -302,7 +477,6 @@ export default defineComponent({
   background-color: #F57C00;
 }
 
-/* 权限降级样式 */
 .limited-feature {
   opacity: 0.7;
   position: relative;
@@ -330,7 +504,6 @@ export default defineComponent({
   background-color: #FFEBEE;
   color: #F44336;
 }
-
 
 .header {
   display: flex;
@@ -372,12 +545,24 @@ export default defineComponent({
   color: #333;
 }
 
-.status-section, .devices-section, .report-section {
+.status-section, .devices-section, .report-section, .feedback-section {
   background-color: #fff;
   padding: 16px;
   margin: 12px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 20px;
 }
 
 .status-content {
@@ -439,6 +624,16 @@ export default defineComponent({
 .tag.safe {
   background-color: #E8F5E9;
   color: #4CAF50;
+}
+
+.tag.medium {
+  background-color: #FFF8E1;
+  color: #FFC107;
+}
+
+.tag.high {
+  background-color: #FFEBEE;
+  color: #F44336;
 }
 
 .tag.auto {
@@ -524,117 +719,113 @@ export default defineComponent({
 }
 
 .exchange-link:hover {
-      text-decoration: underline;
-    }
-    
-    /* 预测反馈样式 */
-    .feedback-section {
-      background-color: #fff;
-      padding: 16px;
-      margin: 12px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .feedback-content {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    
-    .feedback-question {
-      font-size: 15px;
-      font-weight: 500;
-      color: #333;
-    }
-    
-    .feedback-rating {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    
-    .rating-star {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      padding: 0;
-    }
-    
-    .rating-star:hover {
-      transform: scale(1.2);
-    }
-    
-    .rating-star.active {
-      color: #FFC107;
-    }
-    
-    .feedback-comment {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .comment-input {
-      padding: 12px;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 14px;
-      resize: vertical;
-      min-height: 80px;
-      font-family: inherit;
-    }
-    
-    .comment-input:focus {
-      outline: none;
-      border-color: #2196F3;
-      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
-    }
-    
-    .feedback-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-    }
-    
-    .submit-btn, .cancel-btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    
-    .submit-btn {
-      background-color: #2196F3;
-      color: white;
-    }
-    
-    .submit-btn:hover {
-      background-color: #1976D2;
-    }
-    
-    .cancel-btn {
-      background-color: #f5f5f5;
-      color: #666;
-      border: 1px solid #e0e0e0;
-    }
-    
-    .cancel-btn:hover {
-      background-color: #e0e0e0;
-    }
-    
-    .feedback-success {
-      background-color: #E8F5E9;
-      color: #4CAF50;
-      padding: 12px;
-      border-radius: 6px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 500;
-    }
+  text-decoration: underline;
+}
+
+.feedback-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback-question {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+.feedback-rating {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.rating-star {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 0;
+}
+
+.rating-star:hover {
+  transform: scale(1.2);
+}
+
+.rating-star.active {
+  color: #FFC107;
+}
+
+.feedback-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-input {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.feedback-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.submit-btn, .cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn {
+  background-color: #2196F3;
+  color: white;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #1976D2;
+}
+
+.submit-btn:disabled {
+  background-color: #B0BEC5;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #666;
+  border: 1px solid #e0e0e0;
+}
+
+.cancel-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.feedback-success {
+  background-color: #E8F5E9;
+  color: #4CAF50;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
 </style>

@@ -179,6 +179,9 @@
 </template>
 
 <script>
+import { deviceApi } from "@/api/device"
+import { controlApi } from "@/api/control"
+
 export default {
   name: 'BDeviceDetailView',
   props: {
@@ -230,7 +233,9 @@ export default {
         low: '低风险'
       },
       // 详细规则弹窗
-      showRuleDetails: false
+      showRuleDetails: false,
+      // 加载状态
+      loading: false
     }
   },
   mounted() {
@@ -238,28 +243,110 @@ export default {
   },
   methods: {
     // 加载设备数据
-    loadDeviceData() {
-      // 模拟从API获取设备数据
-      console.log('加载设备数据:', this.id);
+    async loadDeviceData() {
+      try {
+        this.loading = true
+        
+        // 并行加载设备详情、策略和联动映射
+        const [deviceResponse, strategyResponse, linkageResponse] = await Promise.all([
+          deviceApi.getDeviceDetail(this.id),
+          controlApi.getAutoMoldStrategy(this.id).catch(() => null),
+          controlApi.getLinkageMapping(this.id).catch(() => null)
+        ])
+        
+        // 更新设备基本信息
+        if (deviceResponse && deviceResponse.data) {
+          this.device = {
+            ...this.device,
+            id: deviceResponse.data.id,
+            name: deviceResponse.data.name,
+            type: deviceResponse.data.type || 'switch',
+            sn: deviceResponse.data.sn,
+            location: deviceResponse.data.location,
+            status: deviceResponse.data.status,
+            lastActive: deviceResponse.data.lastActive,
+            realTimeData: deviceResponse.data.realTimeData || this.device.realTimeData,
+            alarmInfo: deviceResponse.data.alarmInfo || this.device.alarmInfo
+          }
+        }
+        
+        // 更新自动防霉策略
+        if (strategyResponse && strategyResponse.data) {
+          this.device.strategy = {
+            enabled: strategyResponse.data.enabled,
+            rules: strategyResponse.data.rules.map(rule => 
+              `• ${rule.condition} ➡️ ${rule.action}`
+            )
+          }
+        }
+        
+        // 更新设备联动映射
+        if (linkageResponse && linkageResponse.data) {
+          this.device.linkageMappings = linkageResponse.data.mappings.map(mapping => ({
+            device: mapping.deviceType
+          }))
+        }
+      } catch (error) {
+        console.error('加载设备数据失败:', error)
+        alert('加载设备数据失败，请重试')
+      } finally {
+        this.loading = false
+      }
     },
+    
     // 返回上一页
     goBack() {
       this.$router.go(-1);
     },
+    
     // 更新策略
-    updateStrategy() {
-      console.log('更新策略:', this.device.strategy.enabled);
-      alert('策略已更新');
+    async updateStrategy() {
+      try {
+        const response = await controlApi.updateAutoMoldStrategy(this.id, {
+          enabled: this.device.strategy.enabled
+        })
+        
+        if (response && response.data) {
+          alert('策略已更新')
+        }
+      } catch (error) {
+        console.error('更新策略失败:', error)
+        alert('更新策略失败，请重试')
+        // 恢复原状态
+        this.device.strategy.enabled = !this.device.strategy.enabled
+      }
     },
+    
     // 更新联动映射
     updateLinkage() {
       console.log('更新联动映射:', this.device.linkageMappings);
     },
+    
     // 保存联动配置
-    saveLinkage() {
-      console.log('保存联动配置:', this.device.linkageMappings);
-      alert('联动配置已保存');
+    async saveLinkage() {
+      try {
+        const mappings = this.device.linkageMappings.map((mapping, index) => ({
+          switchPosition: index + 1,
+          deviceType: mapping.device,
+          deviceName: mapping.device === 'fan' ? '排风扇' : 
+                      mapping.device === 'heater' ? '加热器' : '照明灯',
+          icon: mapping.device === 'fan' ? '🌀' : 
+                mapping.device === 'heater' ? '🔥' : '💡'
+        }))
+        
+        const response = await controlApi.updateLinkageMapping(this.id, {
+          mappings: mappings
+        })
+        
+        if (response && response.data) {
+          alert('联动配置已保存')
+        }
+      } catch (error) {
+        console.error('保存联动配置失败:', error)
+        alert('保存联动配置失败，请重试')
+      }
     },
+    
     // 导航方法
     navigateToPortal() {
       this.$router.push('/portal')

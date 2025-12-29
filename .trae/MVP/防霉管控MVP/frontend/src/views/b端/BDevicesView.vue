@@ -116,85 +116,14 @@
 </template>
 
 <script>
+import { deviceApi } from '@/api/device'
+
 export default {
   name: 'BDevicesView',
   data() {
     return {
       // 设备列表数据
-      devices: [
-        {
-          id: 1,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN123456',
-          location: '302室主卧浴室',
-          status: 'online',
-          lastActive: '2025-12-15 14:30'
-        },
-        {
-          id: 2,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN789012',
-          location: '302室主卧浴室',
-          status: 'online',
-          lastActive: '2025-12-15 14:25'
-        },
-        {
-          id: 3,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN345678',
-          location: '505室次卧浴室',
-          status: 'offline',
-          lastActive: '2025-12-15 10:15'
-        },
-        {
-          id: 4,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN901234',
-          location: '505室次卧浴室',
-          status: 'online',
-          lastActive: '2025-12-15 14:10'
-        },
-        {
-          id: 5,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN567890',
-          location: '608室浴室',
-          status: 'online',
-          lastActive: '2025-12-15 14:05'
-        },
-        {
-          id: 6,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN112233',
-          location: '608室浴室',
-          status: 'online',
-          lastActive: '2025-12-15 14:00'
-        },
-        {
-          id: 7,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN445566',
-          location: '702室主卧浴室',
-          status: 'online',
-          lastActive: '2025-12-15 13:55'
-        },
-        {
-          id: 8,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN778899',
-          location: '702室主卧浴室',
-          status: 'online',
-          lastActive: '2025-12-15 13:50'
-        }
-      ],
+      devices: [],
       // 搜索关键词
       searchKeyword: '',
       // 过滤后的设备列表
@@ -203,14 +132,45 @@ export default {
       currentPage: 1,
       pageSize: 4,
       totalPages: 1,
+      total: 0,
       // 底部导航激活状态
-      activeNav: 'devices'
+      activeNav: 'devices',
+      loading: false
     }
   },
   mounted() {
-    this.searchDevices();
+    this.loadDevices();
   },
   methods: {
+    async loadDevices() {
+      try {
+        this.loading = true
+        
+        const params = {
+          page: this.currentPage,
+          pageSize: this.pageSize
+        }
+        
+        if (this.searchKeyword) {
+          params.keyword = this.searchKeyword
+        }
+        
+        const response = await deviceApi.getDeviceList(params)
+        
+        if (response && response.data) {
+          this.devices = response.data.list || []
+          this.total = response.data.total || 0
+          this.totalPages = Math.ceil(this.total / this.pageSize)
+          this.filteredDevices = this.devices
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        this.devices = []
+        this.filteredDevices = []
+      } finally {
+        this.loading = false
+      }
+    },
     // 导航方法
     navigateToPortal() {
       this.$router.push('/portal')
@@ -240,35 +200,15 @@ export default {
     
     // 搜索设备
     searchDevices() {
-      let filtered = [...this.devices]
-      
-      // 根据关键词搜索
-      if (this.searchKeyword) {
-        const keyword = this.searchKeyword.toLowerCase()
-        filtered = filtered.filter(device => 
-          device.name.toLowerCase().includes(keyword) || 
-          device.sn.toLowerCase().includes(keyword)
-        )
-      }
-      
-      // 计算分页
-      this.totalPages = Math.ceil(filtered.length / this.pageSize)
       this.currentPage = 1
-      this.updateFilteredDevices(filtered)
-    },
-    
-    // 更新过滤后的设备列表
-    updateFilteredDevices(filtered) {
-      const start = (this.currentPage - 1) * this.pageSize
-      const end = start + this.pageSize
-      this.filteredDevices = filtered.slice(start, end)
+      this.loadDevices()
     },
     
     // 上一页
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
-        this.searchDevices()
+        this.loadDevices()
       }
     },
     
@@ -276,7 +216,7 @@ export default {
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
-        this.searchDevices()
+        this.loadDevices()
       }
     },
     
@@ -288,7 +228,7 @@ export default {
   computed: {
     // 设备统计信息
     totalDevices() {
-      return this.devices.length
+      return this.total
     },
     onlineDevices() {
       return this.devices.filter(device => device.status === 'online').length

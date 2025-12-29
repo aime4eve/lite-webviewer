@@ -3,7 +3,7 @@
     <div class="device-fault-monitoring-container">
       <!-- 页面操作栏 -->
       <div class="page-actions">
-        <select class="filter-select" v-model="faultFilter.type">
+        <select class="filter-select" v-model="faultFilter.type" @change="loadFaults">
           <option value="all">所有故障类型</option>
           <option value="tamper">🛠️ 防拆告警</option>
           <option value="offline">🔌 心跳丢失</option>
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="faults-list">
+      <div class="faults-list" v-if="!loadingFaults">
         <div class="faults-header">
           <div class="fault-column device-name">设备名称</div>
           <div class="fault-column device-sn">SN码</div>
@@ -66,7 +66,7 @@
                fault.type === 'offline' ? '🔌 心跳丢失' : '⚠️ 设备故障' }}
           </div>
           <div class="fault-column fault-location">{{ fault.location || '未分配' }}</div>
-          <div class="fault-column fault-time">{{ fault.time }}</div>
+          <div class="fault-column fault-time">{{ formatTime(fault.time) }}</div>
           <div class="fault-column fault-status">
             <span :class="fault.status === 'unhandled' ? 'status-unhandled' : 
                      fault.status === 'handling' ? 'status-handling' : 'status-resolved'">
@@ -83,6 +83,10 @@
             <button class="resolve-btn" @click="resolveFault(fault)">解决</button>
           </div>
         </div>
+      </div>
+      <div class="loading-container" v-else>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">加载中...</div>
       </div>
 
       <!-- 分页 -->
@@ -205,7 +209,7 @@
             </div>
             <div class="alert-item">
               <span class="alert-label">告警时间:</span>
-              <span class="alert-value">{{ currentAlert.time }}</span>
+              <span class="alert-value">{{ formatTime(currentAlert.time) }}</span>
             </div>
           </div>
         </div>
@@ -340,77 +344,21 @@
 
 <script>
 import OperatorLayout from '../../components/OperatorLayout.vue'
+import AssetProtectionModal from '../../components/operator/AssetProtectionModal.vue'
+import { alarmApi, diagnoseApi } from '../../api/alarm'
 
 export default {
   name: 'DeviceFaultMonitoringView',
   components: {
-    OperatorLayout
+    OperatorLayout,
+    AssetProtectionModal
   },
   data() {
     return {
       // 故障列表数据
-      faults: [
-        {
-          id: 1,
-          deviceName: '温湿度传感器',
-          deviceSn: 'SN123456',
-          type: 'tamper',
-          location: '金南家园三期 3502',
-          time: '2025-12-15 14:30',
-          status: 'unhandled',
-          description: '设备防拆开关触发，可能被非法拆除'
-        },
-        {
-          id: 2,
-          deviceName: 'LoRa开关面板',
-          deviceSn: 'SN789012',
-          type: 'offline',
-          location: 'XX公寓 1201',
-          time: '2025-12-15 14:25',
-          status: 'handling',
-          description: '设备心跳丢失，已超过3次未上报'
-        },
-        {
-          id: 3,
-          deviceName: '温湿度传感器',
-          deviceSn: 'SN345678',
-          type: 'malfunction',
-          location: '阳光花园 708',
-          time: '2025-12-15 14:20',
-          status: 'resolved',
-          description: '设备数据异常，湿度值持续超过100%'
-        },
-        {
-          id: 4,
-          deviceName: '温湿度传感器',
-          deviceSn: 'SN901234',
-          type: 'tamper',
-          location: '金南家园一期 102',
-          time: '2025-12-15 14:15',
-          status: 'resolved',
-          description: '设备防拆开关触发，已确认用户自行拆装'
-        },
-        {
-          id: 5,
-          deviceName: 'LoRa开关面板',
-          deviceSn: 'SN567890',
-          type: 'offline',
-          location: 'XX小区 503',
-          time: '2025-12-15 14:10',
-          status: 'unhandled',
-          description: '设备心跳丢失，可能是网络问题'
-        },
-        {
-          id: 6,
-          deviceName: '温湿度传感器',
-          deviceSn: 'SN112233',
-          type: 'malfunction',
-          location: '蓝天小区 305',
-          time: '2025-12-15 14:05',
-          status: 'handling',
-          description: '设备温度值异常，持续显示-20°C'
-        }
-      ],
+      faults: [],
+      // 加载状态
+      loadingFaults: false,
       // 搜索关键词
       searchKeyword: '',
       // 过滤后的故障列表
@@ -428,26 +376,68 @@ export default {
       currentFault: null,
       diagnoseStatus: 'idle', // idle, diagnosing, completed
       diagnoseResult: null,
+      diagnoseId: null,
       // 告警处理流程相关
       showAlertProcessModal: false,
       currentAlert: null,
       alertProcessNotes: '',
       alertProcessStep: 1,
-      maxProcessSteps: 3
+      maxProcessSteps: 3,
+
+      // 资产保全相关
+      showAssetProtectionModal: false,
+      currentAssetProtectionFault: null
     }
   },
   mounted() {
-    this.searchFaults();
+    this.loadFaults()
   },
   methods: {
+    // 加载故障列表
+    async loadFaults() {
+      try {
+        this.loadingFaults = true
+        const params = {
+          page: this.currentPage,
+          pageSize: this.pageSize
+        }
+        
+        if (this.faultFilter.type !== 'all') {
+          params.type = this.faultFilter.type
+        }
+        
+        const response = await alarmApi.getOperatorAlarmList(params)
+        
+        if (response && response.data) {
+          this.faults = response.data.list || []
+          this.totalPages = Math.ceil((response.data.total || 0) / this.pageSize)
+          this.searchFaults()
+        }
+      } catch (error) {
+        console.error('加载故障列表失败:', error)
+        this.faults = []
+        this.filteredFaults = []
+      } finally {
+        this.loadingFaults = false
+      }
+    },
+
+    // 格式化时间
+    formatTime(time) {
+      if (!time) return ''
+      const date = new Date(time)
+      return date.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    },
+
     // 搜索故障
     searchFaults() {
       let filtered = [...this.faults]
-      
-      // 根据类型过滤
-      if (this.faultFilter.type !== 'all') {
-        filtered = filtered.filter(fault => fault.type === this.faultFilter.type)
-      }
       
       // 根据关键词搜索
       if (this.searchKeyword) {
@@ -459,24 +449,19 @@ export default {
         )
       }
       
-      // 计算分页
-      this.totalPages = Math.ceil(filtered.length / this.pageSize)
-      this.currentPage = 1
       this.updateFilteredFaults(filtered)
     },
     
     // 更新过滤后的故障列表
     updateFilteredFaults(filtered) {
-      const start = (this.currentPage - 1) * this.pageSize
-      const end = start + this.pageSize
-      this.filteredFaults = filtered.slice(start, end)
+      this.filteredFaults = filtered
     },
     
     // 上一页
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
-        this.searchFaults()
+        this.loadFaults()
       }
     },
     
@@ -484,31 +469,51 @@ export default {
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
-        this.searchFaults()
+        this.loadFaults()
       }
     },
     
     // 查看故障
-    viewFault(fault) {
-      alert(`查看故障：${fault.deviceName}\n故障类型：${fault.type === 'tamper' ? '防拆告警' : 
-                 fault.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${fault.description}`)
+    async viewFault(fault) {
+      try {
+        const response = await alarmApi.getAlarmDetail(fault.id)
+        if (response && response.data) {
+          const detail = response.data
+          alert(`查看故障：${detail.deviceName}\n故障类型：${detail.type === 'tamper' ? '防拆告警' : 
+                     detail.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${detail.description || ''}`)
+        }
+      } catch (error) {
+        console.error('获取故障详情失败:', error)
+        alert(`查看故障：${fault.deviceName}\n故障类型：${fault.type === 'tamper' ? '防拆告警' : 
+                   fault.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${fault.description || ''}`)
+      }
     },
     
     // 处理故障
     handleFault(fault) {
-      if (fault.status === 'unhandled') {
-        fault.status = 'handling'
-        alert(`已开始处理故障：${fault.deviceName}`)
-      } else {
-        fault.status = 'unhandled'
-        alert(`故障${fault.deviceName}已重新标记为未处理`)
+      if (fault.type === 'tamper' && fault.status === 'unhandled') {
+        this.currentAssetProtectionFault = fault
+        this.showAssetProtectionModal = true
+        return
       }
+      this.openAlertProcessModal(fault)
     },
     
     // 解决故障
-    resolveFault(fault) {
-      fault.status = 'resolved'
-      alert(`故障${fault.deviceName}已标记为解决`)
+    async resolveFault(fault) {
+      try {
+        await alarmApi.handleOperatorAlarm(fault.id, {
+          remark: '故障已解决',
+          step: 3,
+          processNotes: '故障已标记为解决'
+        })
+        
+        fault.status = 'resolved'
+        alert(`故障${fault.deviceName}已标记为解决`)
+      } catch (error) {
+        console.error('解决故障失败:', error)
+        alert('解决故障失败，请重试')
+      }
     },
     
     // 远程诊断相关方法
@@ -519,53 +524,76 @@ export default {
       this.showDiagnoseModal = true
     },
     
-    startDiagnose() {
-      this.diagnoseStatus = 'diagnosing'
-      
-      // 模拟远程诊断过程
-      setTimeout(() => {
-        this.diagnoseResult = {
-          deviceSn: this.currentFault.deviceSn,
-          deviceName: this.currentFault.deviceName,
-          signalStrength: -55, // dBm
-          batteryLevel: 78, // %
-          packetLoss: 2, // %
-          lastHeartbeat: '2025-12-15 14:29:30',
-          diagnostics: [
-            {
-              item: '设备状态',
-              status: '异常',
-              message: '设备防拆开关触发'
-            },
-            {
-              item: '网络连接',
-              status: '正常',
-              message: '信号强度良好'
-            },
-            {
-              item: '电池电量',
-              status: '正常',
-              message: '电量充足'
-            },
-            {
-              item: '传感器数据',
-              status: '异常',
-              message: '温度传感器数据异常'
-            }
-          ],
-          recommendations: [
-            '检查设备安装情况，确认防拆开关是否被触发',
-            '重新校准温度传感器',
-            '考虑更换设备外壳'
-          ]
+    async startDiagnose() {
+      try {
+        this.diagnoseStatus = 'diagnosing'
+        
+        const response = await diagnoseApi.startDiagnose(this.currentFault.deviceId)
+        
+        if (response && response.data) {
+          this.diagnoseId = response.data.diagnoseId
+          
+          await this.pollDiagnoseResult()
         }
-        this.diagnoseStatus = 'completed'
-      }, 2000)
+      } catch (error) {
+        console.error('启动远程诊断失败:', error)
+        this.diagnoseStatus = 'idle'
+        alert('启动远程诊断失败，请重试')
+      }
+    },
+
+    async pollDiagnoseResult() {
+      const maxAttempts = 30
+      let attempts = 0
+      
+      const poll = async () => {
+        try {
+          attempts++
+          const response = await diagnoseApi.getDiagnoseResult(this.diagnoseId)
+          
+          if (response && response.data) {
+            const result = response.data
+            
+            if (result.status === 'completed') {
+              this.diagnoseResult = {
+                deviceSn: result.deviceSn,
+                deviceName: result.deviceName,
+                signalStrength: result.signalStrength,
+                batteryLevel: result.batteryLevel,
+                packetLoss: result.packetLoss,
+                lastHeartbeat: result.lastHeartbeat,
+                diagnostics: result.diagnostics || [],
+                recommendations: result.recommendations || []
+              }
+              this.diagnoseStatus = 'completed'
+            } else if (result.status === 'failed') {
+              this.diagnoseStatus = 'idle'
+              alert('远程诊断失败，请重试')
+            } else if (attempts < maxAttempts) {
+              setTimeout(poll, 2000)
+            } else {
+              this.diagnoseStatus = 'idle'
+              alert('远程诊断超时，请重试')
+            }
+          }
+        } catch (error) {
+          console.error('获取诊断结果失败:', error)
+          if (attempts < maxAttempts) {
+            setTimeout(poll, 2000)
+          } else {
+            this.diagnoseStatus = 'idle'
+            alert('获取诊断结果失败，请重试')
+          }
+        }
+      }
+      
+      poll()
     },
     
     cancelDiagnose() {
       this.diagnoseStatus = 'idle'
       this.diagnoseResult = null
+      this.diagnoseId = null
     },
     
     closeDiagnoseModal() {
@@ -573,6 +601,7 @@ export default {
       this.currentFault = null
       this.diagnoseStatus = 'idle'
       this.diagnoseResult = null
+      this.diagnoseId = null
     },
     
     // 告警处理流程相关方法
@@ -595,25 +624,26 @@ export default {
       }
     },
     
-    completeAlertProcess() {
-      // 模拟完成告警处理流程
-      console.log('告警处理完成:', {
-        alert: this.currentAlert,
-        notes: this.alertProcessNotes,
-        stepsCompleted: this.alertProcessStep,
-        timestamp: new Date().toISOString()
-      })
-      
-      // 更新故障状态
-      this.currentAlert.status = 'handling'
-      
-      // 关闭弹窗
-      this.showAlertProcessModal = false
-      this.currentAlert = null
-      this.alertProcessNotes = ''
-      this.alertProcessStep = 1
-      
-      alert('告警处理流程已完成，故障已标记为处理中')
+    async completeAlertProcess() {
+      try {
+        await alarmApi.handleOperatorAlarm(this.currentAlert.id, {
+          remark: this.alertProcessNotes,
+          step: this.alertProcessStep,
+          processNotes: this.alertProcessNotes
+        })
+        
+        this.currentAlert.status = 'handling'
+        this.showAlertProcessModal = false
+        this.currentAlert = null
+        this.alertProcessNotes = ''
+        this.alertProcessStep = 1
+        
+        alert('告警处理流程已完成，故障已标记为处理中')
+        this.loadFaults()
+      } catch (error) {
+        console.error('完成告警处理失败:', error)
+        alert('完成告警处理失败，请重试')
+      }
     },
     
     closeAlertProcessModal() {
@@ -643,103 +673,92 @@ export default {
 
 <style scoped>
 .device-fault-monitoring-container {
+  padding: 20px;
   max-width: 1400px;
   margin: 0 auto;
-  background-color: #f5f5f5;
-  min-height: 100vh;
 }
 
-.header {
+.page-actions {
+  margin-bottom: 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #2c3e50;
-  color: white;
-  padding: 16px 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.title {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .filter-select {
   padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .faults-stats-section {
-  padding: 24px;
+  margin-bottom: 24px;
 }
 
 .stats-card {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: white;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  text-align: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+.stat-item.unhandled {
+  background: #fff3f3;
+}
+
+.stat-item.handled {
+  background: #fff8f0;
+}
+
+.stat-item.resolved {
+  background: #f0fff4;
 }
 
 .stat-label {
+  display: block;
   font-size: 14px;
   color: #666;
-  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .stat-value {
+  display: block;
   font-size: 28px;
   font-weight: 600;
   color: #333;
 }
 
-.stat-item.unhandled .stat-value {
-  color: #e74c3c;
-}
-
-.stat-item.handled .stat-value {
-  color: #f39c12;
-}
-
-.stat-item.resolved .stat-value {
-  color: #27ae60;
-}
-
 .faults-list-section {
-  padding: 0 24px 24px;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .section-title {
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 16px;
   color: #333;
+  margin: 0;
 }
 
 .search-bar {
@@ -748,131 +767,124 @@ export default {
 }
 
 .search-bar input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 300px;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  width: 280px;
+  font-size: 14px;
 }
 
 .search-btn {
-  background-color: #3498db;
+  padding: 8px 16px;
+  background: #4a90e2;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.search-btn:hover {
-  background-color: #2980b9;
+  font-size: 14px;
 }
 
 .faults-list {
-  background-color: white;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .faults-header {
-  display: flex;
-  background-color: #f8f9fa;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 1fr 1.5fr;
+  gap: 12px;
   padding: 12px 16px;
+  background: #f8f9fa;
   font-weight: 600;
-  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+  color: #666;
 }
 
 .fault-item {
-  display: flex;
-  padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
-  transition: background-color 0.2s;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 1fr 1.5fr;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  align-items: center;
 }
 
 .fault-item:hover {
-  background-color: #f8f9fa;
+  background: #f8f9fa;
 }
 
 .fault-item.unhandled {
-  background-color: #fff5f5;
+  background: #fff5f5;
 }
 
 .fault-item.handling {
-  background-color: #fff8e1;
+  background: #fffbf0;
 }
 
 .fault-item.resolved {
-  background-color: #f0fff4;
+  background: #f0fff4;
 }
 
 .fault-column {
-  flex: 1;
-}
-
-.device-name {
-  flex: 1.5;
-  font-weight: 500;
-}
-
-.device-sn, .fault-type, .fault-location, .fault-time, .fault-status {
-  flex: 1;
-}
-
-.fault-actions {
-  flex: 1;
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-.view-btn, .handle-btn, .resolve-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.view-btn {
-  background-color: #3498db;
-  color: white;
-}
-
-.view-btn:hover {
-  background-color: #2980b9;
-}
-
-.handle-btn {
-  background-color: #f39c12;
-  color: white;
-}
-
-.handle-btn:hover {
-  background-color: #e67e22;
-}
-
-.resolve-btn {
-  background-color: #27ae60;
-  color: white;
-}
-
-.resolve-btn:hover {
-  background-color: #229954;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .status-unhandled {
-  color: #e74c3c;
+  color: #dc3545;
+  font-weight: 500;
 }
 
 .status-handling {
-  color: #f39c12;
+  color: #ffc107;
+  font-weight: 500;
 }
 
 .status-resolved {
-  color: #27ae60;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.fault-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.fault-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.view-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.diagnose-btn {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.handle-btn {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.resolve-btn {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.fault-actions button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
 }
 
 .pagination {
@@ -880,20 +892,16 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 16px;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 
 .page-btn {
   padding: 8px 16px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  border-radius: 4px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s;
-}
-
-.page-btn:hover:not(:disabled) {
-  background-color: #f0f0f0;
+  font-size: 14px;
 }
 
 .page-btn:disabled {
@@ -902,226 +910,23 @@ export default {
 }
 
 .page-info {
-  font-size: 16px;
-  color: #666;
-}
-
-/* PC端优化样式 */
-/* 增强卡片悬浮效果 */
-.stats-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-}
-
-/* 增强故障项悬浮效果 */
-.fault-item:hover {
-  transform: translateX(4px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-  background-color: #f0f4f8;
-}
-
-/* 增强按钮交互效果 */
-.view-btn,
-.handle-btn,
-.resolve-btn {
-  transition: all 0.3s ease;
-}
-
-.view-btn:hover,
-.handle-btn:hover,
-.resolve-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* 增强导航交互 */
-.nav-item {
-  transition: all 0.3s ease;
-}
-
-.nav-item:hover {
-  transform: translateY(-1px);
-  background-color: #2980b9;
-}
-
-/* 优化表单元素 */
-.search-bar input:focus,
-.filter-select:focus {
-  outline: 2px solid #1abc9c;
-  border-color: #1abc9c;
-  transition: all 0.2s ease;
-}
-
-/* 增强统计卡片视觉效果 */
-.stat-item:hover .stat-value {
-  transform: scale(1.05);
-  transition: all 0.3s ease;
-}
-
-.stat-item .stat-value {
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-/* 增强分页按钮交互 */
-.page-btn {
-  transition: all 0.3s ease;
-}
-
-.page-btn:hover:not(:disabled) {
-  background-color: #3498db;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 增强状态切换效果 */
-.status-toggle input:checked + label {
-  background-color: #27ae60;
-  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.3);
-  transition: all 0.3s ease;
-}
-
-.status-toggle input + label {
-  transition: all 0.3s ease;
-}
-
-.status-toggle input:hover + label {
-  background-color: #b0b0b0;
-}
-
-/* 增强故障状态视觉效果 */
-.status-badge {
-  transition: all 0.3s ease;
-}
-
-.status-badge:hover {
-  transform: scale(1.1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 远程诊断和告警处理弹窗样式 */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-.modal-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
-  text-align: center;
-}
-
-.modal-header-info {
-  margin-bottom: 20px;
-  padding: 16px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
-.device-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.device-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-}
-
-.device-sn, .device-location {
   font-size: 14px;
   color: #666;
 }
 
-/* 远程诊断样式 */
-.diagnose-idle, .diagnose-progress, .diagnose-result {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.diagnose-description {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.5;
-}
-
-.diagnose-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.start-diagnose-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.start-diagnose-btn:hover {
-  background-color: #2980b9;
-}
-
-.cancel-btn {
-  background-color: #f0f0f0;
-  color: #666;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.cancel-btn:hover {
-  background-color: #e0e0e0;
-}
-
-/* 诊断进度样式 */
-.progress-content {
+.loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  padding: 60px 20px;
 }
 
-.progress-spinner {
+.loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #4a90e2;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1131,18 +936,145 @@ export default {
   100% { transform: rotate(360deg); }
 }
 
-.progress-text {
+.loading-text {
+  margin-top: 16px;
   font-size: 14px;
   color: #666;
 }
 
-/* 诊断结果样式 */
-.result-header {
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 700px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.diagnose-modal {
+  padding: 24px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.modal-header-info {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.device-info .device-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.device-info .device-sn,
+.device-info .device-location {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.diagnose-idle,
+.diagnose-progress,
+.diagnose-result {
+  padding: 20px 0;
+}
+
+.diagnose-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.diagnose-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.start-diagnose-btn,
+.close-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.start-diagnose-btn {
+  background: #4a90e2;
+  color: white;
+}
+
+.close-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.start-diagnose-btn:hover,
+.close-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.8;
+}
+
+.progress-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.progress-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4a90e2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
   margin-bottom: 16px;
 }
 
-.result-title {
+.progress-text {
   font-size: 16px;
+  color: #666;
+}
+
+.result-header {
+  margin-bottom: 20px;
+}
+
+.result-title {
+  font-size: 18px;
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -1150,164 +1082,146 @@ export default {
 
 .diagnose-metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .metric-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  background: #f8f9fa;
   padding: 12px;
-  background-color: #f8f9fa;
   border-radius: 6px;
 }
 
 .metric-label {
+  display: block;
   font-size: 12px;
   color: #666;
+  margin-bottom: 4px;
 }
 
 .metric-value {
-  font-size: 16px;
+  display: block;
+  font-size: 18px;
   font-weight: 600;
   color: #333;
 }
 
-.diagnostics-list {
-  margin-bottom: 24px;
+.diagnostics-list,
+.recommendations {
+  margin-bottom: 20px;
 }
 
 .list-title {
   font-size: 14px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 12px;
+  margin: 0 0 12px 0;
 }
 
 .diagnostic-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  background: #f8f9fa;
   padding: 12px;
-  background-color: #f8f9fa;
   border-radius: 6px;
   margin-bottom: 8px;
 }
 
 .diagnostic-item.success {
-  border-left: 4px solid #27ae60;
+  border-left: 3px solid #28a745;
 }
 
 .diagnostic-item.error {
-  border-left: 4px solid #e74c3c;
+  border-left: 3px solid #dc3545;
 }
 
 .diagnostic-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 4px;
 }
 
 .diagnostic-item-name {
-  font-size: 14px;
   font-weight: 500;
   color: #333;
 }
 
 .diagnostic-status {
   font-size: 12px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 .diagnostic-item.success .diagnostic-status {
-  background-color: #e8f5e9;
-  color: #27ae60;
+  background: #d4edda;
+  color: #155724;
 }
 
 .diagnostic-item.error .diagnostic-status {
-  background-color: #ffebee;
-  color: #e74c3c;
+  background: #f8d7da;
+  color: #721c24;
 }
 
 .diagnostic-message {
-  font-size: 13px;
+  font-size: 12px;
   color: #666;
-}
-
-.recommendations {
-  margin-bottom: 24px;
 }
 
 .recommendation-list {
-  list-style-type: disc;
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .recommendation-item {
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
   font-size: 14px;
   color: #666;
-  line-height: 1.5;
 }
 
-.close-btn {
-  background-color: #2ecc71;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.recommendation-item::before {
+  content: "•";
+  position: absolute;
+  left: 8px;
+  color: #4a90e2;
 }
 
-.close-btn:hover {
-  background-color: #27ae60;
+.alert-process-modal {
+  padding: 24px;
 }
 
-/* 告警处理流程样式 */
 .alert-info {
-  margin-bottom: 24px;
+  background: #fff3f0;
   padding: 16px;
-  background-color: #f8f9fa;
   border-radius: 8px;
+  margin-bottom: 24px;
 }
 
 .alert-title {
-  font-size: 14px;
   font-weight: 600;
   color: #333;
   margin-bottom: 12px;
 }
 
 .alert-detail {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 8px;
 }
 
 .alert-item {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 12px;
 }
 
 .alert-label {
-  font-size: 14px;
   font-weight: 500;
   color: #666;
-  width: 80px;
+  min-width: 80px;
 }
 
 .alert-value {
-  font-size: 14px;
   color: #333;
 }
 
@@ -1318,7 +1232,6 @@ export default {
 .step-indicator {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 24px;
 }
 
@@ -1332,60 +1245,57 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #e0e0e0;
-  color: #666;
+  background: #e0e0e0;
+  color: #999;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
   font-weight: 600;
-  z-index: 1;
+  font-size: 14px;
+}
+
+.step.active .step-number {
+  background: #4a90e2;
+  color: white;
+}
+
+.step.completed .step-number {
+  background: #28a745;
+  color: white;
 }
 
 .step-line {
   width: 60px;
   height: 2px;
-  background-color: #e0e0e0;
-  margin: 0 12px;
-}
-
-.step.active .step-number {
-  background-color: #3498db;
-  color: white;
-}
-
-.step.completed .step-number {
-  background-color: #2ecc71;
-  color: white;
+  background: #e0e0e0;
+  margin: 0 8px;
 }
 
 .step.completed .step-line {
-  background-color: #2ecc71;
+  background: #28a745;
 }
 
 .step-content {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  padding: 0 20px;
 }
 
 .step-item {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .step-title {
   font-size: 16px;
   font-weight: 600;
   color: #333;
-  margin: 0;
+  margin: 0 0 8px 0;
 }
 
 .step-description {
   font-size: 14px;
   color: #666;
-  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
 .step-form {
@@ -1401,72 +1311,72 @@ export default {
 }
 
 .form-label {
-  font-size: 14px;
   font-weight: 500;
   color: #333;
+  font-size: 14px;
 }
 
-.confirmation-options, .result-options {
+.confirmation-options,
+.result-options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .option-item {
   display: flex;
-  gap: 8px;
   align-items: center;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-}
-
-.option-item input {
+  gap: 8px;
   cursor: pointer;
 }
 
-.emergency-level, .analysis-textarea, .solution-textarea, .notes-textarea {
+.emergency-level,
+.analysis-textarea,
+.solution-textarea,
+.notes-textarea {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
   font-size: 14px;
+}
+
+.emergency-level {
+  background: white;
+}
+
+.analysis-textarea,
+.solution-textarea,
+.notes-textarea {
   font-family: inherit;
-}
-
-.emergency-level:focus, .analysis-textarea:focus, .solution-textarea:focus, .notes-textarea:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
-}
-
-.analysis-textarea, .solution-textarea, .notes-textarea {
   resize: vertical;
 }
 
 .process-actions {
   display: flex;
   gap: 12px;
-  justify-content: center;
-  margin-top: 24px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
 }
 
-.prev-step-btn, .next-step-btn {
+.prev-step-btn,
+.next-step-btn {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 14px;
+  transition: all 0.2s;
 }
 
 .prev-step-btn {
-  background-color: #f0f0f0;
-  color: #666;
+  background: #f0f0f0;
+  color: #333;
 }
 
-.prev-step-btn:hover:not(:disabled) {
-  background-color: #e0e0e0;
+.next-step-btn {
+  background: #4a90e2;
+  color: white;
 }
 
 .prev-step-btn:disabled {
@@ -1474,76 +1384,8 @@ export default {
   cursor: not-allowed;
 }
 
-.next-step-btn {
-  background-color: #3498db;
-  color: white;
-}
-
+.prev-step-btn:hover:not(:disabled),
 .next-step-btn:hover {
-  background-color: #2980b9;
+  opacity: 0.8;
 }
-
-/* 诊断按钮样式 */
-.diagnose-btn {
-  background-color: #9b59b6;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.diagnose-btn:hover {
-  background-color: #8e44ad;
-}
-
-/* 弹窗动画 */
-.modal-content {
-  animation: modalFadeIn 0.3s ease;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .diagnose-metrics {
-    grid-template-columns: 1fr;
-  }
-  
-  .diagnose-actions, .process-actions {
-    flex-direction: column;
-  }
-  
-  .step-indicator {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  
-  .step {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .step-line {
-    width: 2px;
-    height: 40px;
-    margin: 0;
-    margin-left: 15px;
-    margin-top: -8px;
-  }
-}
-
 </style>

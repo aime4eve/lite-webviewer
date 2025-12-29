@@ -1,0 +1,54 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: device-service
+  logging:
+    file:
+      name: /home/agentic/uni-app-ui-demo/backend/logs/${spring.application.name}.log
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+  datasource:
+    url: jdbc:postgresql://localhost:5432/device_db
+    username: smg_admin
+    password: smg_password_2025
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    bootstrap-servers: localhost:19092
+    consumer:
+      group-id: device-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+    enabled: true
+  instance:
+    prefer-ip-address: false
+    hostname: ${EUREKA_HOST:172.22.1.123}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.smartmoldguard.device.domain.model
+  configuration:
+    map-underscore-to-camel-case: true

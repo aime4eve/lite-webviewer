@@ -44,4 +44,12 @@ public class ConfigController {
         fileScanService.updateRootDirs(rootDirs);
         return ResponseEntity.ok().build();
     }
+    
+    // 获取搜索配置
+    @GetMapping("/search")
+    public ResponseEntity<java.util.Map<String, Object>> getSearchConfig() {
+        java.util.Map<String, Object> config = new java.util.HashMap<>();
+        config.put("maxLocalResults", configService.getMaxLocalResults());
+        return ResponseEntity.ok(config);
+    }
 }

@@ -3,7 +3,7 @@
     <div class="device-registration-container">
       <!-- 页面操作栏 -->
       <div class="page-actions">
-        <button class="add-device-btn" @click="showAddDeviceModal = true">➕ 注册设备</button>
+        <button class="add-device-btn" @click="showAddDeviceModal = true" :disabled="loading">➕ 注册设备</button>
       </div>
 
     <!-- 设备统计信息 -->
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="devices-list">
+      <div class="devices-list" v-if="!loading">
         <div class="devices-header">
           <div class="device-column device-name">设备名称</div>
           <div class="device-column device-type">类型</div>
@@ -69,16 +69,22 @@
           <div class="device-column device-actions">
             <button class="view-btn" @click="viewDevice(device)">查看</button>
             <button class="edit-btn" @click="editDevice(device)">编辑</button>
-            <button class="delete-btn" @click="deleteDevice(device)">删除</button>
+            <button class="delete-btn" @click="deleteDevice(device)" :disabled="deleting">删除</button>
           </div>
         </div>
+        <div class="empty-state" v-if="filteredDevices.length === 0">
+          <p>暂无设备数据</p>
+        </div>
+      </div>
+      <div class="loading-state" v-else>
+        <p>加载中...</p>
       </div>
 
       <!-- 分页 -->
       <div class="pagination" v-if="totalPages > 1">
-        <button class="page-btn" :disabled="currentPage === 1" @click="prevPage">上一页</button>
+        <button class="page-btn" :disabled="currentPage === 1 || loading" @click="prevPage">上一页</button>
         <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
-        <button class="page-btn" :disabled="currentPage === totalPages" @click="nextPage">下一页</button>
+        <button class="page-btn" :disabled="currentPage === totalPages || loading" @click="nextPage">下一页</button>
       </div>
     </section>
 
@@ -90,11 +96,11 @@
           <div class="form-row">
             <div class="form-group">
               <label for="device-name">设备名称</label>
-              <input type="text" id="device-name" v-model="newDevice.name" required>
+              <input type="text" id="device-name" v-model="newDevice.name" required :disabled="submitting">
             </div>
             <div class="form-group">
               <label for="device-type">设备类型</label>
-              <select id="device-type" v-model="newDevice.type" required>
+              <select id="device-type" v-model="newDevice.type" required :disabled="submitting">
                 <option value="sensor">🌡️ 温湿度传感器</option>
                 <option value="switch">🔌 LoRa开关面板</option>
               </select>
@@ -103,22 +109,24 @@
           <div class="form-row">
             <div class="form-group">
               <label for="device-sn">SN码</label>
-              <input type="text" id="device-sn" v-model="newDevice.sn" required>
+              <input type="text" id="device-sn" v-model="newDevice.sn" required :disabled="submitting">
             </div>
             <div class="form-group">
               <label for="device-model">设备型号</label>
-              <input type="text" id="device-model" v-model="newDevice.model" required>
+              <input type="text" id="device-model" v-model="newDevice.model" required :disabled="submitting">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="device-location">安装位置（可选）</label>
-              <input type="text" id="device-location" v-model="newDevice.location">
+              <input type="text" id="device-location" v-model="newDevice.location" :disabled="submitting">
             </div>
           </div>
           <div class="form-actions">
-            <button type="button" class="cancel-btn" @click="showAddDeviceModal = false">取消</button>
-            <button type="submit" class="confirm-btn">注册</button>
+            <button type="button" class="cancel-btn" @click="showAddDeviceModal = false" :disabled="submitting">取消</button>
+            <button type="submit" class="confirm-btn" :disabled="submitting">
+              {{ submitting ? '提交中...' : '注册' }}
+            </button>
           </div>
         </form>
       </div>
@@ -129,6 +137,7 @@
 
 <script>
 import OperatorLayout from '../../components/OperatorLayout.vue'
+import { deviceApi } from '../../api/device'
 
 export default {
   name: 'DeviceRegistrationView',
@@ -137,104 +146,51 @@ export default {
   },
   data() {
     return {
-      // 设备列表数据
-      devices: [
-        {
-          id: 1,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN123456',
-          model: 'SMG-SENSOR-001',
-          status: 'online',
-          activated: true,
-          location: '金南家园三期 3502',
-          createTime: '2025-12-01'
-        },
-        {
-          id: 2,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN789012',
-          model: 'SMG-SWITCH-001',
-          status: 'online',
-          activated: true,
-          location: '金南家园三期 3502',
-          createTime: '2025-12-01'
-        },
-        {
-          id: 3,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN345678',
-          model: 'SMG-SENSOR-001',
-          status: 'offline',
-          activated: true,
-          location: 'XX公寓 1201',
-          createTime: '2025-12-02'
-        },
-        {
-          id: 4,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN901234',
-          model: 'SMG-SWITCH-001',
-          status: 'online',
-          activated: true,
-          location: 'XX公寓 1201',
-          createTime: '2025-12-02'
-        },
-        {
-          id: 5,
-          name: '温湿度传感器',
-          type: 'sensor',
-          sn: 'SN567890',
-          model: 'SMG-SENSOR-001',
-          status: 'online',
-          activated: false,
-          location: '',
-          createTime: '2025-12-03'
-        },
-        {
-          id: 6,
-          name: 'LoRa开关面板',
-          type: 'switch',
-          sn: 'SN112233',
-          model: 'SMG-SWITCH-001',
-          status: 'online',
-          activated: false,
-          location: '',
-          createTime: '2025-12-03'
-        }
-      ],
-      // 搜索关键词
+      devices: [],
       searchKeyword: '',
-      // 过滤后的设备列表
       filteredDevices: [],
-      // 分页信息
       currentPage: 1,
       pageSize: 5,
       totalPages: 1,
-      // 添加设备弹窗
       showAddDeviceModal: false,
-      // 新设备数据
       newDevice: {
         name: '',
         type: 'sensor',
         sn: '',
         model: '',
         location: ''
-      }
+      },
+      loading: false,
+      submitting: false,
+      deleting: false
     }
   },
-  mounted() {
-    this.searchDevices();
+  async mounted() {
+    await this.loadDevices()
   },
   methods: {
-    // 搜索设备
+    async loadDevices() {
+      try {
+        this.loading = true
+        const response = await deviceApi.getDeviceList({
+          page: this.currentPage,
+          size: 100
+        })
+        if (response && response.data) {
+          this.devices = response.data
+          this.searchDevices()
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        alert('加载设备列表失败，请稍后重试')
+      } finally {
+        this.loading = false
+      }
+    },
+
     searchDevices() {
       let filtered = [...this.devices]
       
-      // 根据关键词搜索
       if (this.searchKeyword) {
         const keyword = this.searchKeyword.toLowerCase()
         filtered = filtered.filter(device => 
@@ -243,20 +199,17 @@ export default {
         )
       }
       
-      // 计算分页
       this.totalPages = Math.ceil(filtered.length / this.pageSize)
       this.currentPage = 1
       this.updateFilteredDevices(filtered)
     },
     
-    // 更新过滤后的设备列表
     updateFilteredDevices(filtered) {
       const start = (this.currentPage - 1) * this.pageSize
       const end = start + this.pageSize
       this.filteredDevices = filtered.slice(start, end)
     },
     
-    // 上一页
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
@@ -264,7 +217,6 @@ export default {
       }
     },
     
-    // 下一页
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
@@ -272,52 +224,60 @@ export default {
       }
     },
     
-    // 查看设备
     viewDevice(device) {
       alert(`查看设备：${device.name}`)
     },
     
-    // 编辑设备
     editDevice(device) {
       alert(`编辑设备：${device.name}`)
     },
     
-    // 删除设备
-    deleteDevice(device) {
+    async deleteDevice(device) {
       if (confirm(`确定要删除设备 ${device.name} 吗？`)) {
-        const index = this.devices.findIndex(d => d.id === device.id)
-        if (index !== -1) {
-          this.devices.splice(index, 1)
-          this.searchDevices()
+        try {
+          this.deleting = true
+          await deviceApi.deleteDevice(device.id)
+          alert('设备删除成功！')
+          await this.loadDevices()
+        } catch (error) {
+          console.error('删除设备失败:', error)
+          alert('删除设备失败，请稍后重试')
+        } finally {
+          this.deleting = false
         }
       }
     },
     
-    // 添加设备
-    addDevice() {
-      // 模拟添加设备
-      const newDevice = {
-        id: Date.now(),
-        ...this.newDevice,
-        status: 'offline',
-        activated: false,
-        createTime: new Date().toISOString().split('T')[0]
+    async addDevice() {
+      try {
+        this.submitting = true
+        const deviceData = {
+          name: this.newDevice.name,
+          type: this.newDevice.type,
+          sn: this.newDevice.sn,
+          model: this.newDevice.model,
+          location: this.newDevice.location
+        }
+        await deviceApi.addDevice(deviceData)
+        this.showAddDeviceModal = false
+        this.newDevice = {
+          name: '',
+          type: 'sensor',
+          sn: '',
+          model: '',
+          location: ''
+        }
+        alert('设备注册成功！')
+        await this.loadDevices()
+      } catch (error) {
+        console.error('设备注册失败:', error)
+        alert('设备注册失败，请稍后重试')
+      } finally {
+        this.submitting = false
       }
-      this.devices.push(newDevice)
-      this.showAddDeviceModal = false
-      this.newDevice = {
-        name: '',
-        type: 'sensor',
-        sn: '',
-        model: '',
-        location: ''
-      }
-      this.searchDevices()
-      alert('设备注册成功！')
     }
   },
   computed: {
-    // 设备统计信息
     totalDevices() {
       return this.devices.length
     },
@@ -374,8 +334,13 @@ export default {
   transition: background-color 0.3s;
 }
 
-.add-device-btn:hover {
+.add-device-btn:hover:not(:disabled) {
   background-color: #16a085;
+}
+
+.add-device-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .devices-stats-section {
@@ -557,8 +522,19 @@ export default {
   color: white;
 }
 
-.delete-btn:hover {
+.delete-btn:hover:not(:disabled) {
   background-color: #c0392b;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-state, .loading-state {
+  padding: 40px;
+  text-align: center;
+  color: #999;
 }
 
 .pagination {
@@ -592,7 +568,6 @@ export default {
   color: #666;
 }
 
-/* 弹窗样式 */
 .modal {
   position: fixed;
   top: 0;
@@ -648,6 +623,12 @@ export default {
   font-size: 16px;
 }
 
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -669,7 +650,7 @@ export default {
   color: #333;
 }
 
-.cancel-btn:hover {
+.cancel-btn:hover:not(:disabled) {
   background-color: #e0e0e0;
 }
 
@@ -678,18 +659,21 @@ export default {
   color: white;
 }
 
-.confirm-btn:hover {
+.confirm-btn:hover:not(:disabled) {
   background-color: #229954;
 }
 
-/* PC端优化样式 */
-/* 增强卡片悬浮效果 */
+.cancel-btn:disabled,
+.confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .stats-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
 
-/* 增强设备项悬浮效果 */
 .device-item:hover {
   transform: translateX(4px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -697,7 +681,6 @@ export default {
   background-color: #f0f4f8;
 }
 
-/* 增强按钮交互效果 */
 .view-btn,
 .edit-btn,
 .delete-btn {
@@ -711,17 +694,15 @@ export default {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* 增强添加设备按钮 */
 .add-device-btn {
   transition: all 0.3s ease;
 }
 
-.add-device-btn:hover {
+.add-device-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* 优化表单元素 */
 .search-bar input:focus,
 .form-group input:focus,
 .form-group select:focus {
@@ -730,7 +711,6 @@ export default {
   transition: all 0.2s ease;
 }
 
-/* 增强统计卡片视觉效果 */
 .stat-item:hover .stat-value {
   transform: scale(1.05);
   transition: all 0.3s ease;
@@ -740,7 +720,6 @@ export default {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* 增强模态框效果 */
 .modal-content {
   animation: modalSlideIn 0.3s ease;
 }
@@ -756,7 +735,6 @@ export default {
   }
 }
 
-/* 增强分页按钮交互 */
 .page-btn {
   transition: all 0.3s ease;
 }
@@ -768,25 +746,20 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* 增强删除按钮警告效果 */
-.delete-btn:hover {
+.delete-btn:hover:not(:disabled) {
   background-color: #c0392b;
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
 }
 
-/* 增强按钮交互 */
 .cancel-btn,
 .confirm-btn {
   transition: all 0.3s ease;
 }
 
-.cancel-btn:hover,
-.confirm-btn:hover {
+.cancel-btn:hover:not(:disabled),
+.confirm-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-
-
-
 </style>

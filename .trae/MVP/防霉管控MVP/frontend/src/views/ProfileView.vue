@@ -62,6 +62,11 @@
           <span class="menu-text">房间管理</span>
           <span class="menu-arrow">></span>
         </div>
+        <div class="menu-item" @click="navigateToProvisioning">
+          <span class="menu-icon">➕</span>
+          <span class="menu-text">设备配网</span>
+          <span class="menu-arrow">></span>
+        </div>
         <div class="menu-item" @click="navigateToSettings">
           <span class="menu-icon">⚙️</span>
           <span class="menu-text">设置</span>
@@ -133,11 +138,12 @@ export default defineComponent({
     }
 
     const navigateToPoints = () => {
-      alert('积分详情功能开发中...')
+      router.push('/c/points-history')
     }
 
     const navigateToReports = () => {
-      alert('报告中心功能开发中...')
+      // 报告中心暂无独立入口，可引导至首页查看或后续实现
+      alert('报告中心功能完善中...')
     }
 
     const navigateToDevices = () => {
@@ -146,6 +152,10 @@ export default defineComponent({
 
     const navigateToSettings = () => {
       alert('设置功能开发中...')
+    }
+
+    const navigateToProvisioning = () => {
+      router.push('/c/provisioning')
     }
 
     const navigateToHelp = () => {
@@ -180,6 +190,7 @@ export default defineComponent({
       navigateToReports,
       navigateToDevices,
       navigateToRoomManagement,
+      navigateToProvisioning,
       navigateToSettings,
       navigateToHelp,
       navigateToFeedback,

@@ -53,6 +53,7 @@ app:
     es-index-name: nexus-lite-docs
     es-replicas: 0
     es-shards: 1
+    max-local-results: 100 # Maximum number of local search results to return
     extract:
       xlsx:
         rows: 1000000  # Maximum rows to extract from Excel files
