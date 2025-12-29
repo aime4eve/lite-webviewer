@@ -218,7 +218,16 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
       const response = await fetch(previewUrl);
       
       if (!response.ok) {
-        throw new Error(`获取预览失败: ${response.statusText}`);
+        let errorMsg = response.statusText;
+        try {
+          const errorText = await response.text();
+          if (errorText) {
+            errorMsg = errorText;
+          }
+        } catch (e) {
+          console.warn('Failed to read error response text:', e);
+        }
+        throw new Error(`获取预览失败: ${errorMsg}`);
       }
       
       const contentType = response.headers.get('content-type');
@@ -232,6 +241,11 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         activeBlobUrlsRef.current.add(previewContent);
       } else if (contentType?.includes('image/svg+xml')) {
         previewContent = await response.text();
+      } else if (contentType?.includes('image/')) {
+        const blob = await response.blob();
+        previewContent = URL.createObjectURL(blob);
+        // 记录活动的Image blob URL
+        activeBlobUrlsRef.current.add(previewContent);
       } else if (contentType?.includes('text/csv')) {
         previewContent = await response.text();
       } else if (contentType?.includes('text/markdown') || formattedFilePath.endsWith('.md')) {
@@ -251,7 +265,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
     } catch (err) {
       let errorMessage = err.message;
       // 检查是否是连接错误
-      if (err.message.includes('Failed to fetch') || err.message.includes('ECONNREFUSED') || err.message.includes('获取失败')) {
+      if (err.message.includes('Failed to fetch') || err.message.includes('ECONNREFUSED')) {
         errorMessage = '无法连接到后端服务，正在使用模拟数据';
         // 使用模拟数据
         const ext = (filePath || '').split('.').pop().toLowerCase();
@@ -269,6 +283,10 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
           setError(errorMessage);
         }
       } else {
+        // 检查是否是加密文件错误
+        if (errorMessage.includes('Magic Number: 887D****') || errorMessage.includes('encrypted')) {
+          errorMessage = '该文档已被加密（如公司加密软件），无法在网页端预览。';
+        }
         setError(errorMessage);
       }
     } finally {
@@ -439,6 +457,19 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
       </div>
     );
   }, []);
+
+  // Render Image content
+  const renderImage = useCallback((imageUrl) => {
+    return (
+      <div className="image-preview" style={{ padding: '20px', textAlign: 'center', height: '100%', overflow: 'auto' }}>
+        <img 
+          src={imageUrl} 
+          alt="Preview" 
+          style={{ maxWidth: '100%', maxHeight: '80vh', objectFit: 'contain' }} 
+        />
+      </div>
+    );
+  }, []);
   
   // HTMLPreview组件使用React.memo优化，减少不必要的重渲染
   const HTMLPreview = React.memo(({ html }) => {
@@ -575,6 +606,13 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         return renderCSV(content);
       case 'svg':
         return renderSVG(content);
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+      case 'bmp':
+      case 'webp':
+        return renderImage(content);
       case 'docx':
       case 'doc':
         return renderHTML(content);
@@ -590,7 +628,7 @@ const PreviewPane = ({ filePath, loading: propLoading, error: propError, searchK
         }
         return renderText(content);
     }
-  }, [content, textOnly, getFileExtension, renderMarkdown, renderHTML, renderPDF, renderCSV, renderSVG, renderText]);
+  }, [content, textOnly, getFileExtension, renderMarkdown, renderHTML, renderPDF, renderCSV, renderSVG, renderImage, renderText]);
   
   // Show loading state
   if (propLoading || loading) {

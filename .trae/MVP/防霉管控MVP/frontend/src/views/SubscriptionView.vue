@@ -135,7 +135,11 @@
           <span class="points-label">🎁 可兑换:</span>
           <span class="points-redeem">¥18 订阅抵扣 / 清洁券 / 设备配件</span>
         </div>
+<<<<<<< HEAD
         <button class="redeem-btn">🎁 积分兑换 ></button>
+=======
+        <button class="redeem-btn" @click="handleRedeem">🎁 积分兑换 ></button>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       </div>
     </section>
 
@@ -162,6 +166,35 @@
       </div>
     </section>
 
+<<<<<<< HEAD
+=======
+    <!-- 积分兑换模态框 -->
+    <div v-if="showRedeemModal" class="modal-overlay" @click="closeRedeemModal">
+      <div class="modal-content" @click.stop>
+        <h3 class="section-title">🎁 积分兑换</h3>
+        <div class="redeem-options">
+          <div class="redeem-item" @click="redeem('discount')">
+            <span class="icon">💰</span>
+            <div class="info">
+              <span class="name">¥10 订阅抵扣券</span>
+              <span class="cost">100 积分</span>
+            </div>
+            <button class="action-btn">兑换</button>
+          </div>
+          <div class="redeem-item" @click="redeem('cleaning')">
+            <span class="icon">🧹</span>
+            <div class="info">
+              <span class="name">免费清洁服务一次</span>
+              <span class="cost">500 积分</span>
+            </div>
+            <button class="action-btn" disabled>积分不足</button>
+          </div>
+        </div>
+        <button class="close-modal-btn" @click="closeRedeemModal">取消</button>
+      </div>
+    </div>
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     <!-- 底部导航栏 -->
     <FooterNavigation active="subscription" />
   </div>
@@ -219,18 +252,143 @@ export default defineComponent({
       selectedPlan.value = plan
     }
 
+<<<<<<< HEAD
+=======
+    // 积分兑换相关
+    const showRedeemModal = ref(false)
+    
+    const handleRedeem = () => {
+      showRedeemModal.value = true
+    }
+    
+    const closeRedeemModal = () => {
+      showRedeemModal.value = false
+    }
+    
+    const redeem = (type) => {
+      alert('兑换功能暂未开放')
+      closeRedeemModal()
+    }
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     return {
       selectedPlan,
       navigateBack,
       selectPlan,
       handleSubscribe,
+<<<<<<< HEAD
       subscriptionStatus
+=======
+      subscriptionStatus,
+      showRedeemModal,
+      handleRedeem,
+      closeRedeemModal,
+      redeem
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     }
   }
 })
 </script>
 
 <style scoped>
+<<<<<<< HEAD
+=======
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 320px;
+}
+
+.redeem-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.redeem-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.redeem-item:hover {
+  background-color: #f9f9f9;
+}
+
+.redeem-item.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
+.redeem-item .icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.redeem-item .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.redeem-item .name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.redeem-item .cost {
+  font-size: 12px;
+  color: #666;
+}
+
+.action-btn {
+  background-color: #FF9800;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.action-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.close-modal-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 6px;
+  color: #666;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .subscription-container {
   max-width: 480px;
   margin: 0 auto;

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+  namespace: smartmoldguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+      - name: gateway-service
+        image: smartmoldguard/gateway-service:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+          value: "http://discovery-service:8761/eureka/"
+        - name: EUREKA_INSTANCE_HOSTNAME
+          value: "gateway-service"
+        - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+          value: "false"
+        ports:
+        - containerPort: 9999
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: smartmoldguard
+spec:
+  selector:
+    app: gateway-service
+  ports:
+  - port: 9999
+    targetPort: 9999

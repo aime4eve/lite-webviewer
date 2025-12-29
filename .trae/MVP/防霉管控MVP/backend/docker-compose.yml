@@ -1,0 +1,159 @@
+version: '3.8'
+
+services:
+  # --- Infrastructure Services ---
+
+  # PostgreSQL (Relational DB)
+  postgres:
+    image: postgres:15-alpine
+    container_name: smg-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: smg_admin
+      POSTGRES_PASSWORD: smg_password_2025
+    volumes:
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # No conflict
+    networks:
+      - smg-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smg_admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (Cache)
+  redis:
+    image: redis:7-alpine
+    container_name: smg-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    ports:
+      - "16379:6379" # Offset to avoid conflict with local 6379
+    networks:
+      - smg-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # InfluxDB (TimeSeries DB)
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: smg-influxdb
+    restart: unless-stopped
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: smg_admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: smg_password_2025
+      DOCKER_INFLUXDB_INIT_ORG: smartmoldguard
+      DOCKER_INFLUXDB_INIT_BUCKET: telemetry
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    ports:
+      - "8086:8086" # No conflict
+    networks:
+      - smg-network
+
+  # Zookeeper (for Kafka)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: smg-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181" # No conflict
+    networks:
+      - smg-network
+
+  # Kafka (Message Queue)
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: smg-kafka
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "19092:9092" # Offset to avoid conflict
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # Listeners:
+      # - INTERNAL: Used for inter-container communication (kafka:29092)
+      # - EXTERNAL: Used for host machine access (localhost:19092)
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - smg-network
+
+  # Eureka (Service Discovery)
+  eureka-server:
+    image: steeltoeoss/eureka-server:latest
+    container_name: smg-eureka
+    restart: unless-stopped
+    environment:
+      - SERVER_PORT=8761
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+    ports:
+      - "8761:8761" # No conflict
+    networks:
+      - smg-network
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -f http://localhost:8761/actuator/health || exit 1"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+
+  # Prometheus (Monitoring)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: smg-prometheus
+    restart: unless-stopped
+    ports:
+      - "19090:9090" # Offset to avoid conflict with local 9090
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - smg-network
+
+  # Grafana (Visualization)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: smg-grafana
+    restart: unless-stopped
+    ports:
+      - "13000:3000" # Offset to avoid conflict with local 3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - smg-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  influxdb_data:
+  kafka_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  smg-network:
+    driver: bridge

@@ -3,7 +3,11 @@
     <div class="device-registration-container">
       <!-- 页面操作栏 -->
       <div class="page-actions">
+<<<<<<< HEAD
         <button class="add-device-btn" @click="showAddDeviceModal = true">➕ 注册设备</button>
+=======
+        <button class="add-device-btn" @click="showAddDeviceModal = true" :disabled="loading">➕ 注册设备</button>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       </div>
 
     <!-- 设备统计信息 -->
@@ -38,7 +42,11 @@
         </div>
       </div>
 
+<<<<<<< HEAD
       <div class="devices-list">
+=======
+      <div class="devices-list" v-if="!loading">
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         <div class="devices-header">
           <div class="device-column device-name">设备名称</div>
           <div class="device-column device-type">类型</div>
@@ -69,16 +77,34 @@
           <div class="device-column device-actions">
             <button class="view-btn" @click="viewDevice(device)">查看</button>
             <button class="edit-btn" @click="editDevice(device)">编辑</button>
+<<<<<<< HEAD
             <button class="delete-btn" @click="deleteDevice(device)">删除</button>
           </div>
         </div>
+=======
+            <button class="delete-btn" @click="deleteDevice(device)" :disabled="deleting">删除</button>
+          </div>
+        </div>
+        <div class="empty-state" v-if="filteredDevices.length === 0">
+          <p>暂无设备数据</p>
+        </div>
+      </div>
+      <div class="loading-state" v-else>
+        <p>加载中...</p>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       </div>
 
       <!-- 分页 -->
       <div class="pagination" v-if="totalPages > 1">
+<<<<<<< HEAD
         <button class="page-btn" :disabled="currentPage === 1" @click="prevPage">上一页</button>
         <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
         <button class="page-btn" :disabled="currentPage === totalPages" @click="nextPage">下一页</button>
+=======
+        <button class="page-btn" :disabled="currentPage === 1 || loading" @click="prevPage">上一页</button>
+        <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+        <button class="page-btn" :disabled="currentPage === totalPages || loading" @click="nextPage">下一页</button>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       </div>
     </section>
 
@@ -90,11 +116,19 @@
           <div class="form-row">
             <div class="form-group">
               <label for="device-name">设备名称</label>
+<<<<<<< HEAD
               <input type="text" id="device-name" v-model="newDevice.name" required>
             </div>
             <div class="form-group">
               <label for="device-type">设备类型</label>
               <select id="device-type" v-model="newDevice.type" required>
+=======
+              <input type="text" id="device-name" v-model="newDevice.name" required :disabled="submitting">
+            </div>
+            <div class="form-group">
+              <label for="device-type">设备类型</label>
+              <select id="device-type" v-model="newDevice.type" required :disabled="submitting">
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
                 <option value="sensor">🌡️ 温湿度传感器</option>
                 <option value="switch">🔌 LoRa开关面板</option>
               </select>
@@ -103,22 +137,41 @@
           <div class="form-row">
             <div class="form-group">
               <label for="device-sn">SN码</label>
+<<<<<<< HEAD
               <input type="text" id="device-sn" v-model="newDevice.sn" required>
             </div>
             <div class="form-group">
               <label for="device-model">设备型号</label>
               <input type="text" id="device-model" v-model="newDevice.model" required>
+=======
+              <input type="text" id="device-sn" v-model="newDevice.sn" required :disabled="submitting">
+            </div>
+            <div class="form-group">
+              <label for="device-model">设备型号</label>
+              <input type="text" id="device-model" v-model="newDevice.model" required :disabled="submitting">
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="device-location">安装位置（可选）</label>
+<<<<<<< HEAD
               <input type="text" id="device-location" v-model="newDevice.location">
             </div>
           </div>
           <div class="form-actions">
             <button type="button" class="cancel-btn" @click="showAddDeviceModal = false">取消</button>
             <button type="submit" class="confirm-btn">注册</button>
+=======
+              <input type="text" id="device-location" v-model="newDevice.location" :disabled="submitting">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" @click="showAddDeviceModal = false" :disabled="submitting">取消</button>
+            <button type="submit" class="confirm-btn" :disabled="submitting">
+              {{ submitting ? '提交中...' : '注册' }}
+            </button>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
           </div>
         </form>
       </div>
@@ -129,6 +182,10 @@
 
 <script>
 import OperatorLayout from '../../components/OperatorLayout.vue'
+<<<<<<< HEAD
+=======
+import { deviceApi } from '../../api/device'
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
 export default {
   name: 'DeviceRegistrationView',
@@ -137,6 +194,7 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       // 设备列表数据
       devices: [
         {
@@ -217,12 +275,22 @@ export default {
       // 添加设备弹窗
       showAddDeviceModal: false,
       // 新设备数据
+=======
+      devices: [],
+      searchKeyword: '',
+      filteredDevices: [],
+      currentPage: 1,
+      pageSize: 5,
+      totalPages: 1,
+      showAddDeviceModal: false,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       newDevice: {
         name: '',
         type: 'sensor',
         sn: '',
         model: '',
         location: ''
+<<<<<<< HEAD
       }
     }
   },
@@ -235,6 +303,40 @@ export default {
       let filtered = [...this.devices]
       
       // 根据关键词搜索
+=======
+      },
+      loading: false,
+      submitting: false,
+      deleting: false
+    }
+  },
+  async mounted() {
+    await this.loadDevices()
+  },
+  methods: {
+    async loadDevices() {
+      try {
+        this.loading = true
+        const response = await deviceApi.getDeviceList({
+          page: this.currentPage,
+          size: 100
+        })
+        if (response && response.data) {
+          this.devices = response.data
+          this.searchDevices()
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        alert('加载设备列表失败，请稍后重试')
+      } finally {
+        this.loading = false
+      }
+    },
+
+    searchDevices() {
+      let filtered = [...this.devices]
+      
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       if (this.searchKeyword) {
         const keyword = this.searchKeyword.toLowerCase()
         filtered = filtered.filter(device => 
@@ -243,20 +345,29 @@ export default {
         )
       }
       
+<<<<<<< HEAD
       // 计算分页
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       this.totalPages = Math.ceil(filtered.length / this.pageSize)
       this.currentPage = 1
       this.updateFilteredDevices(filtered)
     },
     
+<<<<<<< HEAD
     // 更新过滤后的设备列表
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     updateFilteredDevices(filtered) {
       const start = (this.currentPage - 1) * this.pageSize
       const end = start + this.pageSize
       this.filteredDevices = filtered.slice(start, end)
     },
     
+<<<<<<< HEAD
     // 上一页
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
@@ -264,7 +375,10 @@ export default {
       }
     },
     
+<<<<<<< HEAD
     // 下一页
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
@@ -272,16 +386,23 @@ export default {
       }
     },
     
+<<<<<<< HEAD
     // 查看设备
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     viewDevice(device) {
       alert(`查看设备：${device.name}`)
     },
     
+<<<<<<< HEAD
     // 编辑设备
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     editDevice(device) {
       alert(`编辑设备：${device.name}`)
     },
     
+<<<<<<< HEAD
     // 删除设备
     deleteDevice(device) {
       if (confirm(`确定要删除设备 ${device.name} 吗？`)) {
@@ -289,10 +410,25 @@ export default {
         if (index !== -1) {
           this.devices.splice(index, 1)
           this.searchDevices()
+=======
+    async deleteDevice(device) {
+      if (confirm(`确定要删除设备 ${device.name} 吗？`)) {
+        try {
+          this.deleting = true
+          await deviceApi.deleteDevice(device.id)
+          alert('设备删除成功！')
+          await this.loadDevices()
+        } catch (error) {
+          console.error('删除设备失败:', error)
+          alert('删除设备失败，请稍后重试')
+        } finally {
+          this.deleting = false
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         }
       }
     },
     
+<<<<<<< HEAD
     // 添加设备
     addDevice() {
       // 模拟添加设备
@@ -318,6 +454,38 @@ export default {
   },
   computed: {
     // 设备统计信息
+=======
+    async addDevice() {
+      try {
+        this.submitting = true
+        const deviceData = {
+          name: this.newDevice.name,
+          type: this.newDevice.type,
+          sn: this.newDevice.sn,
+          model: this.newDevice.model,
+          location: this.newDevice.location
+        }
+        await deviceApi.addDevice(deviceData)
+        this.showAddDeviceModal = false
+        this.newDevice = {
+          name: '',
+          type: 'sensor',
+          sn: '',
+          model: '',
+          location: ''
+        }
+        alert('设备注册成功！')
+        await this.loadDevices()
+      } catch (error) {
+        console.error('设备注册失败:', error)
+        alert('设备注册失败，请稍后重试')
+      } finally {
+        this.submitting = false
+      }
+    }
+  },
+  computed: {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     totalDevices() {
       return this.devices.length
     },
@@ -374,10 +542,22 @@ export default {
   transition: background-color 0.3s;
 }
 
+<<<<<<< HEAD
 .add-device-btn:hover {
   background-color: #16a085;
 }
 
+=======
+.add-device-btn:hover:not(:disabled) {
+  background-color: #16a085;
+}
+
+.add-device-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .devices-stats-section {
   padding: 24px;
 }
@@ -557,10 +737,28 @@ export default {
   color: white;
 }
 
+<<<<<<< HEAD
 .delete-btn:hover {
   background-color: #c0392b;
 }
 
+=======
+.delete-btn:hover:not(:disabled) {
+  background-color: #c0392b;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-state, .loading-state {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+}
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .pagination {
   display: flex;
   justify-content: center;
@@ -592,7 +790,10 @@ export default {
   color: #666;
 }
 
+<<<<<<< HEAD
 /* 弹窗样式 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .modal {
   position: fixed;
   top: 0;
@@ -648,6 +849,15 @@ export default {
   font-size: 16px;
 }
 
+<<<<<<< HEAD
+=======
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -669,7 +879,11 @@ export default {
   color: #333;
 }
 
+<<<<<<< HEAD
 .cancel-btn:hover {
+=======
+.cancel-btn:hover:not(:disabled) {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   background-color: #e0e0e0;
 }
 
@@ -678,18 +892,34 @@ export default {
   color: white;
 }
 
+<<<<<<< HEAD
 .confirm-btn:hover {
   background-color: #229954;
 }
 
 /* PC端优化样式 */
 /* 增强卡片悬浮效果 */
+=======
+.confirm-btn:hover:not(:disabled) {
+  background-color: #229954;
+}
+
+.cancel-btn:disabled,
+.confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .stats-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
 
+<<<<<<< HEAD
 /* 增强设备项悬浮效果 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .device-item:hover {
   transform: translateX(4px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -697,7 +927,10 @@ export default {
   background-color: #f0f4f8;
 }
 
+<<<<<<< HEAD
 /* 增强按钮交互效果 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .view-btn,
 .edit-btn,
 .delete-btn {
@@ -711,17 +944,27 @@ export default {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+<<<<<<< HEAD
 /* 增强添加设备按钮 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .add-device-btn {
   transition: all 0.3s ease;
 }
 
+<<<<<<< HEAD
 .add-device-btn:hover {
+=======
+.add-device-btn:hover:not(:disabled) {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+<<<<<<< HEAD
 /* 优化表单元素 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .search-bar input:focus,
 .form-group input:focus,
 .form-group select:focus {
@@ -730,7 +973,10 @@ export default {
   transition: all 0.2s ease;
 }
 
+<<<<<<< HEAD
 /* 增强统计卡片视觉效果 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .stat-item:hover .stat-value {
   transform: scale(1.05);
   transition: all 0.3s ease;
@@ -740,7 +986,10 @@ export default {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+<<<<<<< HEAD
 /* 增强模态框效果 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .modal-content {
   animation: modalSlideIn 0.3s ease;
 }
@@ -756,7 +1005,10 @@ export default {
   }
 }
 
+<<<<<<< HEAD
 /* 增强分页按钮交互 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .page-btn {
   transition: all 0.3s ease;
 }
@@ -768,19 +1020,27 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+<<<<<<< HEAD
 /* 增强删除按钮警告效果 */
 .delete-btn:hover {
+=======
+.delete-btn:hover:not(:disabled) {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   background-color: #c0392b;
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
 }
 
+<<<<<<< HEAD
 /* 增强按钮交互 */
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .cancel-btn,
 .confirm-btn {
   transition: all 0.3s ease;
 }
 
+<<<<<<< HEAD
 .cancel-btn:hover,
 .confirm-btn:hover {
   transform: translateY(-1px);
@@ -790,3 +1050,11 @@ export default {
 
 
 </style>
+=======
+.cancel-btn:hover:not(:disabled),
+.confirm-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+</style>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5

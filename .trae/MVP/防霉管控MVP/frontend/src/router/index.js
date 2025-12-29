@@ -27,9 +27,26 @@ const OperatorDashboardView = () => import('../views/operator/OperatorDashboardV
 const UserManagementView = () => import('../views/operator/UserManagementView.vue')
 const DeviceRegistrationView = () => import('../views/operator/DeviceRegistrationView.vue')
 const DeviceFaultMonitoringView = () => import('../views/operator/DeviceFaultMonitoringView.vue')
+<<<<<<< HEAD
 const StrategyManagementView = () => import('../views/operator/StrategyManagementView.vue')
 const BillingManagementView = () => import('../views/operator/BillingManagementView.vue')
 
+=======
+const DeviceHealthView = () => import('../views/operator/DeviceHealthView.vue')
+const StrategyManagementView = () => import('../views/operator/StrategyManagementView.vue')
+const BillingManagementView = () => import('../views/operator/BillingManagementView.vue')
+
+// New Views
+const DeviceHealthViewNew = () => import('../views/device/DeviceHealth.vue')
+const RiskPredictionView = () => import('../views/device/RiskPrediction.vue')
+const ProvisioningView = () => import('../views/device/Provisioning.vue')
+const CleaningTasksView = () => import('../views/service/CleaningTasks.vue')
+const DiagnosticsView = () => import('../views/device/Diagnostics.vue')
+const AlarmsView = () => import('../views/device/Alarms.vue')
+const PointsHistoryView = () => import('../views/subscription/PointsHistory.vue')
+const ExportReportView = () => import('../views/report/ExportReport.vue')
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 const routes = [
   // C端路由
   {
@@ -134,6 +151,14 @@ const routes = [
     component: DeviceFaultMonitoringView
   },
   {
+<<<<<<< HEAD
+=======
+    path: '/operator/device-health',
+    name: 'operator-device-health',
+    component: DeviceHealthView
+  },
+  {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     path: '/operator/strategy-management',
     name: 'operator-strategy-management',
     component: StrategyManagementView
@@ -143,6 +168,25 @@ const routes = [
     name: 'operator-billing-management',
     component: BillingManagementView
   },
+<<<<<<< HEAD
+=======
+
+  // New Features Routes
+  // C端
+  { path: '/c/device-health/:id', name: 'c-device-health', component: DeviceHealthViewNew },
+  { path: '/c/risk-prediction/:id', name: 'c-risk-prediction', component: RiskPredictionView },
+  { path: '/c/provisioning', name: 'c-provisioning', component: ProvisioningView },
+  { path: '/c/points-history', name: 'c-points-history', component: PointsHistoryView },
+
+  // B端
+  { path: '/b/reports', name: 'b-reports', component: ExportReportView },
+  { path: '/b/cleaning-tasks', name: 'b-cleaning-tasks', component: CleaningTasksView },
+
+  // Operator
+  { path: '/operator/diagnostics', name: 'operator-diagnostics', component: DiagnosticsView },
+  { path: '/operator/alarms', name: 'operator-alarms', component: AlarmsView },
+  { path: '/operator/climate-config', name: 'operator-climate-config', component: ClimateConfigView },
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   
   // 网站门户路由
   {

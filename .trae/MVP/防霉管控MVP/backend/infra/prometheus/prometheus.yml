@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'eureka'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['eureka-server:8761']
+
+  # Service Discovery via Eureka (Commented out until services are running)
+  # - job_name: 'spring-boot'
+  #   metrics_path: '/actuator/prometheus'
+  #   eureka_sd_configs:
+  #     - server: http://eureka-server:8761/eureka
+  #   relabel_configs:
+  #     - source_labels: [__meta_eureka_app_name]
+  #       target_label: application

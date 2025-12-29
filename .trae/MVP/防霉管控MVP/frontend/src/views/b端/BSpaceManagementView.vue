@@ -166,6 +166,12 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import { controlApi } from '@/api/control'
+import { deviceApi } from '@/api/device'
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 export default {
   name: 'BSpaceManagementView',
   data() {
@@ -258,7 +264,13 @@ export default {
         { id: 4, name: 'LoRa开关面板', sn: 'SN901234', status: 'online' }
       ],
       associatedDevices: [],
+<<<<<<< HEAD
       availableDevices: []
+=======
+      availableDevices: [],
+      loading: false,
+      loadingDevices: false
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     }
   },
   computed: {
@@ -297,6 +309,7 @@ export default {
     this.loadSpaces();
   },
   methods: {
+<<<<<<< HEAD
     loadSpaces() {
       // 加载当前层级的空间列表
       if (this.currentSpaceId === null) {
@@ -320,6 +333,46 @@ export default {
         }
       }
       this.loadAssociatedDevices();
+=======
+    async loadSpaces() {
+      try {
+        this.loading = true
+        
+        const params = {
+          parentId: this.currentSpaceId
+        }
+        
+        const response = await controlApi.getSpaceList(params)
+        
+        if (response && response.data) {
+          this.currentSpaces = response.data.list || []
+          
+          if (this.currentSpaceId === null) {
+            this.currentLevelName = '小区'
+          } else {
+            const currentSpace = this.findSpaceById(this.spaces, this.currentSpaceId)
+            if (currentSpace) {
+              const levelNames = {
+                '小区': '楼栋',
+                '楼栋': '单元',
+                '单元': '楼层',
+                '楼层': '房屋',
+                '房屋': '房间',
+                '房间': '房间'
+              }
+              this.currentLevelName = levelNames[currentSpace.type] || '房间'
+            }
+          }
+        }
+      } catch (error) {
+        console.error('加载空间列表失败:', error)
+        this.currentSpaces = []
+      } finally {
+        this.loading = false
+      }
+      
+      this.loadAssociatedDevices()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     findSpaceById(spaces, id) {
       for (const space of spaces) {
@@ -351,6 +404,7 @@ export default {
       this.currentSpaceId = this.currentPath[this.currentPath.length - 1].id;
       this.loadSpaces();
     },
+<<<<<<< HEAD
     addSpace() {
       // 添加新空间
       const newSpaceId = Date.now();
@@ -387,11 +441,41 @@ export default {
         function: ''
       };
       this.loadSpaces();
+=======
+    async addSpace() {
+      try {
+        const spaceData = {
+          name: this.newSpace.name,
+          type: this.newSpace.type,
+          parentId: this.currentSpaceId
+        }
+        
+        if (this.newSpace.type === '房间') {
+          spaceData.function = this.newSpace.function
+        }
+        
+        await controlApi.createSpace(spaceData)
+        
+        this.showAddSpaceModal = false
+        this.newSpace = {
+          name: '',
+          type: '',
+          function: ''
+        }
+        
+        alert('空间添加成功')
+        await this.loadSpaces()
+      } catch (error) {
+        console.error('添加空间失败:', error)
+        alert('添加空间失败，请重试')
+      }
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     editSpace(space) {
       // 编辑空间
       alert('编辑空间功能开发中...');
     },
+<<<<<<< HEAD
     deleteSpace(space) {
       // 删除空间
       if (confirm(`确定要删除${space.name}吗？`)) {
@@ -462,6 +546,89 @@ export default {
           currentSpace.devices.splice(index, 1);
           this.loadAssociatedDevices();
         }
+=======
+    async deleteSpace(space) {
+      if (confirm(`确定要删除${space.name}吗？`)) {
+        try {
+          await controlApi.deleteSpace(space.id)
+          alert('空间删除成功')
+          await this.loadSpaces()
+        } catch (error) {
+          console.error('删除空间失败:', error)
+          alert('删除空间失败，请重试')
+        }
+      }
+    },
+    async loadAssociatedDevices() {
+      if (!this.currentSpaceId) {
+        this.associatedDevices = []
+        this.availableDevices = []
+        return
+      }
+
+      try {
+        this.loadingDevices = true
+        
+        const response = await controlApi.getSpaceList({
+          parentId: this.currentSpaceId,
+          includeDevices: true
+        })
+        
+        if (response && response.data) {
+          const currentSpace = response.data.list.find(s => s.id === this.currentSpaceId)
+          if (currentSpace && currentSpace.devices) {
+            this.associatedDevices = currentSpace.devices
+          } else {
+            this.associatedDevices = []
+          }
+        }
+        
+        const deviceResponse = await deviceApi.getDeviceList({
+          page: 1,
+          pageSize: 100
+        })
+        
+        if (deviceResponse && deviceResponse.data) {
+          const allDevices = deviceResponse.data.list || []
+          const associatedDeviceIds = this.associatedDevices.map(d => d.id)
+          this.availableDevices = allDevices.filter(device => 
+            !associatedDeviceIds.includes(device.id)
+          )
+        }
+      } catch (error) {
+        console.error('加载关联设备失败:', error)
+        this.associatedDevices = []
+        this.availableDevices = []
+      } finally {
+        this.loadingDevices = false
+      }
+    },
+    async associateDevices() {
+      if (this.selectedDevices.length === 0) return
+
+      try {
+        for (const device of this.selectedDevices) {
+          await controlApi.associateDevice(this.currentSpaceId, device.id)
+        }
+        
+        this.showAddDeviceModal = false
+        this.selectedDevices = []
+        alert('设备关联成功')
+        await this.loadAssociatedDevices()
+      } catch (error) {
+        console.error('关联设备失败:', error)
+        alert('关联设备失败，请重试')
+      }
+    },
+    async removeDeviceAssociation(deviceId) {
+      try {
+        await controlApi.removeDeviceAssociation(this.currentSpaceId, deviceId)
+        alert('设备关联移除成功')
+        await this.loadAssociatedDevices()
+      } catch (error) {
+        console.error('移除设备关联失败:', error)
+        alert('移除设备关联失败，请重试')
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       }
     },
     // 导航方法

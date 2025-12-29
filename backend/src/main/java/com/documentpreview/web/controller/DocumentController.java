@@ -145,39 +145,56 @@ public class DocumentController {
     }
     
     /**
-     * Triggers a forced full scan of the file system.
+     * Triggers a forced full scan of the file system asynchronously.
      * 
-     * @return A response indicating the scan status.
+     * @return A response indicating that the scan has been accepted for processing.
      */
     @PostMapping("/force-scan")
     public ResponseEntity<?> triggerForceScan() {
-        logger.info("POST /api/v1/document/force-scan - executing forced full scan");
+        logger.info("POST /api/v1/document/force-scan - triggering asynchronous forced full scan");
         
         if (fileScanService.isScanInProgress()) {
-            logger.info("Scan skipped: another scan is already in progress");
-            return ResponseEntity.ok("Scan already in progress");
+            logger.info("Scan request ignored: another scan is already in progress");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Scan already in progress");
         }
         
-        Result<?> scanResult;
-        String scanType = "forced full scan";
-        
-        try {
-            logger.info("Starting {}...", scanType);
-            scanResult = fileScanService.forceFullScan();
-            
-            if (scanResult.isFailure()) {
-                String errorMessage = scanResult.getErrorMessage().orElse("Scan failed");
-                logger.error("{} failed: {}", scanType, errorMessage);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(errorMessage);
+        // Execute scan asynchronously
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            String scanType = "forced full scan";
+            try {
+                logger.info("Starting {} in background...", scanType);
+                Result<?> scanResult = fileScanService.forceFullScan();
+                
+                if (scanResult.isFailure()) {
+                    String errorMessage = scanResult.getErrorMessage().orElse("Scan failed");
+                    logger.error("{} failed: {}", scanType, errorMessage);
+                } else {
+                    logger.info("{} completed successfully", scanType);
+                }
+            } catch (Exception e) {
+                logger.error("Unexpected error during {}: {}", scanType, e.getMessage(), e);
             }
-            
-            logger.info("{} completed successfully", scanType);
-            return ResponseEntity.ok("Scan completed successfully");
-        } catch (Exception e) {
-            logger.error("Unexpected error during {}: {}", scanType, e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unexpected error during scan: " + e.getMessage());
-        }
+        });
+        
+        return ResponseEntity.accepted().body("Scan started in background");
+    }
+
+    /**
+     * Gets the current status of the file scan.
+     * 
+     * @return A map containing scan status information.
+     */
+    @GetMapping("/scan-status")
+    public ResponseEntity<?> getScanStatus() {
+        boolean inProgress = fileScanService.isScanInProgress();
+        String status = fileScanService.getLastScanStatus();
+        long timestamp = fileScanService.getLastScanTimestamp();
+        
+        java.util.Map<String, Object> response = new java.util.HashMap<>();
+        response.put("inProgress", inProgress);
+        response.put("status", status);
+        response.put("lastScanTimestamp", timestamp);
+        
+        return ResponseEntity.ok(response);
     }
 }

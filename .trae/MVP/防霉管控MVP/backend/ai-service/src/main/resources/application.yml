@@ -1,0 +1,57 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: ai-service
+  logging:
+    file:
+      name: /home/agentic/uni-app-ui-demo/backend/logs/${spring.application.name}.log
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ai_db
+    username: smg_admin
+    password: smg_password_2025
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: localhost:19092
+    consumer:
+      group-id: ai-service-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+    enabled: true
+  instance:
+    prefer-ip-address: false
+    hostname: ${EUREKA_HOST:172.22.1.123}
+
+influx:
+  url: http://smg-influxdb:8086
+  token: smg_influx_token_2025
+  bucket: telemetry
+  org: smartmoldguard
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

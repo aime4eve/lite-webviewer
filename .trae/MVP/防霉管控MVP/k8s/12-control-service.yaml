@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-service
+  namespace: smartmoldguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: control-service
+  template:
+    metadata:
+      labels:
+        app: control-service
+    spec:
+      containers:
+      - name: control-service
+        image: smartmoldguard/control-service:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres:5432/control_db"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "smg_admin"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "smg_password_2025"
+        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka:9092"
+        - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+          value: "http://discovery-service:8761/eureka/"
+        - name: EUREKA_CLIENT_ENABLED
+          value: "true"
+        ports:
+        - containerPort: 8084
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: control-service
+  namespace: smartmoldguard
+spec:
+  selector:
+    app: control-service
+  ports:
+  - port: 8084
+    targetPort: 8084

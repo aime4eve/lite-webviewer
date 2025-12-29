@@ -22,13 +22,32 @@ torch>=2.1.0
 sentencepiece>=0.1.99
 protobuf>=4.25.0
 jieba>=0.42.1
+<<<<<<< HEAD
 
 # File processing
+=======
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-text-splitters>=0.0.1
+sentence-transformers>=2.2.0
+numpy>=1.24.0
+
+# File processing
+pypdf>=3.17.0
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 pypdf2>=3.0.0
 python-docx>=1.1.0
 markdown>=3.5.0
 openpyxl>=3.1.2
 pandas>=2.1.0
+<<<<<<< HEAD
+=======
+unstructured>=0.11.0
+
+# Utilities
+psutil>=5.9.0
+requests>=2.31.0
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
 # Development (optional)
 pytest>=7.4.0

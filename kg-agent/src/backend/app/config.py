@@ -7,6 +7,10 @@ class Settings(BaseSettings):
     # App Config
     APP_NAME: str = "kg-agent"
     APP_ENV: str = "development"
+<<<<<<< HEAD
+=======
+    PORT: int = 5000
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     DEBUG: bool = True
     API_V1_STR: str = "/api"
     SECRET_KEY: str = "insecure-dev-key-please-change"

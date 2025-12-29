@@ -14,9 +14,12 @@
       <div class="modal-content">
         <h3 class="modal-title">批量操作</h3>
         <div class="batch-action-list">
+<<<<<<< HEAD
           <div class="batch-action-item" @click="batchAssignCleaning">
             🧹 批量指派保洁
           </div>
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
           <div class="batch-action-item" @click="batchMarkAsHandled">
             ✅ 标记为已处理
           </div>
@@ -27,6 +30,7 @@
         <button class="close-btn" @click="showBatchActions = false">关闭</button>
       </div>
     </div>
+<<<<<<< HEAD
     
     <!-- 批量指派保洁弹窗 -->
     <div class="modal" v-if="showAssignModal">
@@ -109,6 +113,8 @@
         </div>
       </div>
     </div>
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
     <!-- 风险概览 -->
     <section class="overview-section">
@@ -173,7 +179,10 @@
           </div>
           <div class="room-actions">
             <button class="detail-btn" @click="navigateToRoomDetail(room.id)">详情</button>
+<<<<<<< HEAD
             <button class="assign-btn" @click="assignCleaning(room.id)">指派保洁</button>
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
           </div>
         </div>
       </div>
@@ -288,6 +297,12 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import { controlApi } from "@/api/control"
+import { deviceApi } from "@/api/device"
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 export default {
   name: 'BHomeView',
   data() {
@@ -368,8 +383,12 @@ export default {
           status: 'online'
         }
       ],
+<<<<<<< HEAD
       
       // 防霉战报数据
+=======
+// 防霉战报数据
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       moldBlocked: 24,
       costSaved: 360,
       riskReduced: 45,
@@ -403,8 +422,82 @@ export default {
       feedbackImages: []
     }
   },
+<<<<<<< HEAD
   methods: {
     // 导航方法
+=======
+  mounted() {
+    this.loadData()
+  },
+  methods: {
+  async loadData() {
+      try {
+        await Promise.all([
+          this.loadRiskOverview(),
+          this.loadHighRiskRooms(),
+          this.loadDeviceOverview()
+        ])
+      } catch (error) {
+        console.error("加载数据失败:", error)
+      }
+    },
+
+    async loadRiskOverview() {
+      try {
+        const response = await controlApi.getRiskOverview()
+        if (response && response.data) {
+          this.highRiskCount = response.data.highRiskCount || 0
+          this.mediumRiskCount = response.data.mediumRiskCount || 0
+          this.lowRiskCount = response.data.lowRiskCount || 0
+          this.totalRooms = response.data.totalRooms || 0
+        }
+      } catch (error) {
+        console.error("加载风险概览失败:", error)
+      }
+    },
+
+    async loadHighRiskRooms() {
+      try {
+        const response = await controlApi.getHighRiskRooms({
+          page: 1,
+          pageSize: 10
+        })
+        if (response && response.data && response.data.list) {
+          this.highRiskRooms = response.data.list.map(room => ({
+            ...room,
+            isSelected: false
+          }))
+        }
+      } catch (error) {
+        console.error("加载高风险房间失败:", error)
+      }
+    },
+
+    async loadDeviceOverview() {
+      try {
+        const response = await deviceApi.getDeviceList({
+          page: 1,
+          pageSize: 10
+        })
+        if (response && response.data) {
+          this.totalDevices = response.data.total || 0
+          this.onlineDevices = response.data.onlineCount || 0
+          this.offlineDevices = response.data.offlineCount || 0
+          this.recentDevices = (response.data.list || []).map(device => ({
+            id: device.id,
+            name: device.name,
+            sn: device.sn || "N/A",
+            location: device.location || "未知位置",
+            status: device.status || "offline"
+          }))
+        }
+      } catch (error) {
+        console.error("加载设备概览失败:", error)
+      }
+    },
+
+        // 导航方法
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     navigateToPortal() {
       this.$router.push('/portal')
     },
@@ -453,6 +546,7 @@ export default {
     },
     
     // 批量操作方法
+<<<<<<< HEAD
     batchAssignCleaning() {
       this.showBatchActions = false
       if (this.selectedRooms.length === 0) {
@@ -462,6 +556,8 @@ export default {
       this.showAssignModal = true
     },
     
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     batchMarkAsHandled() {
       this.showBatchActions = false
       if (this.selectedRooms.length === 0) {
@@ -482,6 +578,7 @@ export default {
     
     exportRiskReport() {
       this.showBatchActions = false
+<<<<<<< HEAD
       alert('导出风险报告功能开发中...')
     },
     
@@ -535,10 +632,47 @@ export default {
     
     submitFeedback() {
       if (!this.feedbackContent.trim()) {
+=======
+      
+      // 1. 准备数据
+      const headers = ['ID', '房间名称', '位置', '风险等级', '风险值', '湿度(%)', '温度(°C)'];
+      const rows = this.highRiskRooms.map(room => [
+        room.id,
+        room.name,
+        room.location,
+        room.riskLevel === 'high' ? '高危' : room.riskLevel === 'medium' ? '中危' : '低危',
+        room.riskValue,
+        room.humidity,
+        room.temperature
+      ]);
+      
+      // 2. 转换为CSV格式
+      const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.join(','))
+      ].join('\n');
+      
+      // 3. 触发下载
+      const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `risk_report_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      alert('风险报告导出成功！');
+    },
+
+    submitFeedback() {
+      if (!this.feedbackContent) {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         alert('请输入反馈内容')
         return
       }
       
+<<<<<<< HEAD
       // 模拟提交反馈
       console.log('提交保洁反馈:', {
         task: this.currentTask,
@@ -556,6 +690,22 @@ export default {
       // 显示成功提示
       alert('反馈提交成功！')
     }
+=======
+      console.log('提交反馈:', {
+        content: this.feedbackContent,
+        images: this.feedbackImages
+      })
+      
+      alert('反馈已提交')
+      
+      this.showFeedbackModal = false
+      this.feedbackContent = ''
+      this.feedbackImages = []
+  },
+  mounted() {
+    this.loadData()
+  },
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   }
 }
 </script>

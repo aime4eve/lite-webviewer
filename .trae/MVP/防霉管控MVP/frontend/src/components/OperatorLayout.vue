@@ -43,6 +43,16 @@
       </div>
       <div 
         class="nav-item" 
+<<<<<<< HEAD
+=======
+        :class="{ active: activeNav === 'health' }" 
+        @click="navigateToDeviceHealth"
+      >
+        🏥 设备健康
+      </div>
+      <div 
+        class="nav-item" 
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         :class="{ active: activeNav === 'strategies' }" 
         @click="navigateToStrategyManagement"
       >
@@ -100,6 +110,13 @@ export default defineComponent({
       router.push('/operator/device-fault-monitoring')
     }
 
+<<<<<<< HEAD
+=======
+    const navigateToDeviceHealth = () => {
+      router.push('/operator/device-health')
+    }
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     const navigateToStrategyManagement = () => {
       router.push('/operator/strategy-management')
     }
@@ -119,6 +136,10 @@ export default defineComponent({
       navigateToUserManagement,
       navigateToDeviceRegistration,
       navigateToFaultMonitoring,
+<<<<<<< HEAD
+=======
+      navigateToDeviceHealth,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       navigateToStrategyManagement,
       navigateToBillingManagement,
       logout
@@ -252,4 +273,8 @@ export default defineComponent({
     padding: 16px;
   }
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5

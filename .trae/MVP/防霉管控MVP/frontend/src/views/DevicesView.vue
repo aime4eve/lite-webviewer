@@ -1,12 +1,18 @@
 <template>
   <div class="devices-container">
+<<<<<<< HEAD
     <!-- 顶部标题栏 -->
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     <header class="header">
       <h1 class="title">📱 设备管理</h1>
       <button class="add-btn" @click="navigateToAddDevice">➕ 添加</button>
     </header>
 
+<<<<<<< HEAD
     <!-- 设备概览 -->
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     <section class="overview-section">
       <div class="overview-card">
         <div class="overview-item">
@@ -24,10 +30,17 @@
       </div>
     </section>
 
+<<<<<<< HEAD
     <!-- 设备列表 -->
     <section class="devices-section">
       <h2 class="section-title">设备列表</h2>
       <div class="devices-list">
+=======
+    <section class="devices-section">
+      <h2 class="section-title">设备列表</h2>
+      <div v-if="loadingDevices" class="loading">加载中...</div>
+      <div v-else-if="devices.length > 0" class="devices-list">
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         <div 
           v-for="device in devices" 
           :key="device.id" 
@@ -36,11 +49,19 @@
         >
           <div class="device-icon">
             <span :class="device.status === 'online' ? 'status-dot online' : 'status-dot offline'"></span>
+<<<<<<< HEAD
             <span class="icon">{{ device.icon }}</span>
           </div>
           <div class="device-info">
             <div class="device-name">{{ device.name }}</div>
             <div class="device-desc">{{ device.description }}</div>
+=======
+            <span class="icon">🏠</span>
+          </div>
+          <div class="device-info">
+            <div class="device-name">{{ device.name || '未命名设备' }}</div>
+            <div class="device-desc">{{ device.location || '未设置位置' }}</div>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
           </div>
           <div class="device-status">
             <span :class="device.status === 'online' ? 'status-text online' : 'status-text offline'">
@@ -50,17 +71,30 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </section>
 
     <!-- 底部导航栏 -->
+=======
+      <div v-else class="no-data">暂无设备，请添加设备</div>
+    </section>
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     <FooterNavigation active="devices" />
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import FooterNavigation from '../components/FooterNavigation.vue'
+=======
+import { defineComponent, ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import FooterNavigation from '../components/FooterNavigation.vue'
+import { deviceApi } from '../api/device'
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
 export default defineComponent({
   name: 'DevicesView',
@@ -70,6 +104,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
+<<<<<<< HEAD
     // 模拟设备数据
     const devices = [
       {
@@ -106,17 +141,61 @@ export default defineComponent({
     })
 
     // 导航到添加设备页面
+=======
+    const devices = ref([])
+    const loadingDevices = ref(false)
+
+    const loadDevices = async () => {
+      try {
+        loadingDevices.value = true
+        const response = await deviceApi.getDeviceList({
+          page: 1,
+          size: 100
+        })
+        if (response && response.data) {
+          devices.value = response.data
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        devices.value = []
+      } finally {
+        loadingDevices.value = false
+      }
+    }
+
+    const onlineDevicesCount = computed(() => {
+      return devices.value.filter(device => device.status === 'online').length
+    })
+
+    const offlineDevicesCount = computed(() => {
+      return devices.value.filter(device => device.status === 'offline').length
+    })
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     const navigateToAddDevice = () => {
       router.push('/c/add-device')
     }
 
+<<<<<<< HEAD
     // 导航到设备详情页面
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     const navigateToDeviceDetail = (id) => {
       router.push(`/c/device-detail/${id}`)
     }
 
+<<<<<<< HEAD
     return {
       devices,
+=======
+    onMounted(() => {
+      loadDevices()
+    })
+
+    return {
+      devices,
+      loadingDevices,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       onlineDevicesCount,
       offlineDevicesCount,
       navigateToAddDevice,
@@ -132,7 +211,11 @@ export default defineComponent({
   margin: 0 auto;
   background-color: #f5f5f5;
   min-height: 100vh;
+<<<<<<< HEAD
   padding-bottom: 60px; /* 为底部导航栏留出空间 */
+=======
+  padding-bottom: 60px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .header {
@@ -221,6 +304,21 @@ export default defineComponent({
   color: #333;
 }
 
+<<<<<<< HEAD
+=======
+.loading {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 .devices-list {
   display: flex;
   flex-direction: column;
@@ -334,4 +432,8 @@ export default defineComponent({
   font-size: 16px;
   color: #999;
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5

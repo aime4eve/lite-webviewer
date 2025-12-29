@@ -43,11 +43,28 @@ public class FileController {
             }
 
             // 从ConfigService获取当前根目录
-            String rootDir = configService.getRootDirs();
-            Path root = Paths.get(rootDir).normalize();
-            Path target = root.resolve(path).normalize();
+            String rootDirs = configService.getRootDirs();
+            Path target = null;
 
-            if (!target.startsWith(root) || !Files.exists(target) || !Files.isRegularFile(target)) {
+            if (rootDirs != null && !rootDirs.isEmpty()) {
+                String[] roots = rootDirs.split(",");
+                for (String r : roots) {
+                    try {
+                        Path root = Paths.get(r.trim()).normalize();
+                        Path candidate = root.resolve(path).normalize();
+
+                        // 安全检查：确保文件在根目录下，且存在
+                        if (candidate.startsWith(root) && Files.exists(candidate) && Files.isRegularFile(candidate)) {
+                            target = candidate;
+                            break;
+                        }
+                    } catch (Exception e) {
+                        logger.warn("Invalid root path or error resolving file: {}", r, e);
+                    }
+                }
+            }
+
+            if (target == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found");
             }
 

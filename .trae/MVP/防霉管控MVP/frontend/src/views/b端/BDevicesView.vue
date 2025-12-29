@@ -116,11 +116,17 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import { deviceApi } from '@/api/device'
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 export default {
   name: 'BDevicesView',
   data() {
     return {
       // 设备列表数据
+<<<<<<< HEAD
       devices: [
         {
           id: 1,
@@ -195,6 +201,9 @@ export default {
           lastActive: '2025-12-15 13:50'
         }
       ],
+=======
+      devices: [],
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       // 搜索关键词
       searchKeyword: '',
       // 过滤后的设备列表
@@ -203,6 +212,7 @@ export default {
       currentPage: 1,
       pageSize: 4,
       totalPages: 1,
+<<<<<<< HEAD
       // 底部导航激活状态
       activeNav: 'devices'
     }
@@ -211,6 +221,47 @@ export default {
     this.searchDevices();
   },
   methods: {
+=======
+      total: 0,
+      // 底部导航激活状态
+      activeNav: 'devices',
+      loading: false
+    }
+  },
+  mounted() {
+    this.loadDevices();
+  },
+  methods: {
+    async loadDevices() {
+      try {
+        this.loading = true
+        
+        const params = {
+          page: this.currentPage,
+          pageSize: this.pageSize
+        }
+        
+        if (this.searchKeyword) {
+          params.keyword = this.searchKeyword
+        }
+        
+        const response = await deviceApi.getDeviceList(params)
+        
+        if (response && response.data) {
+          this.devices = response.data.list || []
+          this.total = response.data.total || 0
+          this.totalPages = Math.ceil(this.total / this.pageSize)
+          this.filteredDevices = this.devices
+        }
+      } catch (error) {
+        console.error('加载设备列表失败:', error)
+        this.devices = []
+        this.filteredDevices = []
+      } finally {
+        this.loading = false
+      }
+    },
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     // 导航方法
     navigateToPortal() {
       this.$router.push('/portal')
@@ -240,6 +291,7 @@ export default {
     
     // 搜索设备
     searchDevices() {
+<<<<<<< HEAD
       let filtered = [...this.devices]
       
       // 根据关键词搜索
@@ -262,13 +314,21 @@ export default {
       const start = (this.currentPage - 1) * this.pageSize
       const end = start + this.pageSize
       this.filteredDevices = filtered.slice(start, end)
+=======
+      this.currentPage = 1
+      this.loadDevices()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     // 上一页
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
+<<<<<<< HEAD
         this.searchDevices()
+=======
+        this.loadDevices()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       }
     },
     
@@ -276,7 +336,11 @@ export default {
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
+<<<<<<< HEAD
         this.searchDevices()
+=======
+        this.loadDevices()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       }
     },
     
@@ -288,7 +352,11 @@ export default {
   computed: {
     // 设备统计信息
     totalDevices() {
+<<<<<<< HEAD
       return this.devices.length
+=======
+      return this.total
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     onlineDevices() {
       return this.devices.filter(device => device.status === 'online').length

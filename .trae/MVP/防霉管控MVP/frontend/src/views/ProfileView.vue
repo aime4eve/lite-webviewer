@@ -62,6 +62,14 @@
           <span class="menu-text">房间管理</span>
           <span class="menu-arrow">></span>
         </div>
+<<<<<<< HEAD
+=======
+        <div class="menu-item" @click="navigateToProvisioning">
+          <span class="menu-icon">➕</span>
+          <span class="menu-text">设备配网</span>
+          <span class="menu-arrow">></span>
+        </div>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         <div class="menu-item" @click="navigateToSettings">
           <span class="menu-icon">⚙️</span>
           <span class="menu-text">设置</span>
@@ -133,11 +141,20 @@ export default defineComponent({
     }
 
     const navigateToPoints = () => {
+<<<<<<< HEAD
       alert('积分详情功能开发中...')
     }
 
     const navigateToReports = () => {
       alert('报告中心功能开发中...')
+=======
+      router.push('/c/points-history')
+    }
+
+    const navigateToReports = () => {
+      // 报告中心暂无独立入口，可引导至首页查看或后续实现
+      alert('报告中心功能完善中...')
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     }
 
     const navigateToDevices = () => {
@@ -148,6 +165,13 @@ export default defineComponent({
       alert('设置功能开发中...')
     }
 
+<<<<<<< HEAD
+=======
+    const navigateToProvisioning = () => {
+      router.push('/c/provisioning')
+    }
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     const navigateToHelp = () => {
       alert('帮助中心功能开发中...')
     }
@@ -180,6 +204,10 @@ export default defineComponent({
       navigateToReports,
       navigateToDevices,
       navigateToRoomManagement,
+<<<<<<< HEAD
+=======
+      navigateToProvisioning,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       navigateToSettings,
       navigateToHelp,
       navigateToFeedback,

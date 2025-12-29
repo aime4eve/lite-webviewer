@@ -3,7 +3,11 @@
     <div class="device-fault-monitoring-container">
       <!-- 页面操作栏 -->
       <div class="page-actions">
+<<<<<<< HEAD
         <select class="filter-select" v-model="faultFilter.type">
+=======
+        <select class="filter-select" v-model="faultFilter.type" @change="loadFaults">
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
           <option value="all">所有故障类型</option>
           <option value="tamper">🛠️ 防拆告警</option>
           <option value="offline">🔌 心跳丢失</option>
@@ -43,7 +47,11 @@
         </div>
       </div>
 
+<<<<<<< HEAD
       <div class="faults-list">
+=======
+      <div class="faults-list" v-if="!loadingFaults">
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
         <div class="faults-header">
           <div class="fault-column device-name">设备名称</div>
           <div class="fault-column device-sn">SN码</div>
@@ -66,7 +74,11 @@
                fault.type === 'offline' ? '🔌 心跳丢失' : '⚠️ 设备故障' }}
           </div>
           <div class="fault-column fault-location">{{ fault.location || '未分配' }}</div>
+<<<<<<< HEAD
           <div class="fault-column fault-time">{{ fault.time }}</div>
+=======
+          <div class="fault-column fault-time">{{ formatTime(fault.time) }}</div>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
           <div class="fault-column fault-status">
             <span :class="fault.status === 'unhandled' ? 'status-unhandled' : 
                      fault.status === 'handling' ? 'status-handling' : 'status-resolved'">
@@ -84,6 +96,13 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
+=======
+      <div class="loading-container" v-else>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">加载中...</div>
+      </div>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
       <!-- 分页 -->
       <div class="pagination" v-if="totalPages > 1">
@@ -205,7 +224,11 @@
             </div>
             <div class="alert-item">
               <span class="alert-label">告警时间:</span>
+<<<<<<< HEAD
               <span class="alert-value">{{ currentAlert.time }}</span>
+=======
+              <span class="alert-value">{{ formatTime(currentAlert.time) }}</span>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
             </div>
           </div>
         </div>
@@ -340,15 +363,26 @@
 
 <script>
 import OperatorLayout from '../../components/OperatorLayout.vue'
+<<<<<<< HEAD
+=======
+import AssetProtectionModal from '../../components/operator/AssetProtectionModal.vue'
+import { alarmApi, diagnoseApi } from '../../api/alarm'
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
 export default {
   name: 'DeviceFaultMonitoringView',
   components: {
+<<<<<<< HEAD
     OperatorLayout
+=======
+    OperatorLayout,
+    AssetProtectionModal
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   },
   data() {
     return {
       // 故障列表数据
+<<<<<<< HEAD
       faults: [
         {
           id: 1,
@@ -411,6 +445,11 @@ export default {
           description: '设备温度值异常，持续显示-20°C'
         }
       ],
+=======
+      faults: [],
+      // 加载状态
+      loadingFaults: false,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       // 搜索关键词
       searchKeyword: '',
       // 过滤后的故障列表
@@ -428,11 +467,16 @@ export default {
       currentFault: null,
       diagnoseStatus: 'idle', // idle, diagnosing, completed
       diagnoseResult: null,
+<<<<<<< HEAD
+=======
+      diagnoseId: null,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       // 告警处理流程相关
       showAlertProcessModal: false,
       currentAlert: null,
       alertProcessNotes: '',
       alertProcessStep: 1,
+<<<<<<< HEAD
       maxProcessSteps: 3
     }
   },
@@ -440,15 +484,73 @@ export default {
     this.searchFaults();
   },
   methods: {
+=======
+      maxProcessSteps: 3,
+
+      // 资产保全相关
+      showAssetProtectionModal: false,
+      currentAssetProtectionFault: null
+    }
+  },
+  mounted() {
+    this.loadFaults()
+  },
+  methods: {
+    // 加载故障列表
+    async loadFaults() {
+      try {
+        this.loadingFaults = true
+        const params = {
+          page: this.currentPage,
+          pageSize: this.pageSize
+        }
+        
+        if (this.faultFilter.type !== 'all') {
+          params.type = this.faultFilter.type
+        }
+        
+        const response = await alarmApi.getOperatorAlarmList(params)
+        
+        if (response && response.data) {
+          this.faults = response.data.list || []
+          this.totalPages = Math.ceil((response.data.total || 0) / this.pageSize)
+          this.searchFaults()
+        }
+      } catch (error) {
+        console.error('加载故障列表失败:', error)
+        this.faults = []
+        this.filteredFaults = []
+      } finally {
+        this.loadingFaults = false
+      }
+    },
+
+    // 格式化时间
+    formatTime(time) {
+      if (!time) return ''
+      const date = new Date(time)
+      return date.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    },
+
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     // 搜索故障
     searchFaults() {
       let filtered = [...this.faults]
       
+<<<<<<< HEAD
       // 根据类型过滤
       if (this.faultFilter.type !== 'all') {
         filtered = filtered.filter(fault => fault.type === this.faultFilter.type)
       }
       
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       // 根据关键词搜索
       if (this.searchKeyword) {
         const keyword = this.searchKeyword.toLowerCase()
@@ -459,24 +561,35 @@ export default {
         )
       }
       
+<<<<<<< HEAD
       // 计算分页
       this.totalPages = Math.ceil(filtered.length / this.pageSize)
       this.currentPage = 1
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       this.updateFilteredFaults(filtered)
     },
     
     // 更新过滤后的故障列表
     updateFilteredFaults(filtered) {
+<<<<<<< HEAD
       const start = (this.currentPage - 1) * this.pageSize
       const end = start + this.pageSize
       this.filteredFaults = filtered.slice(start, end)
+=======
+      this.filteredFaults = filtered
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     // 上一页
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
+<<<<<<< HEAD
         this.searchFaults()
+=======
+        this.loadFaults()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       }
     },
     
@@ -484,18 +597,39 @@ export default {
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
+<<<<<<< HEAD
         this.searchFaults()
+=======
+        this.loadFaults()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       }
     },
     
     // 查看故障
+<<<<<<< HEAD
     viewFault(fault) {
       alert(`查看故障：${fault.deviceName}\n故障类型：${fault.type === 'tamper' ? '防拆告警' : 
                  fault.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${fault.description}`)
+=======
+    async viewFault(fault) {
+      try {
+        const response = await alarmApi.getAlarmDetail(fault.id)
+        if (response && response.data) {
+          const detail = response.data
+          alert(`查看故障：${detail.deviceName}\n故障类型：${detail.type === 'tamper' ? '防拆告警' : 
+                     detail.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${detail.description || ''}`)
+        }
+      } catch (error) {
+        console.error('获取故障详情失败:', error)
+        alert(`查看故障：${fault.deviceName}\n故障类型：${fault.type === 'tamper' ? '防拆告警' : 
+                   fault.type === 'offline' ? '心跳丢失' : '设备故障'}\n\n${fault.description || ''}`)
+      }
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     // 处理故障
     handleFault(fault) {
+<<<<<<< HEAD
       if (fault.status === 'unhandled') {
         fault.status = 'handling'
         alert(`已开始处理故障：${fault.deviceName}`)
@@ -509,6 +643,31 @@ export default {
     resolveFault(fault) {
       fault.status = 'resolved'
       alert(`故障${fault.deviceName}已标记为解决`)
+=======
+      if (fault.type === 'tamper' && fault.status === 'unhandled') {
+        this.currentAssetProtectionFault = fault
+        this.showAssetProtectionModal = true
+        return
+      }
+      this.openAlertProcessModal(fault)
+    },
+    
+    // 解决故障
+    async resolveFault(fault) {
+      try {
+        await alarmApi.handleOperatorAlarm(fault.id, {
+          remark: '故障已解决',
+          step: 3,
+          processNotes: '故障已标记为解决'
+        })
+        
+        fault.status = 'resolved'
+        alert(`故障${fault.deviceName}已标记为解决`)
+      } catch (error) {
+        console.error('解决故障失败:', error)
+        alert('解决故障失败，请重试')
+      }
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     // 远程诊断相关方法
@@ -519,6 +678,7 @@ export default {
       this.showDiagnoseModal = true
     },
     
+<<<<<<< HEAD
     startDiagnose() {
       this.diagnoseStatus = 'diagnosing'
       
@@ -561,11 +721,81 @@ export default {
         }
         this.diagnoseStatus = 'completed'
       }, 2000)
+=======
+    async startDiagnose() {
+      try {
+        this.diagnoseStatus = 'diagnosing'
+        
+        const response = await diagnoseApi.startDiagnose(this.currentFault.deviceId)
+        
+        if (response && response.data) {
+          this.diagnoseId = response.data.diagnoseId
+          
+          await this.pollDiagnoseResult()
+        }
+      } catch (error) {
+        console.error('启动远程诊断失败:', error)
+        this.diagnoseStatus = 'idle'
+        alert('启动远程诊断失败，请重试')
+      }
+    },
+
+    async pollDiagnoseResult() {
+      const maxAttempts = 30
+      let attempts = 0
+      
+      const poll = async () => {
+        try {
+          attempts++
+          const response = await diagnoseApi.getDiagnoseResult(this.diagnoseId)
+          
+          if (response && response.data) {
+            const result = response.data
+            
+            if (result.status === 'completed') {
+              this.diagnoseResult = {
+                deviceSn: result.deviceSn,
+                deviceName: result.deviceName,
+                signalStrength: result.signalStrength,
+                batteryLevel: result.batteryLevel,
+                packetLoss: result.packetLoss,
+                lastHeartbeat: result.lastHeartbeat,
+                diagnostics: result.diagnostics || [],
+                recommendations: result.recommendations || []
+              }
+              this.diagnoseStatus = 'completed'
+            } else if (result.status === 'failed') {
+              this.diagnoseStatus = 'idle'
+              alert('远程诊断失败，请重试')
+            } else if (attempts < maxAttempts) {
+              setTimeout(poll, 2000)
+            } else {
+              this.diagnoseStatus = 'idle'
+              alert('远程诊断超时，请重试')
+            }
+          }
+        } catch (error) {
+          console.error('获取诊断结果失败:', error)
+          if (attempts < maxAttempts) {
+            setTimeout(poll, 2000)
+          } else {
+            this.diagnoseStatus = 'idle'
+            alert('获取诊断结果失败，请重试')
+          }
+        }
+      }
+      
+      poll()
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     cancelDiagnose() {
       this.diagnoseStatus = 'idle'
       this.diagnoseResult = null
+<<<<<<< HEAD
+=======
+      this.diagnoseId = null
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     closeDiagnoseModal() {
@@ -573,6 +803,10 @@ export default {
       this.currentFault = null
       this.diagnoseStatus = 'idle'
       this.diagnoseResult = null
+<<<<<<< HEAD
+=======
+      this.diagnoseId = null
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     // 告警处理流程相关方法
@@ -595,6 +829,7 @@ export default {
       }
     },
     
+<<<<<<< HEAD
     completeAlertProcess() {
       // 模拟完成告警处理流程
       console.log('告警处理完成:', {
@@ -614,6 +849,28 @@ export default {
       this.alertProcessStep = 1
       
       alert('告警处理流程已完成，故障已标记为处理中')
+=======
+    async completeAlertProcess() {
+      try {
+        await alarmApi.handleOperatorAlarm(this.currentAlert.id, {
+          remark: this.alertProcessNotes,
+          step: this.alertProcessStep,
+          processNotes: this.alertProcessNotes
+        })
+        
+        this.currentAlert.status = 'handling'
+        this.showAlertProcessModal = false
+        this.currentAlert = null
+        this.alertProcessNotes = ''
+        this.alertProcessStep = 1
+        
+        alert('告警处理流程已完成，故障已标记为处理中')
+        this.loadFaults()
+      } catch (error) {
+        console.error('完成告警处理失败:', error)
+        alert('完成告警处理失败，请重试')
+      }
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     },
     
     closeAlertProcessModal() {
@@ -643,6 +900,7 @@ export default {
 
 <style scoped>
 .device-fault-monitoring-container {
+<<<<<<< HEAD
   max-width: 1400px;
   margin: 0 auto;
   background-color: #f5f5f5;
@@ -669,10 +927,22 @@ export default {
   display: flex;
   align-items: center;
   gap: 16px;
+=======
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-actions {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .filter-select {
   padding: 8px 12px;
+<<<<<<< HEAD
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -707,11 +977,63 @@ export default {
 }
 
 .stat-value {
+=======
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.faults-stats-section {
+  margin-bottom: 24px;
+}
+
+.stats-card {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  text-align: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+.stat-item.unhandled {
+  background: #fff3f3;
+}
+
+.stat-item.handled {
+  background: #fff8f0;
+}
+
+.stat-item.resolved {
+  background: #f0fff4;
+}
+
+.stat-label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  display: block;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-size: 28px;
   font-weight: 600;
   color: #333;
 }
 
+<<<<<<< HEAD
 .stat-item.unhandled .stat-value {
   color: #e74c3c;
 }
@@ -726,20 +1048,36 @@ export default {
 
 .faults-list-section {
   padding: 0 24px 24px;
+=======
+.faults-list-section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
   margin-bottom: 16px;
+=======
+  margin-bottom: 20px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .section-title {
   font-size: 20px;
   font-weight: 600;
+<<<<<<< HEAD
   margin-bottom: 16px;
   color: #333;
+=======
+  color: #333;
+  margin: 0;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .search-bar {
@@ -748,6 +1086,7 @@ export default {
 }
 
 .search-bar input {
+<<<<<<< HEAD
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -773,10 +1112,33 @@ export default {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+=======
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  width: 280px;
+  font-size: 14px;
+}
+
+.search-btn {
+  padding: 8px 16px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.faults-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   overflow: hidden;
 }
 
 .faults-header {
+<<<<<<< HEAD
   display: flex;
   background-color: #f8f9fa;
   padding: 12px 16px;
@@ -873,6 +1235,102 @@ export default {
 
 .status-resolved {
   color: #27ae60;
+=======
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 1fr 1.5fr;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  font-weight: 600;
+  font-size: 14px;
+  color: #666;
+}
+
+.fault-item {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 1fr 1.5fr;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 14px;
+  align-items: center;
+}
+
+.fault-item:hover {
+  background: #f8f9fa;
+}
+
+.fault-item.unhandled {
+  background: #fff5f5;
+}
+
+.fault-item.handling {
+  background: #fffbf0;
+}
+
+.fault-item.resolved {
+  background: #f0fff4;
+}
+
+.fault-column {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-unhandled {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.status-handling {
+  color: #ffc107;
+  font-weight: 500;
+}
+
+.status-resolved {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.fault-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.fault-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.view-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.diagnose-btn {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.handle-btn {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.resolve-btn {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.fault-actions button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .pagination {
@@ -880,11 +1338,16 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 16px;
+<<<<<<< HEAD
   margin-top: 24px;
+=======
+  margin-top: 20px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .page-btn {
   padding: 8px 16px;
+<<<<<<< HEAD
   border: 1px solid #ddd;
   background-color: #fff;
   border-radius: 4px;
@@ -894,6 +1357,13 @@ export default {
 
 .page-btn:hover:not(:disabled) {
   background-color: #f0f0f0;
+=======
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .page-btn:disabled {
@@ -902,6 +1372,7 @@ export default {
 }
 
 .page-info {
+<<<<<<< HEAD
   font-size: 16px;
   color: #666;
 }
@@ -1053,10 +1524,13 @@ export default {
 }
 
 .device-sn, .device-location {
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-size: 14px;
   color: #666;
 }
 
+<<<<<<< HEAD
 /* 远程诊断样式 */
 .diagnose-idle, .diagnose-progress, .diagnose-result {
   display: flex;
@@ -1122,6 +1596,21 @@ export default {
   height: 40px;
   border: 4px solid #f3f3f3;
   border-top: 4px solid #3498db;
+=======
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #4a90e2;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1131,11 +1620,17 @@ export default {
   100% { transform: rotate(360deg); }
 }
 
+<<<<<<< HEAD
 .progress-text {
+=======
+.loading-text {
+  margin-top: 16px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-size: 14px;
   color: #666;
 }
 
+<<<<<<< HEAD
 /* 诊断结果样式 */
 .result-header {
   margin-bottom: 16px;
@@ -1143,6 +1638,141 @@ export default {
 
 .result-title {
   font-size: 16px;
+=======
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 700px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.diagnose-modal {
+  padding: 24px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.modal-header-info {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.device-info .device-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.device-info .device-sn,
+.device-info .device-location {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.diagnose-idle,
+.diagnose-progress,
+.diagnose-result {
+  padding: 20px 0;
+}
+
+.diagnose-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.diagnose-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.start-diagnose-btn,
+.close-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.start-diagnose-btn {
+  background: #4a90e2;
+  color: white;
+}
+
+.close-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.start-diagnose-btn:hover,
+.close-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.8;
+}
+
+.progress-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.progress-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4a90e2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.progress-text {
+  font-size: 16px;
+  color: #666;
+}
+
+.result-header {
+  margin-bottom: 20px;
+}
+
+.result-title {
+  font-size: 18px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -1150,6 +1780,7 @@ export default {
 
 .diagnose-metrics {
   display: grid;
+<<<<<<< HEAD
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
@@ -1161,28 +1792,57 @@ export default {
   gap: 4px;
   padding: 12px;
   background-color: #f8f9fa;
+=======
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metric-item {
+  background: #f8f9fa;
+  padding: 12px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   border-radius: 6px;
 }
 
 .metric-label {
+<<<<<<< HEAD
   font-size: 12px;
   color: #666;
 }
 
 .metric-value {
   font-size: 16px;
+=======
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  display: block;
+  font-size: 18px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-weight: 600;
   color: #333;
 }
 
+<<<<<<< HEAD
 .diagnostics-list {
   margin-bottom: 24px;
+=======
+.diagnostics-list,
+.recommendations {
+  margin-bottom: 20px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .list-title {
   font-size: 14px;
   font-weight: 600;
   color: #333;
+<<<<<<< HEAD
   margin-bottom: 12px;
 }
 
@@ -1192,32 +1852,56 @@ export default {
   gap: 8px;
   padding: 12px;
   background-color: #f8f9fa;
+=======
+  margin: 0 0 12px 0;
+}
+
+.diagnostic-item {
+  background: #f8f9fa;
+  padding: 12px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   border-radius: 6px;
   margin-bottom: 8px;
 }
 
 .diagnostic-item.success {
+<<<<<<< HEAD
   border-left: 4px solid #27ae60;
 }
 
 .diagnostic-item.error {
   border-left: 4px solid #e74c3c;
+=======
+  border-left: 3px solid #28a745;
+}
+
+.diagnostic-item.error {
+  border-left: 3px solid #dc3545;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .diagnostic-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
 }
 
 .diagnostic-item-name {
   font-size: 14px;
+=======
+  margin-bottom: 4px;
+}
+
+.diagnostic-item-name {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-weight: 500;
   color: #333;
 }
 
 .diagnostic-status {
   font-size: 12px;
+<<<<<<< HEAD
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 12px;
@@ -1282,19 +1966,78 @@ export default {
 
 .alert-title {
   font-size: 14px;
+=======
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.diagnostic-item.success .diagnostic-status {
+  background: #d4edda;
+  color: #155724;
+}
+
+.diagnostic-item.error .diagnostic-status {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.diagnostic-message {
+  font-size: 12px;
+  color: #666;
+}
+
+.recommendation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendation-item {
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+  color: #666;
+}
+
+.recommendation-item::before {
+  content: "•";
+  position: absolute;
+  left: 8px;
+  color: #4a90e2;
+}
+
+.alert-process-modal {
+  padding: 24px;
+}
+
+.alert-info {
+  background: #fff3f0;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.alert-title {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   font-weight: 600;
   color: #333;
   margin-bottom: 12px;
 }
 
 .alert-detail {
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
+=======
+  display: grid;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   gap: 8px;
 }
 
 .alert-item {
   display: flex;
+<<<<<<< HEAD
   gap: 8px;
   align-items: center;
 }
@@ -1308,6 +2051,18 @@ export default {
 
 .alert-value {
   font-size: 14px;
+=======
+  gap: 12px;
+}
+
+.alert-label {
+  font-weight: 500;
+  color: #666;
+  min-width: 80px;
+}
+
+.alert-value {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   color: #333;
 }
 
@@ -1318,7 +2073,10 @@ export default {
 .step-indicator {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   justify-content: center;
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   margin-bottom: 24px;
 }
 
@@ -1332,6 +2090,7 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+<<<<<<< HEAD
   background-color: #e0e0e0;
   color: #666;
   display: flex;
@@ -1340,11 +2099,31 @@ export default {
   font-size: 14px;
   font-weight: 600;
   z-index: 1;
+=======
+  background: #e0e0e0;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.step.active .step-number {
+  background: #4a90e2;
+  color: white;
+}
+
+.step.completed .step-number {
+  background: #28a745;
+  color: white;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .step-line {
   width: 60px;
   height: 2px;
+<<<<<<< HEAD
   background-color: #e0e0e0;
   margin: 0 12px;
 }
@@ -1373,19 +2152,45 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 12px;
+=======
+  background: #e0e0e0;
+  margin: 0 8px;
+}
+
+.step.completed .step-line {
+  background: #28a745;
+}
+
+.step-content {
+  padding: 0 20px;
+}
+
+.step-item {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .step-title {
   font-size: 16px;
   font-weight: 600;
   color: #333;
+<<<<<<< HEAD
   margin: 0;
+=======
+  margin: 0 0 8px 0;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .step-description {
   font-size: 14px;
   color: #666;
+<<<<<<< HEAD
   line-height: 1.5;
+=======
+  margin-bottom: 16px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .step-form {
@@ -1401,6 +2206,7 @@ export default {
 }
 
 .form-label {
+<<<<<<< HEAD
   font-size: 14px;
   font-weight: 500;
   color: #333;
@@ -1410,10 +2216,23 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 12px;
+=======
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.confirmation-options,
+.result-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .option-item {
   display: flex;
+<<<<<<< HEAD
   gap: 8px;
   align-items: center;
   cursor: pointer;
@@ -1440,12 +2259,38 @@ export default {
 }
 
 .analysis-textarea, .solution-textarea, .notes-textarea {
+=======
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.emergency-level,
+.analysis-textarea,
+.solution-textarea,
+.notes-textarea {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.emergency-level {
+  background: white;
+}
+
+.analysis-textarea,
+.solution-textarea,
+.notes-textarea {
+  font-family: inherit;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
   resize: vertical;
 }
 
 .process-actions {
   display: flex;
   gap: 12px;
+<<<<<<< HEAD
   justify-content: center;
   margin-top: 24px;
 }
@@ -1467,6 +2312,31 @@ export default {
 
 .prev-step-btn:hover:not(:disabled) {
   background-color: #e0e0e0;
+=======
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.prev-step-btn,
+.next-step-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.prev-step-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.next-step-btn {
+  background: #4a90e2;
+  color: white;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 }
 
 .prev-step-btn:disabled {
@@ -1474,6 +2344,7 @@ export default {
   cursor: not-allowed;
 }
 
+<<<<<<< HEAD
 .next-step-btn {
   background-color: #3498db;
   color: white;
@@ -1547,3 +2418,10 @@ export default {
 }
 
 </style>
+=======
+.prev-step-btn:hover:not(:disabled),
+.next-step-btn:hover {
+  opacity: 0.8;
+}
+</style>
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5

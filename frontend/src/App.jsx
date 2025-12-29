@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Layout, Input, Button, App as AntdApp, Space, Select, Divider } from 'antd';
 import DOMPurify from 'dompurify';
 import { SearchOutlined, ReloadOutlined, MenuFoldOutlined, MenuUnfoldOutlined, BarsOutlined } from '@ant-design/icons';
@@ -8,6 +8,7 @@ import PreviewPane from './components/PreviewPane';
 import { useAppStore } from './store';
 import { NOTIFY_KEYS, notifyTreeLoaded } from './shared/notification';
 import { mockFiles } from './mockData';
+import debounce from 'lodash.debounce';
 
 const { Header, Sider, Content } = Layout;
 const { Search } = Input;
@@ -20,6 +21,8 @@ function App() {
   const [searching, setSearching] = useState(false);
   const [typeFilters, setTypeFilters] = useState([]);
   const [localResults, setLocalResults] = useState([]); // 存储本地文件名搜索结果
+  const [isLocalResultsTruncated, setIsLocalResultsTruncated] = useState(false); // 结果是否被截断
+  const [maxLocalResults, setMaxLocalResults] = useState(100); // 最大本地结果数
   const [searchMode, setSearchMode] = useState('local'); // 'local' 或 'es'
   const scanAttempted = useRef(false);
   
@@ -41,6 +44,49 @@ function App() {
 
   const containerRef = useRef(null);
 
+  const pollScanStatus = useCallback(async () => {
+    try {
+      const response = await fetch('/api/v1/document/scan-status');
+      if (response.ok) {
+        const status = await response.json();
+        if (status.inProgress) {
+          // 继续轮询
+          notification.info({
+            key: NOTIFY_KEYS.scanSuccess,
+            message: '正在扫描中...',
+            description: status.status || '请稍候',
+            duration: 2,
+          });
+          setTimeout(pollScanStatus, 2000);
+        } else {
+          // 扫描完成
+          setLoading(false);
+          notification.success({
+            key: NOTIFY_KEYS.scanSuccess,
+            message: '扫描完成',
+            description: status.status,
+            placement: 'bottomRight',
+            duration: 3
+          });
+          
+          // 刷新文件树
+          const treeResp = await fetch('/api/v1/index/json');
+          if (treeResp.ok) {
+            const data = await treeResp.json();
+            const filePaths = data.items
+              .filter(item => item.type === 'file')
+              .map(item => item.path);
+            setFiles(filePaths);
+            notifyTreeLoaded(notification, filePaths);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to poll scan status:', e);
+      setLoading(false);
+    }
+  }, [setLoading, setFiles, notification]);
+
   const handleScan = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -49,10 +95,18 @@ function App() {
       const response = await fetch(`/api/v1/document/force-scan`, {
         method: 'POST'
       });
+<<<<<<< HEAD
       if (!response.ok) {
         throw new Error('扫描失败');
+=======
+      
+      if (!response.ok && response.status !== 202) {
+        throw new Error('扫描请求失败');
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       }
+      
       const result = await response.text();
+<<<<<<< HEAD
       notification.success({ key: NOTIFY_KEYS.scanSuccess, message: '扫描完成', description: result, placement: 'bottomRight', duration: 3 });
 
       const treeResp = await fetch('/api/v1/index/json');
@@ -68,15 +122,38 @@ function App() {
     } catch (err) {
       let errorMessage = err.message;
       // 检查是否是连接错误
+=======
+      notification.info({ 
+        key: NOTIFY_KEYS.scanSuccess, 
+        message: '扫描已开始', 
+        description: '正在后台扫描文件，请稍候...', 
+        placement: 'bottomRight', 
+        duration: 2 
+      });
+      
+      // 开始轮询状态
+      setTimeout(pollScanStatus, 1000);
+      
+    } catch (err) {
+      let errorMessage = err.message;
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       if (err.message.includes('Failed to fetch') || err.message.includes('ECONNREFUSED')) {
         errorMessage = '无法连接到后端服务，请确保后端服务正在运行';
       }
       setError(errorMessage);
+<<<<<<< HEAD
       notification.error({ key: NOTIFY_KEYS.scanFail, message: '操作失败', description: errorMessage, placement: 'bottomRight', duration: 3 });
     } finally {
+=======
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       setLoading(false);
+      notification.error({ key: NOTIFY_KEYS.scanFail, message: '操作失败', description: errorMessage, placement: 'bottomRight', duration: 3 });
     }
+<<<<<<< HEAD
   }, [setLoading, setError, setFiles, notification]);
+=======
+  }, [setLoading, setError, notification, pollScanStatus]);
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 
   // 获取根目录配置
   const fetchRootDirs = useCallback(async () => {
@@ -92,6 +169,21 @@ function App() {
       notification.error({ message: '获取根目录配置失败', description: err.message, placement: 'bottomRight', duration: 3 });
     }
   }, [notification]);
+
+  // 获取搜索配置
+  const fetchSearchConfig = useCallback(async () => {
+    try {
+      const response = await fetch('/api/v1/config/search');
+      if (response.ok) {
+        const config = await response.json();
+        if (config.maxLocalResults) {
+          setMaxLocalResults(config.maxLocalResults);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch search config:', err);
+    }
+  }, []);
 
   // 更新根目录配置
   const handleUpdateRootDirs = useCallback(async () => {
@@ -180,36 +272,56 @@ function App() {
         }
     }, [setLoading, setError, setFiles, handleScan, notification]);
 
-  // 处理搜索输入，进行本地文件名匹配
+  // 优化后的本地搜索逻辑（支持防抖和截断）
+  const debouncedLocalSearch = useMemo(
+    () =>
+      debounce((value, allFiles, maxLimit) => {
+        if (!value.trim()) {
+          setLocalResults([]);
+          setIsLocalResultsTruncated(false);
+          setSearchMode('local');
+          return;
+        }
+
+        const searchTerm = value.toLowerCase();
+        const results = [];
+        let truncated = false;
+
+        // 使用for循环替代filter+map，以支持提前终止
+        for (let i = 0; i < allFiles.length; i++) {
+          const filePath = allFiles[i];
+          // 简单优化：只检查文件名
+          const fileName = filePath.split('/').pop();
+          
+          if (fileName.toLowerCase().includes(searchTerm)) {
+            const parentDir = filePath.split('/').slice(0, -1).join('/');
+            results.push({
+              filePath,
+              fileName,
+              parentDir,
+              snippet: `文件名匹配: ${fileName}`
+            });
+
+            if (results.length >= maxLimit) {
+              truncated = true;
+              break;
+            }
+          }
+        }
+
+        setLocalResults(results);
+        setIsLocalResultsTruncated(truncated);
+        setSearchMode('local');
+      }, 300),
+    []
+  );
+
+  // 处理搜索输入
   const handleSearchInput = (e) => {
     const value = e.target.value;
     setSearchText(value);
-    setSearchMode('local');
-    
-    if (!value.trim()) {
-      setLocalResults([]);
-      return;
-    }
-    
-    // 从files数组中筛选文件名包含搜索文本的文件
-    const searchTerm = value.toLowerCase();
-    const filteredResults = files
-      .filter(filePath => {
-        const fileName = filePath.split('/').pop();
-        return fileName.toLowerCase().includes(searchTerm);
-      })
-      .map(filePath => {
-        const fileName = filePath.split('/').pop();
-        const parentDir = filePath.split('/').slice(0, -1).join('/');
-        return {
-          filePath,
-          fileName,
-          parentDir,
-          snippet: `文件名匹配: ${fileName}`
-        };
-      });
-    
-    setLocalResults(filteredResults);
+    // 触发防抖搜索
+    debouncedLocalSearch(value, files, maxLocalResults);
   };
 
   const runSearch = useCallback(async () => {
@@ -247,8 +359,9 @@ function App() {
 
   useEffect(() => {
     fetchRootDirs();
+    fetchSearchConfig();
     fetchFileTree();
-  }, [fetchRootDirs, fetchFileTree]);
+  }, [fetchRootDirs, fetchSearchConfig, fetchFileTree]);
 
   return (
     <Layout style={{ minHeight: '100vh' }} className="app-root">
@@ -259,12 +372,13 @@ function App() {
           <Space style={{ marginRight: 16 }}>
             {isEditing ? (
               <>
-                <Input
+                <Input.TextArea
                   size="small"
                   value={tempRootDirs}
                   onChange={(e) => setTempRootDirs(e.target.value)}
-                  placeholder="请输入扫描根目录"
-                  style={{ width: 250 }}
+                  placeholder="请输入扫描根目录（支持多个，逗号分隔）"
+                  style={{ width: 400 }}
+                  autoSize={{ minRows: 1, maxRows: 3 }}
                 />
                 <Space>
                   <Button size="small" onClick={handleUpdateRootDirs}>保存</Button>
@@ -276,7 +390,21 @@ function App() {
               </>
             ) : (
               <Space>
-                <span style={{ color: '#fff', marginRight: 8 }}>根目录: {rootDirs}</span>
+                <span 
+                  style={{ 
+                    color: '#fff', 
+                    marginRight: 8, 
+                    maxWidth: 300, 
+                    overflow: 'hidden', 
+                    textOverflow: 'ellipsis', 
+                    whiteSpace: 'nowrap', 
+                    display: 'inline-block', 
+                    verticalAlign: 'middle' 
+                  }} 
+                  title={rootDirs}
+                >
+                  根目录: {rootDirs}
+                </span>
                 <Button size="small" onClick={() => setIsEditing(true)}>修改</Button>
               </Space>
             )}
@@ -345,7 +473,10 @@ function App() {
             <div style={{ padding: 8 }}>
               {(searchMode === 'local' && localResults.length > 0) && (
                 <>
-                  <div style={{ padding: 8, fontWeight: 'bold' }}>文件名匹配结果:</div>
+                  <div style={{ padding: 8, fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
+                    <span>文件名匹配结果:</span>
+                    <span style={{ fontSize: 12, color: '#999' }}>共 {localResults.length} 条</span>
+                  </div>
                   {localResults.map((r) => (
                     <div
                       key={r.filePath}
@@ -365,6 +496,11 @@ function App() {
                       <div style={{ opacity: 0.6, fontSize: 12 }}>{r.parentDir}</div>
                     </div>
                   ))}
+                  {isLocalResultsTruncated && (
+                    <div style={{ padding: '8px', textAlign: 'center', color: '#faad14', fontSize: '12px', background: '#fffbe6', marginTop: '8px', borderRadius: '4px' }}>
+                      仅显示前 {maxLocalResults} 条结果，请输入更精确的关键词
+                    </div>
+                  )}
                 </>
               )}
               {(searchMode === 'es' && searchResults.length > 0) && (

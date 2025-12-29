@@ -30,6 +30,7 @@ spring:
 app:
   # Scan Configuration
   scan:
+    # 支持多个目录，使用逗号分隔
     root-dirs: /home/hkt/cold-kg/档案管理
     cron: 60  # minutes
   
@@ -52,6 +53,7 @@ app:
     es-index-name: nexus-lite-docs
     es-replicas: 0
     es-shards: 1
+    max-local-results: 100 # Maximum number of local search results to return
     extract:
       xlsx:
         rows: 1000000  # Maximum rows to extract from Excel files

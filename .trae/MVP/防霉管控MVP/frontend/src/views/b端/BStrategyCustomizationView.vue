@@ -311,12 +311,21 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import { controlApi } from '@/api/control'
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 export default {
   name: 'BStrategyCustomizationView',
   data() {
     return {
       // 底部导航激活状态
       activeNav: 'home',
+<<<<<<< HEAD
+=======
+      strategyId: null,
+      loading: false,
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       // 策略类型
       strategyType: 'default',
       // 当前策略
@@ -432,28 +441,160 @@ export default {
   },
   methods: {
     loadDefaultStrategy() {
+<<<<<<< HEAD
       // 加载默认策略
+=======
+      this.strategyId = null
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       this.currentStrategy = JSON.parse(JSON.stringify(this.defaultStrategy));
       this.selectedRooms = [];
       this.selectedRoomIds = [];
     },
     createCustomStrategy() {
+<<<<<<< HEAD
       // 创建自定义策略
+=======
+      this.strategyId = null
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       this.currentStrategy = JSON.parse(JSON.stringify(this.customStrategy));
       this.selectedRooms = [];
       this.selectedRoomIds = [];
     },
+<<<<<<< HEAD
     saveStrategy() {
       // 保存策略
       alert('策略保存成功！');
     },
     confirmRoomSelection() {
       // 确认房间选择
+=======
+    async saveStrategy() {
+      try {
+        this.loading = true
+        
+        const strategyData = {
+          name: this.currentStrategy.name,
+          season: this.currentStrategy.season,
+          scope: this.currentStrategy.scope,
+          roomIds: this.currentStrategy.scope === 'selected' ? this.selectedRoomIds : [],
+          fan: {
+            humidityThreshold: this.currentStrategy.fan.humidityThreshold,
+            duration: this.currentStrategy.fan.duration,
+            startTime: this.currentStrategy.fan.startTime,
+            endTime: this.currentStrategy.fan.endTime
+          },
+          heater: {
+            humidityThreshold: this.currentStrategy.heater.humidityThreshold,
+            temperatureThreshold: this.currentStrategy.heater.temperatureThreshold,
+            delay: this.currentStrategy.heater.delay,
+            duration: this.currentStrategy.heater.duration
+          },
+          linkage: {
+            enabled: this.currentStrategy.linkage.enabled,
+            condition: this.currentStrategy.linkage.condition,
+            sequence: this.currentStrategy.linkage.sequence
+          },
+          execution: {
+            frequency: this.currentStrategy.execution.frequency,
+            interval: this.currentStrategy.execution.interval,
+            stopCondition: this.currentStrategy.execution.stopCondition
+          },
+          manualIntervention: {
+            required: this.currentStrategy.manualIntervention.required,
+            timeout: this.currentStrategy.manualIntervention.timeout,
+            notification: this.currentStrategy.manualIntervention.notification
+          }
+        }
+        
+        let response
+        if (this.strategyId) {
+          response = await controlApi.updateStrategy(this.strategyId, strategyData)
+        } else {
+          response = await controlApi.createStrategy(strategyData)
+        }
+        
+        if (response && response.data) {
+          alert('策略保存成功！')
+          if (!this.strategyId && response.data.id) {
+            this.strategyId = response.data.id
+          }
+        }
+      } catch (error) {
+        console.error('保存策略失败:', error)
+        alert('保存策略失败，请重试')
+      } finally {
+        this.loading = false
+      }
+    },
+    confirmRoomSelection() {
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
       this.selectedRooms = this.availableRooms.filter(room => 
         this.selectedRoomIds.includes(room.id)
       );
       this.showSelectRoomModal = false;
     },
+<<<<<<< HEAD
+=======
+    
+    async loadStrategyDetail(strategyId) {
+      try {
+        this.loading = true
+        this.strategyId = strategyId
+        
+        const response = await controlApi.getStrategyDetail(strategyId)
+        
+        if (response && response.data) {
+          const data = response.data
+          this.currentStrategy = {
+            name: data.name || '自定义防霉策略',
+            season: data.season || 'all',
+            scope: data.scope || 'all',
+            fan: {
+              humidityThreshold: data.fan?.humidityThreshold || 80,
+              duration: data.fan?.duration || 20,
+              startTime: data.fan?.startTime || '',
+              endTime: data.fan?.endTime || ''
+            },
+            heater: {
+              humidityThreshold: data.heater?.humidityThreshold || 75,
+              temperatureThreshold: data.heater?.temperatureThreshold || 18,
+              delay: data.heater?.delay || 20,
+              duration: data.heater?.duration || 20
+            },
+            linkage: {
+              enabled: data.linkage?.enabled || false,
+              condition: data.linkage?.condition || 'high_risk',
+              sequence: data.linkage?.sequence || 'simultaneous'
+            },
+            execution: {
+              frequency: data.execution?.frequency || 'interval',
+              interval: data.execution?.interval || 20,
+              stopCondition: data.execution?.stopCondition || 'humidity_normal'
+            },
+            manualIntervention: {
+              required: data.manualIntervention?.required || true,
+              timeout: data.manualIntervention?.timeout || 5,
+              notification: data.manualIntervention?.notification || true
+            }
+          }
+          
+          if (data.scope === 'selected' && data.roomIds) {
+            this.selectedRoomIds = data.roomIds
+            this.selectedRooms = this.availableRooms.filter(room => 
+              data.roomIds.includes(room.id)
+            )
+          }
+          
+          this.strategyType = 'custom'
+        }
+      } catch (error) {
+        console.error('加载策略详情失败:', error)
+        alert('加载策略详情失败，请重试')
+      } finally {
+        this.loading = false
+      }
+    },
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     removeRoom(roomId) {
       // 移除房间
       this.selectedRooms = this.selectedRooms.filter(room => room.id !== roomId);

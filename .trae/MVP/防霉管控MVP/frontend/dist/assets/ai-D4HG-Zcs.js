@@ -1,0 +1,1 @@
+import{x as e}from"./index-Chhl4q_F.js";const n=t=>e.get(`/risk/${t}/current`),s=t=>e.get(`/health-fingerprint/${t}`),i=t=>e.post("/prediction-feedback",t),a=t=>e.get(`/climate-configs/${t}`);export{n as a,a as b,s as g,i as s};

@@ -108,7 +108,26 @@ install_files() {
     mkdir -p "$INSTALL_DIR/data"
 
     # Copy files
+<<<<<<< HEAD
     cp -r bin/* "$INSTALL_DIR/bin/"
+=======
+    # Protect bin/data directory from being overwritten
+    if [ -d "bin" ]; then
+        for file in bin/*; do
+            filename=$(basename "$file")
+            if [ "$filename" == "data" ]; then
+                if [ ! -d "$INSTALL_DIR/bin/data" ]; then
+                     cp -r "$file" "$INSTALL_DIR/bin/"
+                else
+                     log "Skipping bin/data directory to protect existing data."
+                fi
+            else
+                cp -r "$file" "$INSTALL_DIR/bin/"
+            fi
+        done
+    fi
+    
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
     cp -r kg-agent "$INSTALL_DIR/"
     cp -r docs "$INSTALL_DIR/"
     

@@ -72,8 +72,17 @@ public class FileScanServiceImpl implements FileScanService {
     
     @Override
     public Result<FilesIndex> scanRootDirectories() {
-        logger.info("Scanning root directory: {}", rootDirs);
-        return scanDirectories(Collections.singletonList(rootDirs));
+        logger.info("Scanning root directories: {}", rootDirs);
+        if (rootDirs == null || rootDirs.trim().isEmpty()) {
+            return Result.failure("Root directories not configured");
+        }
+        
+        List<String> dirs = Arrays.stream(rootDirs.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        
+        return scanDirectories(dirs);
     }
     
     @Override

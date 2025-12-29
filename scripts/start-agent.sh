@@ -42,7 +42,21 @@ check_and_kill_port() {
 
 check_and_kill_port $AGENT_PORT
 
+<<<<<<< HEAD
 # Activate virtual environment if it exists
+=======
+# Determine Python interpreter
+PYTHON_EXEC="python3"
+if [ -f "venv/bin/python3" ]; then
+    PYTHON_EXEC="venv/bin/python3"
+    echo "Using virtual environment: $PYTHON_EXEC"
+elif [ -f "venv/bin/python" ]; then
+    PYTHON_EXEC="venv/bin/python"
+    echo "Using virtual environment: $PYTHON_EXEC"
+fi
+
+# Activate virtual environment if it exists (for environment variables)
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 if [ -f "venv/bin/activate" ]; then
     source venv/bin/activate
 fi
@@ -53,6 +67,10 @@ if [ ! -f "src/backend/main.py" ]; then
     exit 1
 fi
 
+<<<<<<< HEAD
 nohup python3 src/backend/main.py > ../logs/agent.log 2>&1 &
+=======
+nohup $PYTHON_EXEC src/backend/main.py > ../logs/agent.log 2>&1 &
+>>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 echo "Agent started. PID: $!"
 echo "Logs: ../logs/agent.log"
