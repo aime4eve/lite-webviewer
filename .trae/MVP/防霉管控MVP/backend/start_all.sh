@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Load environment variables
+if [ -f ../.env ]; then
+  export $(grep -v '^#' ../.env | xargs)
+fi
+
 # Function to start a service
 start_service() {
     service_name=$1
@@ -11,11 +16,11 @@ start_service() {
 
 mkdir -p logs
 
-# Start Services
-start_service "device-service" 8081
-start_service "control-service" 8089
-start_service "ai-service" 8083
-start_service "subscription-service" 8084
-start_service "report-service" 8085
+# Start Services with correct ports from .env
+start_service "device-service" ${DEVICE_SERVICE_PORT:-8081}
+start_service "control-service" ${CONTROL_SERVICE_PORT:-8084}
+start_service "ai-service" ${AI_SERVICE_PORT:-8083}
+start_service "subscription-service" ${SUBSCRIPTION_SERVICE_PORT:-8085}
+start_service "report-service" ${REPORT_SERVICE_PORT:-8087}
 
 echo "All services started. Check logs/ directory for output."

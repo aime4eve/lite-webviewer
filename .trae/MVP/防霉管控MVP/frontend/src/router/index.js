@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 // C端路由
 import HomeView from '../views/HomeView.vue'
@@ -45,6 +45,7 @@ const DiagnosticsView = () => import('../views/device/Diagnostics.vue')
 const AlarmsView = () => import('../views/device/Alarms.vue')
 const PointsHistoryView = () => import('../views/subscription/PointsHistory.vue')
 const ExportReportView = () => import('../views/report/ExportReport.vue')
+const ClimateConfigView = () => import('../views/ai/ClimateConfiguration.vue')
 
 >>>>>>> 0140bada383e79ae44a5bc79b580238e3ac5caa5
 const routes = [
@@ -207,7 +208,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes
 })
 

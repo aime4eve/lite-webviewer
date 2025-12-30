@@ -1,39 +1,10 @@
-server:
-  port: 8084
-
 spring:
   application:
     name: control-service
-  logging:
-    file:
-      name: /home/agentic/uni-app-ui-demo/backend/logs/${spring.application.name}.log
-  kafka:
-    bootstrap-servers: localhost:19092
-    consumer:
-      group-id: control-service-group
-      auto-offset-reset: latest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.add.type.headers: false
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka/
-    enabled: true
-  instance:
-    prefer-ip-address: false
-    hostname: ${EUREKA_HOST:172.22.1.123}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.yaml
+      - optional:nacos:shared-kafka.yaml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_SERVER_ADDR:localhost:8848}

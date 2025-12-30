@@ -101,3 +101,5 @@ Kubernetes 配置文件位于 `k8s/` 目录下，包含完整的环境搭建脚�
 *   **Frontend**: Running at [http://localhost:6690/](http://localhost:6690/)
 *   **Backend Cluster**: All services running. `control-service` using port **8089**.
 *   **Kafka/DB**: Connected and healthy.
+*   **Nacos**: Running at [http://localhost:8848/nacos/index.html](http://localhost:8848/nacos/index.html)
+*   **Device Service API**: [http://localhost:8081/swagger-ui/index.html](http://localhost:8081/swagger-ui/index.html)

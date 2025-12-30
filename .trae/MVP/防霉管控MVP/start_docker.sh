@@ -1,18 +1,31 @@
 #!/bin/bash
 
-# Define ports to check
+# - 如果要在 Docker 中运行全套环境：直接运行 ./start_docker.sh 。
+# - 如果在 本地调试 代码：先运行 docker-compose up -d nacos smg-postgres ... 启动基础设施，
+#   然后运行 ./backend/nacos-config.sh --local 更新配置，最后运行 ./backend/start_all.sh 启动服务。
+
+# Load environment variables
+if [ -f .env ]; then
+  # Use grep to exclude comments and empty lines
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# Define ports to check (using env vars with defaults)
 PORTS=(
-  6690  # Frontend
-  8081  # Device Service
-  8083  # AI Service
-  8085  # Subscription Service
-  8087  # Report Service
-  8089  # Control Service
-  5432  # Postgres
-  16379 # Redis
-  8086  # InfluxDB
-  2181  # Zookeeper
-  19092 # Kafka
+  ${FRONTEND_PORT:-6690}             # Frontend
+  ${DEVICE_SERVICE_PORT:-8081}       # Device Service
+  ${AI_SERVICE_PORT:-8083}           # AI Service
+  ${SUBSCRIPTION_SERVICE_PORT:-8085} # Subscription Service
+  ${REPORT_SERVICE_PORT:-8087}       # Report Service
+  ${CONTROL_SERVICE_PORT:-8084}      # Control Service
+  ${NACOS_PORT:-8848}                # Nacos
+  ${NACOS_GRPC_PORT:-9848}           # Nacos gRPC
+  ${GATEWAY_SERVICE_PORT:-9999}      # Gateway Service
+  ${POSTGRES_PORT:-5432}             # Postgres
+  ${REDIS_PORT:-16379}               # Redis
+  ${INFLUXDB_PORT:-8086}             # InfluxDB
+  ${ZOOKEEPER_PORT:-2181}            # Zookeeper
+  ${KAFKA_PORT:-19092}               # Kafka
 )
 
 # Function to show help
@@ -107,6 +120,32 @@ else
     exit 1
 fi
 
+# Wait for Nacos to be ready
+echo "Waiting for Nacos to start..."
+MAX_RETRIES=30
+COUNT=0
+NACOS_URL="http://localhost:${NACOS_PORT:-8848}/nacos"
+
+while ! curl -s "$NACOS_URL" > /dev/null; do
+    sleep 5
+    COUNT=$((COUNT+1))
+    if [ $COUNT -ge $MAX_RETRIES ]; then
+        echo "Error: Nacos failed to start within $((MAX_RETRIES*5)) seconds."
+        echo "Please check logs with: $LOG_CMD"
+        break
+    fi
+    echo "Waiting for Nacos... ($COUNT/$MAX_RETRIES)"
+done
+
+# Initialize Nacos Configuration
+if [ -f ./backend/nacos-config.sh ]; then
+    echo "Initializing Nacos configuration..."
+    chmod +x ./backend/nacos-config.sh
+    ./backend/nacos-config.sh --docker
+else
+    echo "Warning: ./backend/nacos-config.sh not found. Skipping Nacos configuration."
+fi
+
 echo "----------------------------------------------------------------"
 echo "✅ All services started in Docker!"
 echo "----------------------------------------------------------------"
@@ -114,7 +153,11 @@ echo "Frontend: http://localhost:6690"
 echo "Device Service: http://localhost:8081"
 echo "AI Service: http://localhost:8083"
 echo "Subscription Service: http://localhost:8085"
-echo "Report Service: http://localhost:8087"
-echo "Control Service: http://localhost:8089"
+echo "Report Service: http://localhost:${REPORT_SERVICE_PORT:-8087}"
+echo "Control Service: http://localhost:${CONTROL_SERVICE_PORT:-8084}"
+echo "Nacos Console: http://localhost:${NACOS_PORT:-8848}/nacos/index.html"
 echo "----------------------------------------------------------------"
 echo "To view logs: $LOG_CMD"
+echo ""
+echo "NOTE: If accessing from a remote IDE, ensure port ${NACOS_PORT:-8848} is forwarded."
+echo "      If 'Connection Refused', try waiting a moment or checking the Ports tab."

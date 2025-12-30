@@ -1,9 +1,4 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: smartmoldguard
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: postgres-config
